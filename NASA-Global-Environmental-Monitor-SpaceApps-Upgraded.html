@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>NASA Earth Jukebox — Space Apps 2026 Satellite Sonification</title>
-  <meta name="description" content="NASA Space Apps 2026 Earth Jukebox entry: deterministic frame-to-sound sonification of NASA GIBS satellite &amp; Earth Information Center imagery with accessible controls, Web Speech, haptics, and 3D Braille export.">
+  <title>Earth Jukebox — NASA Space Apps 2026 Satellite Sonification</title>
+  <meta name="description" content="Earth Jukebox (Built with NASA open data): deterministic frame-to-sound sonification of NASA GIBS &amp; Earth Information Center satellite imagery with WCAG 2.2 AA accessibility, speech, haptics, and 3D tactile relief export.">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/globe.gl@2.46.2/dist/globe.gl.min.js" crossorigin=""></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -16,20 +16,20 @@
       color-scheme: dark;
       --bg: #05080d;
       --bg-darker: #020408;
-      --panel-bg: rgba(8, 18, 32, 0.94);
-      --panel-border: rgba(90, 200, 255, 0.22);
-      --border-glow: rgba(63, 208, 255, 0.55);
-      --cyan: #3fd0ff;
-      --cyan-dim: rgba(63, 208, 255, 0.12);
-      --amber: #ffb454;
-      --amber-dim: rgba(255, 180, 84, 0.15);
-      --mint: #5ce1a8;
-      --mint-dim: rgba(92, 225, 168, 0.14);
-      --red: #ff5252;
-      --red-dim: rgba(255, 82, 82, 0.15);
-      --text: #dbeaf6;
+      --panel-bg: rgba(8, 18, 32, 0.95);
+      --panel-border: rgba(90, 200, 255, 0.28);
+      --border-glow: rgba(63, 208, 255, 0.62);
+      --cyan: #4dd8ff;
+      --cyan-dim: rgba(63, 208, 255, 0.14);
+      --amber: #ffc069;
+      --amber-dim: rgba(255, 180, 84, 0.18);
+      --mint: #66ebB5;
+      --mint-dim: rgba(92, 225, 168, 0.16);
+      --red: #ff6b6b;
+      --red-dim: rgba(255, 82, 82, 0.16);
+      --text: #eaf3fb;
       --text-bright: #ffffff;
-      --muted: #8aa3b8;
+      --muted: #a6bed4;
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -172,12 +172,13 @@
     }
 
     /* Top Navigation HUD */
+    /* Top Navigation HUD with Prominent Search */
     #hud-topbar {
       position: absolute;
-      top: 12px;
+      top: 14px;
       left: 18px;
       right: 18px;
-      height: 48px;
+      height: 50px;
       z-index: 130;
       display: flex;
       align-items: center;
@@ -192,7 +193,7 @@
     .brand-cluster {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       background: var(--panel-bg);
       border: 1px solid var(--panel-border);
       border-radius: var(--radius-lg);
@@ -200,67 +201,94 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      flex-shrink: 0;
     }
     .nasa-insignia {
       font-family: 'Orbitron', monospace;
       font-weight: 900;
-      font-size: 15px;
-      letter-spacing: 2px;
+      font-size: 14px;
+      letter-spacing: 1.5px;
       background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .nasa-title {
+    .nasa-tagline {
       font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 11px;
-      letter-spacing: 1px;
-      color: var(--text-bright);
-      text-transform: uppercase;
+      color: var(--muted);
       border-left: 1px solid rgba(255, 255, 255, 0.15);
-      padding-left: 10px;
+      padding-left: 8px;
+    }
+    .nasa-open-badge {
+      display: inline-block;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.5px;
+      color: var(--mint);
+      background: rgba(92, 225, 168, 0.12);
+      border: 1px solid rgba(92, 225, 168, 0.35);
+      border-radius: 12px;
+      padding: 2px 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
     }
 
+    /* Top Prominent Search Capsule */
     .search-capsule {
       display: flex;
       align-items: center;
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
+      background: rgba(7, 18, 34, 0.94);
+      border: 1.5px solid var(--panel-border);
       border-radius: var(--radius-lg);
-      padding: 4px 6px 4px 12px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-      width: min(340px, 32vw);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      padding: 4px 6px 4px 14px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.65);
+      width: min(460px, 40vw);
+      transition: all 0.25s ease;
+      flex-shrink: 1;
     }
     .search-capsule:focus-within {
-      border-color: var(--border-glow);
-      box-shadow: 0 0 16px rgba(63, 208, 255, 0.35);
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px rgba(63, 208, 255, 0.45);
+      width: min(520px, 45vw);
     }
     .search-capsule input {
       background: transparent;
       border: none;
       color: #fff;
-      font-size: 11px;
+      font-size: 12px;
+      font-family: 'Space Grotesk', sans-serif;
       width: 100%;
       margin: 0 8px;
+      outline: none;
     }
     .search-capsule input::placeholder {
       color: var(--muted);
     }
     .search-capsule button {
-      padding: 5px 12px;
-      font-size: 10px;
+      padding: 6px 14px;
+      font-size: 10.5px;
       font-family: 'Orbitron', monospace;
       letter-spacing: 0.5px;
       flex-shrink: 0;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(63, 208, 255, 0.22), rgba(92, 225, 168, 0.18));
+      border: 1px solid var(--cyan);
+      color: #fff;
+      cursor: pointer;
+    }
+    .search-capsule button:hover {
+      background: var(--cyan);
+      color: #030812;
+      box-shadow: 0 0 14px rgba(63, 208, 255, 0.5);
     }
 
     .top-actions {
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-shrink: 0;
     }
     .hud-btn {
       background: var(--panel-bg);
@@ -273,28 +301,31 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
     }
 
     /* Floating Center Return Button */
     #hud-return-btn {
       position: absolute;
-      top: 68px;
+      top: 76px;
       left: 50%;
       transform: translateX(-50%) translateY(-20px);
       opacity: 0;
       pointer-events: none;
-      z-index: 125;
+      z-index: 135;
       background: rgba(8, 18, 32, 0.95);
       border: 1.5px solid var(--cyan);
       border-radius: var(--radius-lg);
       padding: 8px 20px;
       font-family: 'Orbitron', monospace;
-      font-size: 10px;
+      font-size: 10.5px;
+      font-weight: 700;
       letter-spacing: 1.2px;
       color: var(--cyan);
       box-shadow: 0 0 24px rgba(63, 208, 255, 0.4);
       backdrop-filter: blur(20px);
       transition: all 0.4s var(--ease-out-expo);
+      cursor: pointer;
     }
     #hud-return-btn.visible {
       transform: translateX(-50%) translateY(0);
@@ -307,44 +338,38 @@
       box-shadow: 0 0 32px rgba(63, 208, 255, 0.7);
     }
 
-    /* Guided First-Run Jukebox CTA */
+    /* Topbar Onboarding Cue Chip (Non-overlapping) */
     #hud-onboarding-cue {
-      position: absolute;
-      bottom: 42px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 129;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      background: linear-gradient(135deg, rgba(63, 208, 255, 0.22), rgba(92, 225, 168, 0.18));
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(63, 208, 255, 0.25), rgba(92, 225, 168, 0.2));
       border: 1.5px solid var(--cyan);
-      border-radius: 30px;
-      padding: 10px 22px;
+      border-radius: var(--radius-lg);
+      padding: 7px 14px;
       font-family: 'Orbitron', monospace;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       color: #ffffff;
       backdrop-filter: blur(20px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.72), 0 0 22px rgba(63, 208, 255, 0.35);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 14px rgba(63, 208, 255, 0.25);
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
     #hud-onboarding-cue:hover {
-      background: linear-gradient(135deg, rgba(63, 208, 255, 0.35), rgba(92, 225, 168, 0.28));
+      background: linear-gradient(135deg, rgba(63, 208, 255, 0.45), rgba(92, 225, 168, 0.35));
       border-color: var(--mint);
-      box-shadow: 0 0 28px rgba(92, 225, 168, 0.55);
-      transform: translateX(-50%) scale(1.02);
+      box-shadow: 0 0 22px rgba(92, 225, 168, 0.55);
+      transform: translateY(-1px);
     }
     #hud-onboarding-cue.hidden {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateX(-50%) translateY(20px);
+      display: none;
     }
     .radar-beacon {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--cyan);
       position: relative;
@@ -352,7 +377,7 @@
     .radar-beacon::after {
       content: '';
       position: absolute;
-      inset: -4px;
+      inset: -3px;
       border-radius: 50%;
       border: 1.5px solid var(--cyan);
       animation: beaconPulse 1.8s ease-out infinite;
@@ -365,18 +390,23 @@
     /* Live Cursor Coordinate Tracker */
     #hud-coords {
       position: absolute;
-      bottom: 40px;
+      bottom: 36px;
       left: 20px;
       z-index: 100;
       font-family: 'Space Grotesk', monospace;
-      font-size: 10px;
+      font-size: 10.5px;
+      letter-spacing: 0.5px;
       color: var(--muted);
       background: rgba(8, 18, 32, 0.75);
       border: 1px solid rgba(90, 200, 255, 0.15);
       border-radius: var(--radius-sm);
-      padding: 5px 12px;
+      padding: 4px 10px;
       backdrop-filter: blur(12px);
-      letter-spacing: 0.5px;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    body.telemetry-active #hud-coords {
+      opacity: 0;
     }
 
     /* =========================================================
@@ -1276,12 +1306,6 @@
       body.jukebox-collapsed .hud-deck-wing {
         bottom: 84px;
       }
-      body.jukebox-expanded #hud-onboarding-cue {
-        bottom: 264px;
-      }
-      body.jukebox-collapsed #hud-onboarding-cue {
-        bottom: 88px;
-      }
       body.jukebox-expanded #hud-coords {
         bottom: 254px;
       }
@@ -1290,12 +1314,14 @@
       }
     }
 
-    /* Earth Jukebox & Time Exploration Dock */
+    /* Earth Jukebox & Time Exploration Dock - Hidden at startup until location or track is selected */
     #jukebox-controls {
       position: absolute;
       bottom: 34px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(140%);
+      opacity: 0;
+      pointer-events: none;
       width: min(980px, calc(100vw - 28px));
       z-index: 128;
       background: rgba(7, 16, 30, 0.94);
@@ -1308,6 +1334,14 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      transition: transform 0.6s var(--ease-out-expo), opacity 0.4s ease;
+    }
+    body.telemetry-active #jukebox-controls,
+    #jukebox-controls.visible,
+    #jukebox-controls:focus-within {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
     }
     #jukebox-controls.collapsed .jb-body {
       display: none;
@@ -1671,11 +1705,9 @@
       .hud-deck-wing.west.active, .hud-deck-wing.east.active {
         transform: translateY(0) scale(1);
       }
-      body.jukebox-expanded #hud-onboarding-cue,
       body.jukebox-expanded #hud-coords {
         bottom: 224px;
       }
-      body.jukebox-collapsed #hud-onboarding-cue,
       body.jukebox-collapsed #hud-coords {
         bottom: 88px;
       }
@@ -1695,27 +1727,262 @@
     }
     @media (max-width: 640px) {
       #jukebox-controls {
-        max-height: 46vh;
+        max-height: 52vh;
         overflow-y: auto;
       }
       .jb-body {
         grid-template-columns: 1fr;
       }
       .jb-canvas-wrap {
-        max-width: 220px;
+        max-width: 240px;
       }
+      button, input[type="range"], select {
+        min-height: 44px;
+      }
+      .jb-step-btn, .jb-preset-btn, .jb-util-btn, .hud-btn {
+        min-width: 44px;
+        min-height: 44px;
+      }
+    }
+
+    /* WCAG 2.2 AA Readability & Target Floor (>= 12px UI copy, >= 24x24 targets, high contrast) */
+    button, .hud-btn, .jb-preset-btn, .jb-util-btn, .jb-mode-btn, .jb-step-btn, .jb-year-select,
+    .jb-text-desc, .jb-story-line, .jb-evidence-line, .jb-kbd-hint, .jb-date-pill, .jb-frame-badge,
+    .sa-modal p, .sa-modal td, .sa-modal th, .hud-status-item, #hud-coords, #hud-onboarding-cue {
+      font-size: max(12px, 0.75rem);
+    }
+    .brand-cluster .nasa-tagline {
+      font-size: 12px;
+      color: var(--cyan);
+      font-weight: 500;
+      margin-left: 6px;
+    }
+    .brand-cluster .nasa-open-badge {
+      font-size: 12px;
+      color: var(--muted);
+      border-left: 1px solid rgba(255, 255, 255, 0.2);
+      padding-left: 8px;
+    }
+    button, [role="tab"], [role="button"], select {
+      min-height: 28px;
+      min-width: 28px;
+    }
+    .jb-frame-badge {
+      background: rgba(2, 6, 12, 0.92);
+      color: #ffffff;
+      padding: 2px 8px;
+    }
+
+    /* Collapsible Context & Telemetry Drawer (Collapsed by Default - P0-1) */
+    #telemetry-context-drawer {
+      position: fixed;
+      top: 66px;
+      right: 18px;
+      z-index: 132;
+      background: rgba(7, 16, 30, 0.96);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      max-width: calc(100vw - 36px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(20px);
+    }
+    #telemetry-context-drawer[hidden] {
+      display: none !important;
+    }
+    #telemetry-context-drawer .search-capsule {
+      width: min(320px, 78vw);
+    }
+
+    /* 3-Step First-Run Onboarding Hint Banner */
+    #jb-step-hint {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: rgba(63, 208, 255, 0.12);
+      border: 1px solid rgba(77, 216, 255, 0.4);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      color: #ffffff;
+    }
+    #jb-step-hint[hidden] { display: none !important; }
+    .jb-step-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .jb-step-chip {
+      background: rgba(2, 8, 18, 0.75);
+      border: 1px solid rgba(77, 216, 255, 0.35);
+      border-radius: 12px;
+      padding: 2px 9px;
+      font-weight: 600;
+      color: var(--cyan);
+    }
+
+    /* Collapsible Advanced Controls inside Jukebox Dock */
+    #jb-advanced-details {
+      border-top: 1px solid rgba(90, 200, 255, 0.18);
+      padding-top: 6px;
+    }
+    #jb-advanced-details > summary {
+      cursor: pointer;
+      list-style: none;
+      font-family: 'Orbitron', monospace;
+      font-size: 12px;
+      color: var(--cyan);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(63, 208, 255, 0.08);
+      border: 1px solid rgba(63, 208, 255, 0.25);
+      min-height: 28px;
+    }
+    #jb-advanced-details > summary::-webkit-details-marker { display: none; }
+    .jb-adv-grid {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .jb-story-triad {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .jb-triad-cell {
+      background: rgba(4, 11, 22, 0.85);
+      border: 1px solid rgba(90, 200, 255, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 6px 9px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .jb-triad-cell strong {
+      color: var(--cyan);
+      display: block;
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+
+    /* Burnable Live Caption Overlay ("What you are hearing" - P0-5 / P1) */
+    #live-hearing-caption {
+      position: fixed;
+      top: 68px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: min(860px, calc(100vw - 32px));
+      z-index: 135;
+      background: rgba(2, 6, 12, 0.94);
+      border: 2px solid var(--cyan);
+      border-radius: var(--radius-md);
+      padding: 8px 16px;
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+      pointer-events: auto;
+    }
+    #live-hearing-caption[hidden] { display: none !important; }
+    body.demo-mode #live-hearing-caption {
+      font-size: 20px;
+      line-height: 1.38;
+      padding: 12px 22px;
+      border-color: var(--amber);
+      background: #000000;
+    }
+
+    /* Clean Video Recording Mode (#clean) & Demo Mode (#demo) */
+    body.clean-mode #hud-topbar .top-actions,
+    body.clean-mode #hud-onboarding-cue,
+    body.clean-mode #hud-coords,
+    body.clean-mode #hud-bottombar .hud-status-cluster > :not(.hud-disclaimer),
+    body.clean-mode #jb-step-hint,
+    body.clean-mode #jb-advanced-details {
+      display: none !important;
+    }
+
+    /* Low-Bandwidth Indicator */
+    body.low-bw #globe-container canvas { filter: contrast(1.05); }
+
+    /* Modal Tabs / Activities Cards */
+    .act-card {
+      background: rgba(12, 25, 42, 0.78);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .act-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .act-btn-row button {
+      padding: 8px 14px;
+      font-size: 12px;
+      min-height: 36px;
+    }
+
+    /* Printable Classroom Worksheet (#lesson-print-sheet - I1) */
+    #lesson-print-sheet {
+      display: none;
+    }
+    body.lesson-mode #lesson-print-sheet {
+      display: block;
+      position: fixed;
+      inset: 64px 18px 40px 18px;
+      z-index: 480;
+      overflow-y: auto;
+      background: #081220;
+      border: 2px solid var(--cyan);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      color: #ffffff;
+    }
+    @media print {
+      body * { visibility: hidden; }
+      #lesson-print-sheet, #lesson-print-sheet * { visibility: visible; }
+      #lesson-print-sheet {
+        position: static !important;
+        display: block !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #000000 !important;
+        padding: 16px !important;
+      }
+      .no-print { display: none !important; }
     }
   </style>
 </head>
-<body class="jukebox-expanded">
+<body class="globe-mode">
   <!-- Accessibility: Skip Link & Screen Reader Live Announcer -->
-  <a href="#jukebox-controls" class="skip-link">Skip to controls</a>
+  <a href="#jukebox-controls" class="skip-link">Skip to Earth Jukebox</a>
   <div id="aria-live-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Burnable Live Caption Overlay ("What you are hearing") -->
+  <div id="live-hearing-caption" role="status" aria-live="polite" hidden>
+    What you are hearing: Ready — choose Arctic Sea Ice or press Play to sonify live NASA GIBS satellite imagery.
+  </div>
 
   <!-- Boot Loading Screen -->
   <div id="load">
     <div class="boot-ring"></div>
-    <div id="lt" class="boot-text">INITIALIZING NASA PLANETARY TELEMETRY HUD...</div>
+    <div id="lt" class="boot-text">INITIALIZING EARTH JUKEBOX · BUILT WITH NASA OPEN DATA...</div>
   </div>
 
   <!-- 3D Interactive Earth Globe Viewport -->
@@ -1728,36 +1995,36 @@
     <div id="map" role="application" aria-label="Interactive world map"></div>
   </div>
 
-  <!-- Floating Micro-HUD Top Bar -->
+  <!-- Floating Micro-HUD Top Bar with Prominent Location Search -->
   <header id="hud-topbar" aria-label="Earth Jukebox Top Navigation">
     <div class="brand-cluster">
-      <span class="nasa-insignia">NASA</span>
-      <span class="nasa-title">EARTH JUKEBOX · SPACE APPS 2026</span>
+      <span class="nasa-insignia">EARTH JUKEBOX</span>
+      <span class="nasa-tagline">Hear the Planet. Understand the Change.</span>
+      <span class="nasa-open-badge">Built with NASA open data</span>
     </div>
 
-    <div class="search-capsule">
-      <span aria-hidden="true" style="color:var(--cyan);font-size:11px">🔍</span>
-      <input id="q" placeholder="City, country or lat,lon (23.81, 90.41)" aria-label="Search coordinates or city" list="dl">
+    <!-- Prominent Top Search Bar: Search any location directly -->
+    <div class="search-capsule" role="search" aria-label="Search any planetary location">
+      <span aria-hidden="true" style="color:var(--cyan);font-size:13px">🔍</span>
+      <input id="q" placeholder="Search any city or coordinates (e.g. Tokyo, Paris, 23.8, 90.4)..." aria-label="Search coordinates or city" list="dl">
       <datalist id="dl"></datalist>
-      <button id="an" aria-label="Inspect regional telemetry for search query">EXPLORE</button>
+      <button id="an" type="button" aria-label="Inspect regional telemetry for search query">EXPLORE</button>
+      <button id="mloc" class="hud-btn" type="button" title="Use current GPS location" aria-label="Use current GPS location" style="padding:4px 9px;font-size:10px;margin-left:4px">⌖ GPS</button>
     </div>
 
     <div class="top-actions">
-      <button id="mloc" class="hud-btn" title="Use current GPS location" aria-label="Use current GPS location">⌖ MY LOCATION</button>
-      <button id="btn-toggle-map" class="hud-btn" title="Toggle between 3D Globe and 2D Satellite map" aria-label="Toggle between 3D Globe and 2D Map">🌐 3D GLOBE</button>
-      <button id="saMethods" class="hud-btn" title="Challenge documentation, data sources, credits, and AI disclosure" aria-label="Open methods, data sources, licences, and AI disclosure">ℹ METHODS &amp; DATA</button>
+      <button id="hud-onboarding-cue" class="hud-btn highlight-cta" type="button" aria-label="Play Arctic Sea Ice Earth Jukebox track">🧊 Play Arctic Sea Ice</button>
+      <button id="btn-toggle-map" class="hud-btn" title="Toggle between 3D Globe and 2D Satellite map" aria-label="Toggle between 3D Globe and 2D Map">🌐 3D Globe</button>
+      <button id="saMethods" class="hud-btn" title="Methods, validation, data sources, licences, limitations, and AI disclosure" aria-label="Open methods, validation, data sources, licences, and AI disclosure">ℹ Methods &amp; AI</button>
     </div>
   </header>
 
-  <!-- Floating Center Return Button -->
-  <button id="hud-return-btn" aria-label="Reset and return to clean globe">
-    <span aria-hidden="true">←</span> RETURN TO GLOBE <span style="font-size:9px;color:var(--muted)">(ESC)</span>
-  </button>
+  <!-- Hidden context drawer container for backward-compatible selector references -->
+  <div id="telemetry-context-drawer" hidden aria-hidden="true" style="display:none"></div>
 
-  <!-- Guided First-Run CTA (Starts Earth Jukebox immediately on user gesture) -->
-  <button id="hud-onboarding-cue" type="button" aria-label="Play Arctic Sea Ice Earth Jukebox demo or click globe to explore regions">
-    <span class="radar-beacon" aria-hidden="true"></span>
-    ▶ PLAY ARCTIC SEA ICE TRACK · EARTH JUKEBOX DEMO
+  <!-- Floating Center Return Button (Appears when dual side panels are open) -->
+  <button id="hud-return-btn" aria-label="Reset and return to clean globe">
+    <span aria-hidden="true">←</span> RETURN TO GLOBE <span style="font-size:11px;color:var(--muted)">(ESC)</span>
   </button>
 
   <!-- Floating Live Cursor Coordinate Tracker -->
@@ -1987,17 +2254,17 @@
       <div class="loc-title" style="font-size:16px;margin-bottom:8px">EARTH HAZARDS &amp; TELEMETRY</div>
 
       <!-- Multi-Tab Navigation -->
-      <div class="east-tabs" role="tablist">
-        <button class="east-tab active" data-tab="0" role="tab" aria-selected="true">⚠️ HAZARDS</button>
-        <button class="east-tab" data-tab="1" role="tab" aria-selected="false">🛰️ ISS &amp; GIBS</button>
-        <button class="east-tab" data-tab="2" role="tab" aria-selected="false">🎵 SOUND STUDIO</button>
-        <button class="east-tab" data-tab="3" role="tab" aria-selected="false">⠃ BRAILLE</button>
+      <div class="east-tabs" role="tablist" aria-label="Telemetry and Accessibility Panels">
+        <button class="east-tab active" id="etab-0" data-tab="0" role="tab" aria-selected="true" aria-controls="epanel-0" tabindex="0">⚠️ HAZARDS</button>
+        <button class="east-tab" id="etab-1" data-tab="1" role="tab" aria-selected="false" aria-controls="epanel-1" tabindex="-1">🛰️ ISS &amp; GIBS</button>
+        <button class="east-tab" id="etab-2" data-tab="2" role="tab" aria-selected="false" aria-controls="epanel-2" tabindex="-1">🎵 SOUND STUDIO</button>
+        <button class="east-tab" id="etab-3" data-tab="3" role="tab" aria-selected="false" aria-controls="epanel-3" tabindex="-1">⠃ TACTILE / BRAILLE</button>
       </div>
     </div>
 
     <div class="deck-body" id="east-tab-container">
       <!-- TAB 0: LIVE NASA EONET HAZARDS -->
-      <div class="east-tab-panel" id="epanel-0">
+      <div class="east-tab-panel" id="epanel-0" role="tabpanel" aria-labelledby="etab-0">
         <div class="section-title">
           <span>CLOSEST MONITORED HAZARDS</span>
           <span id="hazard-count-badge" style="color:var(--amber)">FETCHING…</span>
@@ -2010,7 +2277,7 @@
       </div>
 
       <!-- TAB 1: ISS & SATELLITE LAYERS -->
-      <div class="east-tab-panel" id="epanel-1" style="display:none">
+      <div class="east-tab-panel" id="epanel-1" role="tabpanel" aria-labelledby="etab-1" style="display:none">
         <div class="iss-card">
           <div style="display:flex;align-items:center;justify-content:space-between">
             <span style="font-family:'Orbitron',monospace;font-size:10.5px;color:var(--cyan)">🛰️ ISS ORBITAL TELEMETRY</span>
@@ -2058,7 +2325,7 @@
       </div>
 
       <!-- TAB 2: PROCEDURAL WEB AUDIO SOUNDSCAPE STUDIO -->
-      <div class="east-tab-panel" id="epanel-2" style="display:none">
+      <div class="east-tab-panel" id="epanel-2" role="tabpanel" aria-labelledby="etab-2" style="display:none">
         <div class="sound-studio-banner">
           <div class="sound-banner-top">
             <span style="font-family:'Orbitron',monospace;font-size:10px;color:var(--cyan)">EARTH JUKEBOX AUDIO STUDIO</span>
@@ -2145,14 +2412,14 @@
         </div>
       </div>
 
-      <!-- TAB 3: 3D TACTILE BRAILLE BOARD -->
-      <div class="east-tab-panel" id="epanel-3" style="display:none">
+      <!-- TAB 3: 3D TACTILE BRAILLE & SOUND RELIEF MAP -->
+      <div class="east-tab-panel" id="epanel-3" role="tabpanel" aria-labelledby="etab-3" style="display:none">
         <div class="section-title">
-          <span>3D TACTILE BRAILLE BOARD GENERATOR</span>
-          <span style="color:var(--mint);font-size:9px">RAISED DOT 3D MESH</span>
+          <span>3D TACTILE BRAILLE &amp; SOUND RELIEF MAP</span>
+          <span style="color:var(--mint);font-size:12px">RAISED 3D MESH</span>
         </div>
-        <p style="font-size:11px;color:var(--muted);line-height:1.4;margin-bottom:8px">
-          Converts current location &amp; telemetry into standardized Grade 1 tactile Braille cells with raised 0.65 mm octagonal pin geometry on a 3 mm base plate for 3D printing.
+        <p style="font-size:12px;color:var(--muted);line-height:1.45;margin-bottom:8px">
+          Converts current location &amp; telemetry into standardized Grade 1 tactile Braille pins (0.65 mm height), plus exports a watertight 64×36 3D Relief Map STL/OBJ of the visible GIBS satellite frame.
         </p>
         <div class="braille-preview" id="braille-preview-box">
           ⠠⠝⠁⠎⠁ ⠞⠑⠇⠑⠍⠑⠞⠗⠽ ⠓⠥⠙
@@ -2165,10 +2432,12 @@
           <span>Pressure: <strong id="braille-param-pres" style="color:#fff">--</strong></span>
         </div>
         <div class="braille-dl-grid">
-          <button id="dl-braille-txt" style="font-size:10px;padding:9px" aria-label="Download Braille text specification">📄 BRAILLE TEXT (.TXT)</button>
-          <button id="dl-braille-svg" style="font-size:10px;padding:9px" aria-label="Download tactile dot matrix SVG">📐 TACTILE VECTOR (.SVG)</button>
-          <button id="dl-braille-stl" style="font-size:10px;padding:9px" aria-label="Download 3D printable Braille STL with raised dots">🖨 3D MODEL (.STL)</button>
-          <button id="dl-braille-obj" style="font-size:10px;padding:9px" aria-label="Download 3D printable Braille Wavefront OBJ mesh">🧊 3D MESH (.OBJ)</button>
+          <button id="dl-braille-txt" style="font-size:12px;padding:9px" aria-label="Download Braille text specification">📄 BRAILLE TEXT (.TXT)</button>
+          <button id="dl-braille-svg" style="font-size:12px;padding:9px" aria-label="Download tactile dot matrix SVG">📐 TACTILE VECTOR (.SVG)</button>
+          <button id="dl-braille-stl" style="font-size:12px;padding:9px" aria-label="Download 3D printable Braille STL with raised dots">🖨 BRAILLE PLATE (.STL)</button>
+          <button id="dl-braille-obj" style="font-size:12px;padding:9px" aria-label="Download 3D printable Braille Wavefront OBJ mesh">🧊 BRAILLE MESH (.OBJ)</button>
+          <button id="dl-relief-stl" style="font-size:12px;padding:9px" aria-label="Download 64 by 36 satellite Sound Relief Map STL">🏔️ RELIEF MAP (.STL)</button>
+          <button id="dl-relief-obj" style="font-size:12px;padding:9px" aria-label="Download 64 by 36 satellite Sound Relief Map OBJ">🗻 RELIEF MESH (.OBJ)</button>
         </div>
       </div>
     </div>
@@ -2176,9 +2445,21 @@
 
   <!-- Earth Jukebox: Frame-to-Sound Sonification, Time Exploration & Accessibility Dock -->
   <section id="jukebox-controls" role="region" aria-label="Earth Jukebox Sonification and Time Controls" tabindex="-1">
+    <!-- First-Run 3-Step Flow Hint (Dismissible, remembered via localStorage) -->
+    <div id="jb-step-hint" aria-label="Quick start guide">
+      <div class="jb-step-flow">
+        <span class="jb-step-chip" data-i18n="step1">1. Choose a Track</span>
+        <span aria-hidden="true">→</span>
+        <span class="jb-step-chip" data-i18n="step2">2. Listen to Live Pixels</span>
+        <span aria-hidden="true">→</span>
+        <span class="jb-step-chip" data-i18n="step3">3. Compare Across Decades</span>
+      </div>
+      <button id="btn-dismiss-hint" type="button" class="jb-util-btn" aria-label="Dismiss quick start hint">✓ GOT IT</button>
+    </div>
+
     <div class="jb-header">
       <div class="jb-brand-row">
-        <span class="jb-title">🎵 EARTH JUKEBOX</span>
+        <span class="jb-title" data-i18n="dockTitle">🎵 EARTH JUKEBOX</span>
         <div class="jb-mode-switch" role="group" aria-label="Audio engine mode switch">
           <button id="btn-mode-frame" class="jb-mode-btn active" type="button" aria-pressed="true" aria-label="Frame Sonification mode">FRAME SONIFICATION</button>
           <button id="btn-mode-ambient" class="jb-mode-btn" type="button" aria-pressed="false" aria-label="Ambient Soundscape mode">AMBIENT SOUNDSCAPE</button>
@@ -2192,13 +2473,10 @@
         <button class="jb-preset-btn" data-preset="ocean-color" type="button" aria-label="Load Ocean Color preset track">🌊 OCEAN COLOR</button>
       </div>
 
-      <div class="jb-a11y-row" role="group" aria-label="Accessibility and export controls">
+      <div class="jb-a11y-row" role="group" aria-label="Primary accessibility and activity controls">
         <button id="btn-audio-legend" class="jb-util-btn" type="button" aria-label="Play Audio Legend explaining sound mappings">🔊 LEGEND</button>
-        <button id="btn-toggle-speech" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle speech announcements">🗣️ SPEECH: OFF</button>
-        <button id="btn-toggle-haptics" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle rhythmic haptic vibration feedback">📳 HAPTICS: OFF</button>
-        <button id="btn-toggle-contrast" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle Enhanced Contrast mode">◐ CONTRAST</button>
-        <button id="btn-toggle-motion" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle Reduce Motion mode">⏸ MOTION</button>
-        <button id="btn-export-wav" class="jb-util-btn amber" type="button" aria-label="Export 24 second sonification WAV audio and caption file">💾 EXPORT WAV</button>
+        <button id="btn-activities" class="jb-util-btn" type="button" aria-label="Open Listening Test and Guess the Earth Quiz">🧪 TEST / QUIZ</button>
+        <button id="btn-lang-toggle" class="jb-util-btn" type="button" aria-label="Toggle language between English and Bangla">🌐 EN / বাং</button>
         <button id="btn-jukebox-collapse" class="jb-util-btn" type="button" aria-expanded="true" aria-label="Collapse or expand Earth Jukebox controls">▾ HIDE</button>
       </div>
     </div>
@@ -2207,7 +2485,7 @@
       <div class="jb-preview-col">
         <div class="jb-canvas-wrap">
           <canvas id="jukebox-frame-canvas" width="256" height="144" aria-label="Visible NASA satellite frame with vertical sonification scan line"></canvas>
-          <span id="jukebox-frame-badge" class="jb-frame-badge">GIBS FRAME</span>
+          <span id="live-gibs-badge" class="jb-frame-badge">GIBS FRAME</span>
         </div>
         <div class="jb-preview-actions">
           <button id="btn-sonify-play" type="button" aria-label="Play or pause frame sonification audio">▶ SONIFY</button>
@@ -2220,12 +2498,12 @@
           <button id="btn-time-prev" class="jb-step-btn" type="button" title="Previous month (Left Arrow)" aria-label="Step one month backward">◀</button>
           <button id="btn-time-play" class="jb-step-btn" type="button" title="Play or pause timeline (Space)" aria-label="Play or pause monthly time exploration">▶</button>
           <button id="btn-time-next" class="jb-step-btn" type="button" title="Next month (Right Arrow)" aria-label="Step one month forward">▶</button>
-          <input id="time-slider" type="range" min="0" max="321" step="1" value="319" role="slider" aria-label="Satellite time exploration month slider" aria-valuemin="0" aria-valuemax="321" aria-valuenow="319" aria-valuetext="August 2026">
+          <input id="time-slider" type="range" min="0" max="321" step="1" value="319" aria-label="Satellite time exploration month slider" aria-valuemin="0" aria-valuemax="321" aria-valuenow="319" aria-valuetext="August 2026">
           <span id="time-date-label" class="jb-date-pill">AUG 2026</span>
           <button id="btn-time-speed" class="jb-step-btn" type="button" title="Cycle playback speed (Up/Down Arrow)" aria-label="Cycle time playback speed">1x</button>
           <label for="time-year-start" class="sr-only">Start year</label>
           <select id="time-year-start" class="jb-year-select" aria-label="Time range start year"></select>
-          <span aria-hidden="true" style="font-size:10px;color:var(--muted)">–</span>
+          <span aria-hidden="true" style="font-size:12px;color:var(--muted)">–</span>
           <label for="time-year-end" class="sr-only">End year</label>
           <select id="time-year-end" class="jb-year-select" aria-label="Time range end year"></select>
         </div>
@@ -2234,12 +2512,70 @@
           <div id="jukebox-story-text" class="jb-story-line">Select a preset track or click Play Arctic Sea Ice — live NASA GIBS / Earth Information Center imagery drives deterministic Web Audio synthesis.</div>
           <div id="jukebox-preset-evidence" class="jb-evidence-line"></div>
           <div id="jukebox-text-desc" class="jb-text-desc" aria-live="polite">Initializing NASA GIBS satellite frame analysis…</div>
+          <div id="jukebox-story-triad" class="jb-story-triad" aria-label="Why, How, and What You Will Hear summary">
+            <div class="jb-triad-cell"><strong>Why it matters</strong><span id="triad-why">Polar sea ice reflects sunlight and regulates Earth's energy budget.</span></div>
+            <div class="jb-triad-cell"><strong>How we measure</strong><span id="triad-how">GIBS RGB colormap lookup + cos(lat) equal-area weighting.</span></div>
+            <div class="jb-triad-cell"><strong>What you'll hear</strong><span id="triad-hear">Lower drone for thick ice; brighter pulse as ocean opens.</span></div>
+          </div>
         </div>
 
         <div class="jb-kbd-hint">
           <span id="jukebox-sound-metrics">Pitch: -- Hz · Pulse: -- Hz · Ice/Cloud: --% · Fire/Heat: --%</span>
-          <span>Keys: Space Play/Pause · ←/→ ±1 mo · Shift+←/→ ±1 yr · ↑/↓ Speed</span>
+          <span>Space Play · ←/→ ±1 mo · Shift+←/→ ±1 yr · ↑/↓ Speed · Esc Exit Tour</span>
         </div>
+
+        <!-- Secondary Controls Collapsible Drawer (keeps first-run layout uncluttered) -->
+        <details id="jb-advanced-details">
+          <summary>⚙️ Accessibility, Stereo A/B, Scales &amp; Exports</summary>
+          <div class="jb-adv-grid">
+            <button id="btn-toggle-speech" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle speech announcements">🗣️ SPEECH: OFF</button>
+            <button id="btn-toggle-haptics" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle rhythmic haptic vibration feedback">📳 HAPTICS: OFF</button>
+            <button id="btn-toggle-contrast" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle Enhanced Contrast mode">◐ CONTRAST</button>
+            <button id="btn-toggle-motion" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle Reduce Motion mode">⏸ MOTION</button>
+            <button id="btn-test-tone" class="jb-util-btn" type="button" aria-label="Play 440 Hz reference calibration test tone at minus 16 dBFS">🔈 TEST TONE</button>
+            <button id="btn-spatial-pan" class="jb-util-btn" type="button" aria-pressed="true" aria-label="Toggle stereo left-to-right spatial scan panning">🎧 SPATIAL PAN: ON</button>
+
+            <label for="scale-select" style="font-size:12px;color:var(--muted);margin-left:4px">Scale:</label>
+            <select id="scale-select" class="jb-year-select" aria-label="Select musical scale for pitch quantization">
+              <option value="c-minor-pent">C Minor Pentatonic</option>
+              <option value="c-major-pent">C Major Pentatonic</option>
+              <option value="hirajoshi">Hirajoshi (Japan)</option>
+              <option value="bhairavi">Bhairavi-Inspired (South Asia)</option>
+              <option value="whole-tone">Whole Tone (Debussy)</option>
+            </select>
+
+            <button id="btn-ab-compare" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle A/B Stereo Time-Travel split view comparing two years in left and right ears">⇄ A/B STEREO: OFF</button>
+            <label for="ab-year-a" class="sr-only">Compare Year A</label>
+            <select id="ab-year-a" class="jb-year-select" aria-label="Stereo compare Year A (Left Ear)"></select>
+            <span aria-hidden="true" style="font-size:12px;color:var(--muted)">vs</span>
+            <label for="ab-year-b" class="sr-only">Compare Year B</label>
+            <select id="ab-year-b" class="jb-year-select" aria-label="Stereo compare Year B (Right Ear)"></select>
+
+            <button id="btn-anomaly-pulse" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle multi-year z-score anomaly earcon pulses">📈 ANOMALY PULSE: OFF</button>
+            <button id="btn-low-bw" class="jb-util-btn" type="button" aria-pressed="false" aria-label="Toggle low-bandwidth lightweight frame mode">📶 LOW-DATA: OFF</button>
+            <button id="btn-export-wav" class="jb-util-btn amber" type="button" aria-label="Export 24 second sonification WAV audio and caption file">💾 EXPORT WAV</button>
+            <button id="btn-export-data" class="jb-util-btn amber" type="button" aria-label="Export raw extracted data as JSON and CSV">📊 EXPORT DATA</button>
+            <button id="btn-start-demo" class="jb-util-btn" type="button" aria-label="Start 90 second self-running guided demo tour">🎬 90S TOUR</button>
+            <button id="btn-open-lesson" class="jb-util-btn" type="button" aria-label="Open printable classroom worksheet and lesson mode">🎓 WORKSHEET</button>
+          </div>
+          <!-- Experimental Custom Mapping Override (Unvalidated Warning) -->
+          <div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,180,84,0.3);display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <span style="color:var(--amber);font-size:12px;font-weight:600">Experimental Mapping (Unvalidated):</span>
+            <label for="custom-octave-shift" style="font-size:12px">Octave:</label>
+            <select id="custom-octave-shift" class="jb-year-select" aria-label="Custom octave shift">
+              <option value="0">0 (Default)</option>
+              <option value="-12">-1 Octave</option>
+              <option value="12">+1 Octave</option>
+            </select>
+            <label for="custom-pulse-mult" style="font-size:12px">Pulse ×:</label>
+            <select id="custom-pulse-mult" class="jb-year-select" aria-label="Custom pulse rate multiplier">
+              <option value="1">1.0× (Validated)</option>
+              <option value="0.75">0.75×</option>
+              <option value="1.5">1.5×</option>
+            </select>
+            <button id="btn-reset-mapping" class="jb-util-btn" type="button" aria-label="Reset custom mapping to validated NASA GIBS defaults">↺ RESET VALIDATED</button>
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -2264,38 +2600,120 @@
   <div id="saMethodsModal" class="sa-modal" role="dialog" aria-modal="true" aria-labelledby="saMethodsHeading">
     <button class="sa-close-btn" id="saMethodsClose" aria-label="Close methods modal">✕ CLOSE</button>
     <div class="section-title">NASA SPACE APPS 2026 · CHALLENGE: EARTH JUKEBOX</div>
-    <h2 id="saMethodsHeading" style="color:#fff;margin:8px 0 10px;font:600 19px 'Orbitron',sans-serif">NASA Earth Information Center Sonification, Data Provenance &amp; Disclosures</h2>
-    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px">
-      Built for the <strong>NASA Space Apps Challenge 2026 — "Earth Jukebox"</strong> category. The application pairs EOSDIS NASA GIBS imagery layers matching key themes of the <strong>NASA Earth Information Center (EIC)</strong> (Sea Ice / Cryosphere, Surface Temperature, Active Thermal Anomalies &amp; Fire, Earth at Night Lights, True Color Land/Atmosphere, and Ocean Chlorophyll Biosphere) with deterministic Web Audio sonification and tactile accessibility. When a live GIBS frame fails to load, sonification automatically mutes so placeholder pixels are never presented as Earth data.
+    <h2 id="saMethodsHeading" style="color:#fff;margin:8px 0 10px;font:600 19px 'Orbitron',sans-serif">Earth Jukebox · Methods, Scientific Validation, Limitations &amp; AI Disclosure</h2>
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px">
+      Built with NASA open data for the <strong>NASA Space Apps Challenge 2026 — "Earth Jukebox"</strong> category. Source code: <a href="https://github.com/salman69i/Nasa-Space-App-Challenge-2026" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">github.com/salman69i/Nasa-Space-App-Challenge-2026</a>. When live NASA GIBS imagery cannot be fetched, sonification and WAV export automatically mute so offline placeholders are never presented as Earth data.
     </p>
 
-    <div class="section-title" style="margin-bottom:8px">NASA &amp; THIRD-PARTY DATA SOURCES USED</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:16px">
-      <div style="background:rgba(12,25,42,0.6);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:10px">
-        <strong style="color:var(--cyan)">NASA EOSDIS GIBS (WMTS &amp; WMS)</strong>
-        <p style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45">
-          MODIS Terra TrueColor, VIIRS Day/Night Band (SNPP &amp; NOAA-20), MODIS Thermal Anomalies, Sea Ice Concentration (MODIS Terra / AMSR-E / AMSR2 / GHRSST MUR), MODIS Monthly Land Surface Temp, and Ocean Chlorophyll (SeaWiFS / MODIS Aqua / VIIRS NOAA-20).
+    <!-- Validation & Listening Study Live Summary Bar (Honest Metrics Only) -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:14px">
+      <div style="background:rgba(12,25,42,0.8);border:1px solid var(--mint);border-radius:var(--radius-md);padding:10px">
+        <strong style="color:var(--mint)">Scientific Validation vs NSIDC (V2)</strong>
+        <p id="modal-validation-readout" style="font-size:12px;color:var(--text);margin-top:4px;line-height:1.45">
+          Measured across 24 live NASA GIBS September frames (2003–2026) vs NSIDC Sea Ice Index v4 (<code>N_09_extent_v4.0.csv</code>):
+          <strong>Spearman &rho; = 0.7852</strong>, <strong>Pearson r = 0.8746</strong>, linear-fit <strong>RMSE = 0.2880 M km&sup2;</strong> (area &rho; = 0.6480, r = 0.7880). Reproducible via <code>npm run validate:arctic</code>.
         </p>
       </div>
-      <div style="background:rgba(12,25,42,0.6);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:10px">
-        <strong style="color:var(--cyan)">NASA POWER API (LaRC)</strong>
-        <p style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45">
-          Langley Research Center multi-decadal climatology baselines (<code>T2M</code>, <code>RH2M</code>, <code>ALLSKY_SFC_SW_DWN</code>, <code>WS10M</code>, <code>PS</code>) used for anomaly comparison in regional telemetry.
-        </p>
-      </div>
-      <div style="background:rgba(12,25,42,0.6);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:10px">
-        <strong style="color:var(--cyan)">NASA EONET v3 API (GSFC)</strong>
-        <p style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45">
-          Earth Observatory Natural Event Tracker live hazard pins for wildfires, storms, and volcanic events.
-        </p>
-      </div>
-      <div style="background:rgba(12,25,42,0.6);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:10px">
-        <strong style="color:var(--cyan)">Open-Meteo Weather &amp; Copernicus CAMS</strong>
-        <p style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45">
-          Open-Meteo Forecast API (local meteorology) and Open-Meteo Air Quality API powered by Copernicus CAMS (PM2.5, PM10, CO, NO₂, O₃, SO₂, UV, AOD). Reverse geocoding by OpenStreetMap Nominatim; ISS coordinates via WhereTheISS.at.
+      <div style="background:rgba(12,25,42,0.8);border:1px solid var(--amber);border-radius:var(--radius-md);padding:10px">
+        <strong style="color:var(--amber)">Blind / Low-Vision Usability Study (V4)</strong>
+        <p id="modal-usability-readout" style="font-size:12px;color:var(--text);margin-top:4px;line-height:1.45">
+          Study not yet run (awaiting external participant sessions; use Listening Test tool for self-check trials stored locally).
         </p>
       </div>
     </div>
+
+    <!-- Accessible Inline SVG Architecture Diagram (P2) -->
+    <div class="section-title" style="margin-bottom:8px">SIGNAL-FLOW MAPPING ARCHITECTURE</div>
+    <figure style="margin-bottom:14px;background:rgba(4,10,20,0.85);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:10px">
+      <svg viewBox="0 0 760 110" width="100%" height="auto" role="img" aria-labelledby="svg-arch-title svg-arch-desc">
+        <title id="svg-arch-title">Earth Jukebox Deterministic Signal Flow</title>
+        <desc id="svg-arch-desc">Four-stage deterministic pipeline from NASA GIBS satellite pixels to area-weighted physical lookup, quantized Web Audio synthesis with limiter, and 3D Braille STL/OBJ exports.</desc>
+        <rect x="8" y="16" width="165" height="74" rx="8" fill="#0b1e36" stroke="#4dd8ff" stroke-width="1.5"/>
+        <text x="90" y="42" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">1. NASA GIBS Frame</text>
+        <text x="90" y="60" fill="#a6bed4" font-size="11" text-anchor="middle">256x144 RGBA + BBOX</text>
+        <text x="90" y="76" fill="#66ebb5" font-size="10.5" text-anchor="middle">Offline -> Muted</text>
+
+        <line x1="173" y1="53" x2="198" y2="53" stroke="#4dd8ff" stroke-width="2"/>
+        <polygon points="198,48 206,53 198,58" fill="#4dd8ff"/>
+
+        <rect x="206" y="16" width="175" height="74" rx="8" fill="#0b1e36" stroke="#66ebb5" stroke-width="1.5"/>
+        <text x="293" y="42" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">2. Pixel Physics</text>
+        <text x="293" y="60" fill="#a6bed4" font-size="11" text-anchor="middle">cos(lat) + GIBS XML Map</text>
+        <text x="293" y="76" fill="#ffc069" font-size="10.5" text-anchor="middle">Coverage &lt; 40% Flagged</text>
+
+        <line x1="381" y1="53" x2="406" y2="53" stroke="#66ebb5" stroke-width="2"/>
+        <polygon points="406,48 414,53 406,58" fill="#66ebb5"/>
+
+        <rect x="414" y="16" width="165" height="74" rx="8" fill="#0b1e36" stroke="#ffc069" stroke-width="1.5"/>
+        <text x="496" y="42" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">3. Scale &amp; Spatial</text>
+        <text x="496" y="60" fill="#a6bed4" font-size="11" text-anchor="middle">5 Scales + Stereo Pan</text>
+        <text x="496" y="76" fill="#a6bed4" font-size="10.5" text-anchor="middle">EONET &amp; POWER Nudge</text>
+
+        <line x1="579" y1="53" x2="604" y2="53" stroke="#ffc069" stroke-width="2"/>
+        <polygon points="604,48 612,53 604,58" fill="#ffc069"/>
+
+        <rect x="612" y="16" width="140" height="74" rx="8" fill="#0b1e36" stroke="#4dd8ff" stroke-width="1.5"/>
+        <text x="682" y="42" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">4. Outputs</text>
+        <text x="682" y="60" fill="#a6bed4" font-size="11" text-anchor="middle">WAV / -16 LUFS Audio</text>
+        <text x="682" y="76" fill="#a6bed4" font-size="10.5" text-anchor="middle">Braille &amp; Relief STL</text>
+      </svg>
+    </figure>
+
+    <div class="section-title" style="margin-bottom:8px">NASA DATA SOURCES (DIRECT OBSERVATION &amp; TELEMETRY)</div>
+    <table class="sa-mapping-table" aria-label="NASA datasets table">
+      <thead>
+        <tr>
+          <th scope="col">NASA Dataset / API</th>
+          <th scope="col">Parameters &amp; Layers</th>
+          <th scope="col">Role in Earth Jukebox</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>NASA EOSDIS GIBS (WMS / WMTS)</strong></td>
+          <td>GHRSST Sea Ice Concentration, MODIS Terra Sea Ice / TrueColor / Monthly LST / Thermal Anomalies, VIIRS SNPP &amp; NOAA-20 Day/Night Band &amp; Chlorophyll, SeaWiFS</td>
+          <td>Primary visual pixel &amp; official v1.3 RGB colormap source driving deterministic sonification &amp; tactile relief geometry.</td>
+        </tr>
+        <tr>
+          <td><strong>NASA POWER API (LaRC)</strong></td>
+          <td><code>T2M</code>, <code>RH2M</code>, <code>ALLSKY_SFC_SW_DWN</code>, <code>WS10M</code>, <code>PS</code>, <code>PRECTOTCORR</code></td>
+          <td>20-year climatology anomalies gently nudge pad filter warmth and appear in regional telemetry cards.</td>
+        </tr>
+        <tr>
+          <td><strong>NASA EONET v3 API (GSFC)</strong></td>
+          <td>Open wildfire, storm, and volcanic geometry &amp; categories</td>
+          <td>Pinpoints active events and adds longitude-panned spatial earcon pings during scan sweeps.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title" style="margin-bottom:8px">THIRD-PARTY SERVICES, LIBRARIES &amp; LICENCES</div>
+    <table class="sa-mapping-table" aria-label="Third-party libraries and licences">
+      <thead>
+        <tr>
+          <th scope="col">Component</th>
+          <th scope="col">Version / Provider</th>
+          <th scope="col">Licence / Attribution</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Weather &amp; Air Quality</strong></td>
+          <td>Open-Meteo Forecast &amp; Air Quality API (Copernicus CAMS)</td>
+          <td>CC BY 4.0 · Surface PM2.5, precipitation &amp; local meteorology (distinct from NASA GIBS/POWER).</td>
+        </tr>
+        <tr>
+          <td><strong>3D Globe &amp; 2D Mapping</strong></td>
+          <td><code>globe.gl@2.46.2</code>, <code>three-globe@2.45.6</code>, <code>Leaflet@1.9.4</code></td>
+          <td>MIT (globe.gl / three-globe) · BSD-2-Clause (Leaflet).</td>
+        </tr>
+        <tr>
+          <td><strong>Basemaps &amp; Geocoding</strong></td>
+          <td>CARTO Dark Matter, OpenStreetMap Nominatim, WhereTheISS.at, Google Fonts</td>
+          <td>&copy; OpenStreetMap contributors (ODbL) · &copy; CARTO (CC BY) · Google Fonts (SIL OFL).</td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="section-title">EARTH JUKEBOX FRAME-TO-SOUND MAPPINGS</div>
     <table class="sa-mapping-table" aria-label="Visual feature to audio parameter mapping table">
@@ -2345,31 +2763,128 @@
       Many data sonifications map raw numbers directly to unquantized sine sweeps or noisy static, which quickly causes listener fatigue. Instead, we anchored hue to a gentle minor pentatonic scale over a soft harmonic pad, pairing intuitive physical metaphors—low steady drones for ice and ocean mass, bright open filters for sunlight, brisk pulses for fractured edges, and detuned harmonic tension for wildfire heat—so blind, low-vision, and sighted listeners alike can perceive planetary change musically, deterministically, and repeatably from 2000 through 2026.
     </p>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:14px">
-      <div style="background:rgba(12,25,42,0.6);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:10px">
-        <strong style="color:var(--cyan)">Third-Party Libraries &amp; Licences</strong>
-        <p style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45">
-          <strong>globe.gl@2.46.2</strong> &amp; <strong>three-globe@2.45.6</strong> (MIT) · <strong>Leaflet@1.9.4</strong> (BSD-2-Clause) · <strong>CARTO / OpenStreetMap</strong> basemap &amp; Nominatim (&copy; OpenStreetMap contributors ODbL, &copy; CARTO CC BY) · <strong>Open-Meteo</strong> (CC BY 4.0) · <strong>Google Fonts</strong> (`Inter`, `Orbitron`, `Space Grotesk`, SIL OFL).
-        </p>
-      </div>
-      <div style="background:rgba(12,25,42,0.6);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:10px">
-        <strong style="color:var(--cyan)">Use of AI &amp; Procedural Synthesis Disclosure</strong>
-        <p style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45">
-          Ambient soundscapes and frame tones are generated procedurally using the browser Web Audio API (oscillators and filtered noise, not pre-recorded spacecraft or field audio). Pixel analysis and multi-year preset trend metrics use deterministic JavaScript math (<code>0</code> random values) over live NASA GIBS imagery. AI coding assistance helped refactor JS structure, ARIA semantics, and documentation; all data pipelines and audio formulas are human-reviewed.
-        </p>
-      </div>
-      <div style="background:rgba(12,25,42,0.6);border:1px solid var(--panel-border);border-radius:var(--radius-md);padding:10px">
-        <strong style="color:var(--cyan)">Accessibility &amp; Validation Scope</strong>
-        <p style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45">
-          Automated browser tests verify keyboard navigation, <code>aria-live</code> descriptions, <code>aria-valuetext</code> time slider updates, offline muting, multi-year GIBS calculations, WAV export, and raised-dot 3D Braille STL/OBJ meshes. Live co-testing with blind and low-vision listeners remains the next validation milestone (no synthetic user study claimed). See <code>README.md</code> in the project repository for setup and submission details.
-        </p>
+    <div class="section-title" style="margin-bottom:8px">AI USE &amp; SYNTHESIS TRANSPARENCY (NO BLACK-BOX GENERATION)</div>
+    <table class="sa-mapping-table" aria-label="AI use and synthesis disclosure table">
+      <thead>
+        <tr>
+          <th scope="col">Component</th>
+          <th scope="col">Method</th>
+          <th scope="col">Review &amp; Honesty Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Frame Sonification Engine</strong></td>
+          <td>Deterministic JavaScript math + official NASA GIBS v1.3 RGB colormaps + Web Audio oscillators (<code>0</code> random numbers)</td>
+          <td>100% reproducible; offline tiles mute audio instead of playing fake signals.</td>
+        </tr>
+        <tr>
+          <td><strong>Ambient Soundscapes</strong></td>
+          <td>Procedural Web Audio synthesis (filtered noise / oscillators)</td>
+          <td>Clearly labeled "Synthesized …" — never presented as recorded NASA/field audio.</td>
+        </tr>
+        <tr>
+          <td><strong>Code Refactoring, Docs &amp; Tests</strong></td>
+          <td>AI coding assistant used during Space Apps 2026 sprint for scaffolding, ARIA audit &amp; test authoring</td>
+          <td>Every physics conversion, validation script, and audio formula human-reviewed &amp; executed via Node/Playwright. See <code>docs/AI_USE.md</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title" style="margin-bottom:8px">KNOWN LIMITATIONS &amp; SCIENTIFIC SCOPE</div>
+    <ul style="font-size:12px;color:var(--text);line-height:1.55;margin:0 0 14px 18px">
+      <li><strong>Projection approximation:</strong> <code>cos(latitude)</code> row weighting approximates equal-area Area in EPSG:4326 tiles; high Arctic polar stereographic projection distortion above ~85°N is truncated cleanly at row weights &ge; 0.05.</li>
+      <li><strong>Sensor continuity &amp; coastlines:</strong> Sea ice uses GHRSST L4 MUR (Jun 2002–Oct 2026) and MODIS Terra before Jun 2002; Ocean color transitions SeaWiFS &rarr; MODIS Aqua &rarr; VIIRS NOAA-20. Transitions are announced explicitly per frame.</li>
+      <li><strong>Swath gaps &amp; low coverage:</strong> When valid non-fill data covers under 40% of the frame, output level scales down and a clear low-coverage notice is shown.</li>
+      <li><strong>User study status:</strong> External blind/low-vision usability evaluation protocol &amp; self-check tool are shipped; live participant study status reads dynamically from local storage (currently <em>not yet run</em> unless recorded on this browser).</li>
+    </ul>
+
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--panel-border);padding-top:10px">
+      <p style="font-size:12px;color:var(--amber);font-weight:600;margin:0">
+        Built with NASA open data · Independent project. Not endorsed by NASA.
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button id="btn-modal-demo" type="button" class="jb-util-btn" aria-label="Start 90 second guided tour">🎬 Start 90s Demo Tour</button>
+        <button id="btn-modal-activities" type="button" class="jb-util-btn" aria-label="Open Listening Test and Quiz">🧪 Open Listening Test &amp; Quiz</button>
       </div>
     </div>
-
-    <p style="font-size:11px;color:var(--amber);border-top:1px solid var(--panel-border);padding-top:10px;font-weight:600">
-      Independent project. Not endorsed by NASA.
-    </p>
   </div>
+
+  <!-- Listening Test (V4 Self-Check Tool) & Guess the Earth Quiz (C4) Modal -->
+  <div id="saActivitiesModal" class="sa-modal" role="dialog" aria-modal="true" aria-labelledby="saActHeading">
+    <button class="sa-close-btn" id="saActClose" aria-label="Close activities modal">✕ CLOSE</button>
+    <div class="section-title">SCIENTIFIC LISTENING SELF-CHECK &amp; EAR TRAINING</div>
+    <h2 id="saActHeading" style="color:#fff;margin:8px 0 10px;font:600 18px 'Orbitron',sans-serif">Listening Test (V4) &amp; Guess the Earth Quiz (C4)</h2>
+
+    <div class="act-card" id="v4-study-card">
+      <div class="section-title" style="margin-bottom:6px">
+        <span>V4 · A/B SONIFICATION LISTENING TEST (10 DETERMINISTIC TRIALS)</span>
+        <span id="v4-progress" style="color:var(--cyan)">TRIAL 0 / 10</span>
+      </div>
+      <p style="font-size:12px;color:var(--mint);margin-bottom:8px">
+        <strong>Privacy &amp; Consent Notice:</strong> Responses stay 100% locally inside this browser's <code>localStorage</code>. Zero data is transmitted to any external server. Use Export CSV to save results matching <code>docs/results_template.csv</code>.
+      </p>
+      <div id="v4-prompt" style="font-size:13px;color:#fff;margin-bottom:8px">
+        Press Start Test to compare pairs of deterministic Earth sonifications and choose whether Stimulus A or B represents higher sea ice cover or higher thermal heat.
+      </div>
+      <div class="act-btn-row">
+        <button id="v4-start-btn" type="button">▶ Start 10-Trial Test</button>
+        <button id="v4-play-a" type="button" disabled>🔊 Play A</button>
+        <button id="v4-play-b" type="button" disabled>🔊 Play B</button>
+        <button id="v4-choose-a" type="button" disabled>Answer: A (Key A)</button>
+        <button id="v4-choose-b" type="button" disabled>Answer: B (Key B)</button>
+        <button id="v4-export-csv" type="button" class="amber">📥 Export Results CSV</button>
+      </div>
+      <div id="v4-status" aria-live="polite" style="font-size:12px;color:var(--amber);margin-top:8px"></div>
+    </div>
+
+    <div class="act-card" id="c4-quiz-card">
+      <div class="section-title" style="margin-bottom:6px">
+        <span>C4 · GUESS THE EARTH CLIP (6-SECOND BLIND-FIRST CHALLENGE)</span>
+        <span id="c4-streak" style="color:var(--mint)">STREAK: 0 · BEST: 0</span>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:8px">
+        Listen to a 6-second synthesized planetary profile with the visual frame hidden, then identify the phenomenon by ear alone!
+      </p>
+      <div class="act-btn-row">
+        <button id="c4-play-btn" type="button">🎧 Play 6s Mystery Clip</button>
+        <button class="c4-ans-btn" data-ans="arctic-ice" type="button">🧊 Arctic Sea Ice</button>
+        <button class="c4-ans-btn" data-ans="wildfires" type="button">🔥 Active Wildfires</button>
+        <button class="c4-ans-btn" data-ans="ocean-color" type="button">🌊 Ocean Phytoplankton</button>
+        <button class="c4-ans-btn" data-ans="global-temp" type="button">🌡️ Land Thermal Anomaly</button>
+      </div>
+      <div id="c4-feedback" aria-live="polite" style="font-size:12px;color:var(--cyan);margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- Printable Classroom Worksheet & Lesson Mode (I1) -->
+  <section id="lesson-print-sheet" role="region" aria-label="Earth Jukebox Classroom Worksheet">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap">
+      <div>
+        <h2 style="font:700 18px 'Orbitron',sans-serif">Earth Jukebox · Classroom Worksheet (Satellite Sonification)</h2>
+        <p style="font-size:12px;color:var(--muted)">Built with NASA open data (GIBS + POWER + NSIDC reference) · Aligned with Earth Science &amp; Accessibility learning objectives</p>
+      </div>
+      <div class="no-print" style="display:flex;gap:8px">
+        <button id="btn-print-lesson" type="button">🖨 Print Worksheet</button>
+        <button id="btn-toggle-key" type="button" aria-pressed="false">🔑 Show Answer Key</button>
+        <button id="btn-close-lesson" type="button">✕ Exit Lesson Mode</button>
+      </div>
+    </div>
+    <ol style="font-size:13px;line-height:1.65;margin-left:20px">
+      <li style="margin-bottom:10px">
+        <strong>Arctic Sea Ice Time-Travel (Sept 2003 vs Sept 2026):</strong> Listen to the Arctic Sea Ice track in 2003 and then in 2026 (or turn on <em>A/B Stereo Compare</em>). How do pitch height and ocean-vs-ice balance change as sea ice retreats?<br>
+        <span class="lesson-key" hidden style="color:var(--mint);display:inline-block;margin-top:4px"><em>Answer key:</em> Thick white sea ice in 2003 sustains a heavier low polar drone and lower average brightness-weighted shimmer; reduced ice concentration in 2026 exposes dark open ocean, dropping the low ice drone weight and raising pelagic hue pitch / shimmer.</span>
+      </li>
+      <li style="margin-bottom:10px">
+        <strong>Why Quantize Hue to a Musical Scale?</strong> Explain why mapping satellite hue directly to continuous unquantized frequencies creates listener fatigue, and describe how Earth Jukebox's scale library solves this.<br>
+        <span class="lesson-key" hidden style="color:var(--mint);display:inline-block;margin-top:4px"><em>Answer key:</em> Continuous frequency glissandos clash and hide gradual trends; snapping hue degrees to discrete scale intervals (such as C minor pentatonic or Bhairavi) keeps transitions musical while preserving monotonic pitch direction.</span>
+      </li>
+      <li style="margin-bottom:10px">
+        <strong>Multi-Sensory Scientific Honesty:</strong> Why does Earth Jukebox mute audio output when NASA GIBS tiles are offline or below 40% valid-data coverage?<br>
+        <span class="lesson-key" hidden style="color:var(--mint);display:inline-block;margin-top:4px"><em>Answer key:</em> Sonifying placeholder graphics or nearly empty swaths would mislead listeners into mistaking synthetic colors or missing satellite passes for real Earth measurements.</span>
+      </li>
+    </ol>
+  </section>
 
   <!-- Toast Notification -->
   <div id="toast" role="status"></div>
@@ -2382,6 +2897,98 @@
     const $$ = s => [...document.querySelectorAll(s)];
     const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
     const D = Math.PI / 180;
+    const REPO_URL = 'https://github.com/salman69i/Nasa-Space-App-Challenge-2026';
+
+    const EIC_LINKS = {
+      'arctic-ice': { label: 'NASA EIC Sea Level & Polar Change', url: 'https://earth.gov/themes/sea-level-change' },
+      'global-temp': { label: 'NASA EIC Greenhouse Gases & Energy', url: 'https://earth.gov/themes/greenhouse-gases' },
+      'wildfires': { label: 'NASA EIC Wildfires Portal', url: 'https://earth.gov/themes/wildfires' },
+      'ocean-color': { label: 'NASA EIC Biodiversity & Ecosystems', url: 'https://earth.gov/themes/biodiversity' },
+      default: { label: 'NASA Earth Information Center (earth.gov)', url: 'https://earth.gov/' }
+    };
+
+    const SCALES = {
+      'c-minor-pent': { name: 'C Minor Pentatonic', intervals: [0, 3, 5, 7, 10] },
+      'c-major-pent': { name: 'C Major Pentatonic', intervals: [0, 2, 4, 7, 9] },
+      'hirajoshi': { name: 'Hirajoshi (Japan)', intervals: [0, 2, 3, 7, 8] },
+      'bhairavi': { name: 'Bhairavi-Inspired (South Asia)', intervals: [0, 1, 3, 5, 7, 8, 10] },
+      'whole-tone': { name: 'Whole Tone (Debussy)', intervals: [0, 2, 4, 6, 8, 10] }
+    };
+
+    function buildScaleMidi(scaleId = 'c-minor-pent', octaveShift = 0) {
+      const intervals = (SCALES[scaleId] || SCALES['c-minor-pent']).intervals;
+      const root = 48 + Number(octaveShift || 0);
+      const out = [];
+      for (let oct = 0; oct < 3; oct++) {
+        for (const step of intervals) {
+          out.push(clamp(root + oct * 12 + step, 36, 96));
+        }
+      }
+      return out;
+    }
+
+    // Compact Official NASA GIBS v1.3 XML Colormaps (populated by build_colormaps.mjs)
+    const GIBS_COLORMAPS = {"GHRSST_L4_MUR_Sea_Ice_Concentration":{"u":"%","e":[[0,0,0,null],[17,17,17,0.5],[14,0,14,1.5],[28,0,28,2.5],[50,0,50,3.5],[64,0,64,4.5],[78,0,78,5.5],[99,0,99,6.5],[113,0,113,7.5],[135,0,135,8.5],[149,0,149,9.5],[163,0,163,10.5],[184,0,184,11.5],[198,0,198,12.5],[220,0,220,13.5],[234,0,234,14.5],[248,0,248,15.5],[241,0,255,16.5],[227,0,255,17.5],[205,0,255,18.5],[191,0,255,19.5],[177,0,255,20.5],[156,0,255,21.5],[142,0,255,22.5],[127,0,255,23.5],[106,0,255,24.5],[92,0,255,25.5],[71,0,255,26.5],[57,0,255,27.5],[42,0,255,28.5],[21,0,255,29.5],[7,0,255,30.5],[0,16,255,31.5],[0,33,255,32.5],[0,49,255,33.5],[0,74,255,34.5],[0,90,255,35.5],[0,115,255,36.5],[0,132,255,37.5],[0,148,255,38.5],[0,173,255,39.5],[0,189,255,40.5],[0,206,255,41.5],[0,230,255,42.5],[0,247,255,43.5],[0,250,241,44.5],[0,246,227,45.5],[0,241,212,46.5],[0,234,191,47.5],[0,229,177,48.5],[0,222,156,49.5],[0,217,142,50.5],[0,212,127,51.5],[0,205,106,52.5],[0,201,92,53.5],[0,194,71,54.5],[0,189,57,55.5],[0,184,42,56.5],[0,177,21,57.5],[0,172,7,58.5],[15,175,0,59.5],[30,180,0,60.5],[45,185,0,61.5],[68,193,0,62.5],[83,198,0,63.5],[98,203,0,64.5],[120,210,0,65.5],[135,215,0,66.5],[158,223,0,67.5],[173,228,0,68.5],[188,233,0,69.5],[210,240,0,70.5],[225,245,0,71.5],[248,253,0,72.5],[255,248,0,73.5],[255,234,0,74.5],[255,212,0,75.5],[255,198,0,76.5],[255,177,0,77.5],[255,163,0,78.5],[255,149,0,79.5],[255,127,0,80.5],[255,113,0,81.5],[255,99,0,82.5],[255,78,0,83.5],[255,64,0,84.5],[255,42,0,85.5],[255,28,0,86.5],[255,14,0,87.5],[255,9,9,88.5],[255,26,26,89.5],[255,51,51,90.5],[255,68,68,91.5],[255,85,85,92.5],[255,111,111,93.5],[255,128,128,94.5],[255,153,153,95.5],[255,170,170,96.5],[255,187,187,97.5],[255,213,213,98.5],[255,230,230,99.5],[255,255,255,100]]},"MODIS_Terra_Sea_Ice":{"u":"class","e":[[255,200,255,null],[200,200,200,null],[189,0,189,null],[0,128,0,null],[0,0,255,null],[35,35,117,null],[0,191,255,null],[255,255,176,null],[255,100,100,100],[170,0,0,null],[255,255,255,null]]},"MODIS_Terra_L3_Land_Surface_Temp_Monthly_Day":{"u":"°C","e":[[64,64,64,null],[201,0,255,-173.14],[197,0,255,-72.85],[193,0,255,-72.25],[189,0,255,-71.65],[185,0,255,-71.05],[181,0,255,-70.45],[177,0,255,-69.85],[173,0,255,-69.25],[169,0,255,-68.65],[165,0,255,-68.05],[161,0,255,-67.45],[157,0,255,-66.85],[153,0,255,-66.25],[149,0,255,-65.65],[145,0,255,-65.05],[141,0,255,-64.45],[137,0,255,-63.85],[133,0,255,-63.25],[129,0,255,-62.65],[125,0,255,-62.05],[121,0,255,-61.45],[117,0,255,-60.85],[113,0,255,-60.25],[109,0,255,-59.65],[105,0,255,-59.05],[101,0,255,-58.45],[97,0,255,-57.85],[93,0,255,-57.25],[89,0,255,-56.65],[85,0,255,-56.05],[81,0,255,-55.45],[77,0,255,-54.85],[73,0,255,-54.25],[69,0,255,-53.65],[65,0,255,-53.05],[61,0,255,-52.45],[57,0,255,-51.85],[53,0,255,-51.25],[49,0,255,-50.65],[45,0,255,-50.05],[41,0,255,-49.45],[37,0,255,-48.85],[33,0,255,-48.25],[29,0,255,-47.65],[25,0,255,-47.05],[21,0,255,-46.45],[17,0,255,-45.85],[13,0,255,-45.25],[9,0,255,-44.65],[5,0,255,-44.05],[1,0,255,-43.45],[0,10,255,-42.85],[0,15,255,-42.25],[0,20,255,-41.65],[0,26,255,-41.05],[0,31,255,-40.45],[0,36,255,-39.85],[0,41,255,-39.25],[0,46,255,-38.65],[0,51,255,-38.05],[0,56,255,-37.45],[0,61,255,-36.85],[0,66,255,-36.25],[0,71,255,-35.65],[0,77,255,-35.05],[0,82,255,-34.45],[0,87,255,-33.85],[0,92,255,-33.25],[0,97,255,-32.65],[0,102,255,-32.05],[0,107,255,-31.45],[0,112,255,-30.85],[0,117,255,-30.25],[0,122,255,-29.65],[0,128,255,-29.05],[0,133,255,-28.45],[0,138,255,-27.85],[0,143,255,-27.25],[0,148,255,-26.65],[0,153,255,-26.05],[0,158,255,-25.45],[0,163,255,-24.85],[0,168,255,-24.25],[0,173,255,-23.65],[0,179,255,-23.05],[0,184,255,-22.45],[0,189,255,-21.85],[0,194,255,-21.25],[0,199,255,-20.65],[0,204,255,-20.05],[0,209,255,-19.45],[0,214,255,-18.85],[0,219,255,-18.25],[0,224,255,-17.65],[0,230,255,-17.05],[0,235,255,-16.45],[0,240,255,-15.85],[0,245,255,-15.25],[0,250,255,-14.65],[0,255,255,-14.05],[4,255,247,-13.45],[11,255,230,-12.85],[15,255,222,-12.25],[18,255,213,-11.65],[22,255,205,-11.05],[26,255,196,-10.45],[29,255,188,-9.85],[33,255,179,-9.25],[36,255,171,-8.65],[40,255,162,-8.05],[44,255,154,-7.45],[47,255,145,-6.85],[51,255,137,-6.25],[55,255,128,-5.65],[58,255,120,-5.05],[62,255,111,-4.45],[66,255,103,-3.85],[69,255,94,-3.25],[73,255,86,-2.65],[77,255,77,-2.05],[80,255,69,-1.45],[84,255,60,-0.85],[87,255,52,-0.25],[91,255,43,0.35],[95,255,35,0.95],[98,255,26,1.55],[102,255,18,2.15],[106,255,9,2.75],[109,255,1,3.35],[113,255,0,3.95],[117,255,0,4.55],[120,255,0,5.15],[124,255,0,5.75],[128,255,0,6.35],[131,255,0,6.95],[135,255,0,7.55],[138,255,0,8.15],[142,255,0,8.75],[146,255,0,9.35],[149,255,0,9.95],[153,255,0,10.55],[157,255,0,11.15],[160,255,0,11.75],[164,255,0,12.35],[168,255,0,12.95],[171,255,0,13.55],[175,255,0,14.15],[179,255,0,14.75],[182,255,0,15.35],[186,255,0,15.95],[189,255,0,16.55],[197,255,0,17.15],[200,255,0,17.75],[204,255,0,18.35],[208,255,0,18.95],[211,255,0,19.55],[215,255,0,20.15],[219,255,0,20.75],[222,255,0,21.35],[226,255,0,21.95],[230,255,0,22.55],[233,255,0,23.15],[237,255,0,23.75],[240,255,0,24.35],[244,255,0,24.95],[248,255,0,25.55],[251,255,0,26.15],[255,255,0,26.75],[255,253,0,27.35],[255,250,0,27.95],[255,247,0,28.55],[255,244,0,29.15],[255,241,0,29.75],[255,238,0,30.35],[255,235,0,30.95],[255,232,0,31.55],[255,229,0,32.15],[255,226,0,32.75],[255,223,0,33.35],[255,220,0,33.95],[255,217,0,34.55],[255,214,0,35.15],[255,211,0,35.75],[255,208,0,36.35],[255,205,0,36.95],[255,202,0,37.55],[255,199,0,38.15],[255,196,0,38.75],[255,193,0,39.35],[255,190,0,39.95],[255,187,0,40.55],[255,184,0,41.15],[255,181,0,41.75],[255,178,0,42.35],[255,175,0,42.95],[255,172,0,43.55],[255,169,0,44.15],[255,166,0,44.75],[255,163,0,45.35],[255,160,0,45.95],[255,157,0,46.55],[255,151,0,47.15],[255,148,0,47.75],[255,145,0,48.35],[255,142,0,48.95],[255,139,0,49.55],[255,136,0,50.15],[255,133,0,50.75],[255,130,0,51.35],[255,127,0,51.95],[255,124,0,52.55],[255,121,0,53.15],[255,118,0,53.75],[255,115,0,54.35],[255,112,0,54.95],[255,109,0,55.55],[255,106,0,56.15],[255,103,0,56.75],[255,100,0,57.35],[255,97,0,57.95],[255,94,0,58.55],[255,91,0,59.15],[255,88,0,59.75],[255,85,0,60.35],[255,82,0,60.95],[255,79,0,61.55],[255,76,0,62.15],[255,73,0,62.75],[255,70,0,63.35],[255,67,0,63.95],[255,64,0,64.55],[255,61,0,65.15],[255,58,0,65.75],[255,55,0,66.35],[255,52,0,66.95],[255,49,0,67.55],[255,46,0,68.15],[255,43,0,68.75],[255,40,0,69.35],[255,37,0,69.95],[255,34,0,70.55],[255,31,0,71.15],[255,28,0,71.75],[255,25,0,72.35],[255,22,0,72.95],[255,19,0,73.55],[255,16,0,74.15],[255,13,0,74.75],[255,10,0,75.35],[255,7,0,75.95],[255,4,0,76.55],[255,1,0,227.86]]},"VIIRS_NOAA20_Chlorophyll_a":{"u":"mg/m³","e":[[0,0,0,null],[147,0,108,0.01],[144,0,111,0.01015],[141,0,114,0.010450000000000001],[138,0,117,0.01075],[135,0,120,0.011099999999999999],[132,0,123,0.011449999999999998],[129,0,126,0.0118],[126,0,129,0.012150000000000001],[123,0,132,0.0125],[120,0,135,0.0129],[117,0,138,0.0133],[114,0,141,0.0137],[111,0,144,0.0141],[108,0,147,0.01455],[105,0,150,0.015],[102,0,153,0.015449999999999998],[99,0,156,0.01595],[96,0,159,0.01645],[93,0,162,0.01695],[90,0,165,0.01745],[87,0,168,0.01795],[84,0,171,0.018500000000000003],[81,0,174,0.0191],[78,0,177,0.019700000000000002],[75,0,180,0.0203],[72,0,183,0.020900000000000002],[69,0,186,0.0215],[66,0,189,0.02215],[63,0,192,0.02285],[60,0,195,0.02355],[57,0,198,0.02425],[54,0,201,0.025],[51,0,204,0.0258],[48,0,207,0.0266],[45,0,210,0.0274],[42,0,213,0.0282],[39,0,216,0.02905],[36,0,219,0.029949999999999997],[33,0,222,0.030850000000000002],[30,0,225,0.0318],[27,0,228,0.0328],[24,0,231,0.0338],[21,0,234,0.0348],[18,0,237,0.03585],[15,0,240,0.03695],[12,0,243,0.03805],[9,0,246,0.0392],[6,0,249,0.040400000000000005],[0,0,252,0.04165],[0,0,255,0.04295],[0,5,255,0.04425],[0,10,255,0.0456],[0,16,255,0.047],[0,21,255,0.0484],[0,26,255,0.04985],[0,32,255,0.0514],[0,37,255,0.053000000000000005],[0,42,255,0.054599999999999996],[0,48,255,0.056249999999999994],[0,53,255,0.057999999999999996],[0,58,255,0.0598],[0,64,255,0.0616],[0,69,255,0.06345],[0,74,255,0.0654],[0,80,255,0.0674],[0,85,255,0.06945],[0,90,255,0.07155],[0,96,255,0.0737],[0,101,255,0.07595],[0,106,255,0.07830000000000001],[0,112,255,0.0807],[0,117,255,0.08315],[0,122,255,0.0857],[0,128,255,0.08829999999999999],[0,133,255,0.091],[0,138,255,0.0938],[0,144,255,0.09665000000000001],[0,149,255,0.0995],[0,154,255,0.10250000000000001],[0,160,255,0.1055],[0,165,255,0.109],[0,170,255,0.1125],[0,176,255,0.1155],[0,181,255,0.119],[0,186,255,0.123],[0,192,255,0.127],[0,197,255,0.1305],[0,202,255,0.1345],[0,208,255,0.139],[0,213,255,0.143],[0,218,255,0.147],[0,224,255,0.1515],[0,229,255,0.1565],[0,234,255,0.161],[0,240,255,0.1655],[0,245,255,0.17099999999999999],[0,250,255,0.1765],[0,255,255,0.1815],[0,255,247,0.187],[0,255,239,0.193],[0,255,231,0.199],[0,255,223,0.20500000000000002],[0,255,215,0.211],[0,255,207,0.2175],[0,255,199,0.224],[0,255,191,0.2305],[0,255,183,0.238],[0,255,175,0.2455],[0,255,167,0.253],[0,255,159,0.2605],[0,255,151,0.268],[0,255,143,0.2765],[0,255,135,0.28500000000000003],[0,255,127,0.2935],[0,255,119,0.3025],[0,255,111,0.312],[0,255,103,0.3215],[0,255,95,0.331],[0,255,87,0.34099999999999997],[0,255,79,0.3515],[0,255,71,0.3625],[0,255,63,0.3735],[0,255,55,0.385],[0,255,47,0.397],[0,255,39,0.40900000000000003],[0,255,31,0.4215],[0,255,23,0.4345],[0,255,15,0.4475],[0,255,0,0.461],[8,255,0,0.475],[16,255,0,0.4895],[24,255,0,0.5045],[32,255,0,0.52],[40,255,0,0.536],[48,255,0,0.552],[56,255,0,0.5685],[64,255,0,0.586],[72,255,0,0.604],[80,255,0,0.6225],[88,255,0,0.6415],[96,255,0,0.661],[104,255,0,0.681],[112,255,0,0.7015],[120,255,0,0.723],[128,255,0,0.7455],[136,255,0,0.7685],[144,255,0,0.7915000000000001],[152,255,0,0.8155],[160,255,0,0.8405],[168,255,0,0.866],[176,255,0,0.8925000000000001],[184,255,0,0.92],[192,255,0,0.948],[200,255,0,0.9764999999999999],[208,255,0,1.0065],[216,255,0,1.0375],[224,255,0,1.069],[232,255,0,1.1015000000000001],[240,255,0,1.135],[248,255,0,1.1695],[255,255,0,1.2055],[255,251,0,1.2425],[255,247,0,1.2799999999999998],[255,243,0,1.319],[255,239,0,1.3595],[255,235,0,1.4009999999999998],[255,231,0,1.4435],[255,227,0,1.4875],[255,223,0,1.533],[255,219,0,1.5795],[255,215,0,1.6275],[255,211,0,1.6775],[255,207,0,1.729],[255,203,0,1.7814999999999999],[255,199,0,1.8355000000000001],[255,195,0,1.8915],[255,191,0,1.9495],[255,187,0,2.0090000000000003],[255,183,0,2.0700000000000003],[255,179,0,2.133],[255,175,0,2.198],[255,171,0,2.2649999999999997],[255,167,0,2.334],[255,163,0,2.4055],[255,159,0,2.479],[255,155,0,2.5545],[255,151,0,2.6325000000000003],[255,147,0,2.713],[255,143,0,2.7960000000000003],[255,139,0,2.8810000000000002],[255,135,0,2.9684999999999997],[255,131,0,3.059],[255,127,0,3.1525],[255,123,0,3.2485],[255,119,0,3.3475],[255,115,0,3.45],[255,111,0,3.5549999999999997],[255,107,0,3.6630000000000003],[255,103,0,3.775],[255,99,0,3.8905],[255,95,0,4.009],[255,91,0,4.131],[255,87,0,4.257],[255,83,0,4.3870000000000005],[255,79,0,4.521000000000001],[255,75,0,4.659000000000001],[255,71,0,4.801],[255,67,0,4.9475],[255,63,0,5.0985],[255,59,0,5.254],[255,55,0,5.414],[255,51,0,5.579000000000001],[255,47,0,5.7495],[255,43,0,5.925000000000001],[255,39,0,6.1055],[255,35,0,6.2915],[255,31,0,6.4835],[255,27,0,6.681],[255,23,0,6.8845],[255,19,0,7.0945],[255,15,0,7.311],[255,11,0,7.534000000000001],[255,7,0,7.764],[255,3,0,8.001000000000001],[255,0,0,8.245000000000001],[250,0,0,8.496500000000001],[245,0,0,8.755500000000001],[240,0,0,9.0225],[235,0,0,9.2975],[230,0,0,9.581],[225,0,0,9.8735],[220,0,0,10.1745],[215,0,0,10.4845],[210,0,0,10.8045],[205,0,0,11.134],[200,0,0,11.473500000000001],[195,0,0,11.8235],[190,0,0,12.184000000000001],[185,0,0,12.5555],[180,0,0,12.9385],[175,0,0,13.3335],[170,0,0,13.74],[165,0,0,14.158999999999999],[160,0,0,14.591000000000001],[155,0,0,15.036000000000001],[150,0,0,15.4945],[145,0,0,15.967],[140,0,0,16.454],[135,0,0,16.9555],[130,0,0,17.4725],[125,0,0,18.005499999999998],[120,0,0,18.555],[115,0,0,19.121000000000002],[110,0,0,19.704],[105,0,0,20]]},"MODIS_Aqua_L2_Chlorophyll_A":{"u":"mg/m³","e":[[0,0,0,null],[147,0,108,0.01],[144,0,111,0.01015],[141,0,114,0.010450000000000001],[138,0,117,0.01075],[135,0,120,0.011099999999999999],[132,0,123,0.011449999999999998],[129,0,126,0.0118],[126,0,129,0.012150000000000001],[123,0,132,0.0125],[120,0,135,0.0129],[117,0,138,0.0133],[114,0,141,0.0137],[111,0,144,0.0141],[108,0,147,0.01455],[105,0,150,0.015],[102,0,153,0.015449999999999998],[99,0,156,0.01595],[96,0,159,0.01645],[93,0,162,0.01695],[90,0,165,0.01745],[87,0,168,0.01795],[84,0,171,0.018500000000000003],[81,0,174,0.0191],[78,0,177,0.019700000000000002],[75,0,180,0.0203],[72,0,183,0.020900000000000002],[69,0,186,0.0215],[66,0,189,0.02215],[63,0,192,0.02285],[60,0,195,0.02355],[57,0,198,0.02425],[54,0,201,0.025],[51,0,204,0.0258],[48,0,207,0.0266],[45,0,210,0.0274],[42,0,213,0.0282],[39,0,216,0.02905],[36,0,219,0.029949999999999997],[33,0,222,0.030850000000000002],[30,0,225,0.0318],[27,0,228,0.0328],[24,0,231,0.0338],[21,0,234,0.0348],[18,0,237,0.03585],[15,0,240,0.03695],[12,0,243,0.03805],[9,0,246,0.0392],[6,0,249,0.040400000000000005],[0,0,252,0.04165],[0,0,255,0.04295],[0,5,255,0.04425],[0,10,255,0.0456],[0,16,255,0.047],[0,21,255,0.0484],[0,26,255,0.04985],[0,32,255,0.0514],[0,37,255,0.053000000000000005],[0,42,255,0.054599999999999996],[0,48,255,0.056249999999999994],[0,53,255,0.057999999999999996],[0,58,255,0.0598],[0,64,255,0.0616],[0,69,255,0.06345],[0,74,255,0.0654],[0,80,255,0.0674],[0,85,255,0.06945],[0,90,255,0.07155],[0,96,255,0.0737],[0,101,255,0.07595],[0,106,255,0.07830000000000001],[0,112,255,0.0807],[0,117,255,0.08315],[0,122,255,0.0857],[0,128,255,0.08829999999999999],[0,133,255,0.091],[0,138,255,0.0938],[0,144,255,0.09665000000000001],[0,149,255,0.0995],[0,154,255,0.10250000000000001],[0,160,255,0.1055],[0,165,255,0.109],[0,170,255,0.1125],[0,176,255,0.1155],[0,181,255,0.119],[0,186,255,0.123],[0,192,255,0.127],[0,197,255,0.1305],[0,202,255,0.1345],[0,208,255,0.139],[0,213,255,0.143],[0,218,255,0.147],[0,224,255,0.1515],[0,229,255,0.1565],[0,234,255,0.161],[0,240,255,0.1655],[0,245,255,0.17099999999999999],[0,250,255,0.1765],[0,255,255,0.1815],[0,255,247,0.187],[0,255,239,0.193],[0,255,231,0.199],[0,255,223,0.20500000000000002],[0,255,215,0.211],[0,255,207,0.2175],[0,255,199,0.224],[0,255,191,0.2305],[0,255,183,0.238],[0,255,175,0.2455],[0,255,167,0.253],[0,255,159,0.2605],[0,255,151,0.268],[0,255,143,0.2765],[0,255,135,0.28500000000000003],[0,255,127,0.2935],[0,255,119,0.3025],[0,255,111,0.312],[0,255,103,0.3215],[0,255,95,0.331],[0,255,87,0.34099999999999997],[0,255,79,0.3515],[0,255,71,0.3625],[0,255,63,0.3735],[0,255,55,0.385],[0,255,47,0.397],[0,255,39,0.40900000000000003],[0,255,31,0.4215],[0,255,23,0.4345],[0,255,15,0.4475],[0,255,0,0.461],[8,255,0,0.475],[16,255,0,0.4895],[24,255,0,0.5045],[32,255,0,0.52],[40,255,0,0.536],[48,255,0,0.552],[56,255,0,0.5685],[64,255,0,0.586],[72,255,0,0.604],[80,255,0,0.6225],[88,255,0,0.6415],[96,255,0,0.661],[104,255,0,0.681],[112,255,0,0.7015],[120,255,0,0.723],[128,255,0,0.7455],[136,255,0,0.7685],[144,255,0,0.7915000000000001],[152,255,0,0.8155],[160,255,0,0.8405],[168,255,0,0.866],[176,255,0,0.8925000000000001],[184,255,0,0.92],[192,255,0,0.948],[200,255,0,0.9764999999999999],[208,255,0,1.0065],[216,255,0,1.0375],[224,255,0,1.069],[232,255,0,1.1015000000000001],[240,255,0,1.135],[248,255,0,1.1695],[255,255,0,1.2055],[255,251,0,1.2425],[255,247,0,1.2799999999999998],[255,243,0,1.319],[255,239,0,1.3595],[255,235,0,1.4009999999999998],[255,231,0,1.4435],[255,227,0,1.4875],[255,223,0,1.533],[255,219,0,1.5795],[255,215,0,1.6275],[255,211,0,1.6775],[255,207,0,1.729],[255,203,0,1.7814999999999999],[255,199,0,1.8355000000000001],[255,195,0,1.8915],[255,191,0,1.9495],[255,187,0,2.0090000000000003],[255,183,0,2.0700000000000003],[255,179,0,2.133],[255,175,0,2.198],[255,171,0,2.2649999999999997],[255,167,0,2.334],[255,163,0,2.4055],[255,159,0,2.479],[255,155,0,2.5545],[255,151,0,2.6325000000000003],[255,147,0,2.713],[255,143,0,2.7960000000000003],[255,139,0,2.8810000000000002],[255,135,0,2.9684999999999997],[255,131,0,3.059],[255,127,0,3.1525],[255,123,0,3.2485],[255,119,0,3.3475],[255,115,0,3.45],[255,111,0,3.5549999999999997],[255,107,0,3.6630000000000003],[255,103,0,3.775],[255,99,0,3.8905],[255,95,0,4.009],[255,91,0,4.131],[255,87,0,4.257],[255,83,0,4.3870000000000005],[255,79,0,4.521000000000001],[255,75,0,4.659000000000001],[255,71,0,4.801],[255,67,0,4.9475],[255,63,0,5.0985],[255,59,0,5.254],[255,55,0,5.414],[255,51,0,5.579000000000001],[255,47,0,5.7495],[255,43,0,5.925000000000001],[255,39,0,6.1055],[255,35,0,6.2915],[255,31,0,6.4835],[255,27,0,6.681],[255,23,0,6.8845],[255,19,0,7.0945],[255,15,0,7.311],[255,11,0,7.534000000000001],[255,7,0,7.764],[255,3,0,8.001000000000001],[255,0,0,8.245000000000001],[250,0,0,8.496500000000001],[245,0,0,8.755500000000001],[240,0,0,9.0225],[235,0,0,9.2975],[230,0,0,9.581],[225,0,0,9.8735],[220,0,0,10.1745],[215,0,0,10.4845],[210,0,0,10.8045],[205,0,0,11.134],[200,0,0,11.473500000000001],[195,0,0,11.8235],[190,0,0,12.184000000000001],[185,0,0,12.5555],[180,0,0,12.9385],[175,0,0,13.3335],[170,0,0,13.74],[165,0,0,14.158999999999999],[160,0,0,14.591000000000001],[155,0,0,15.036000000000001],[150,0,0,15.4945],[145,0,0,15.967],[140,0,0,16.454],[135,0,0,16.9555],[130,0,0,17.4725],[125,0,0,18.005499999999998],[120,0,0,18.555],[115,0,0,19.121000000000002],[110,0,0,19.704],[105,0,0,20]]}};
+
+    function lookupColormapPixel(layerId, r, g, b) {
+      const cmap = GIBS_COLORMAPS[layerId];
+      if (!cmap || !Array.isArray(cmap.e)) return null;
+      if (!cmap._cache) cmap._cache = new Map();
+      const rgbKey = (r << 16) | (g << 8) | b;
+      const cached = cmap._cache.get(rgbKey);
+      if (cached !== undefined) return cached;
+
+      let bestDist = Infinity;
+      let bestEntry = null;
+      const entries = cmap.e;
+      for (let i = 0; i < entries.length; i++) {
+        const e = entries[i];
+        const dr = r - e[0], dg = g - e[1], db = b - e[2];
+        const d2 = dr * dr + dg * dg + db * db;
+        if (d2 < bestDist) {
+          bestDist = d2;
+          bestEntry = e;
+          if (d2 === 0) break;
+        }
+      }
+      const res = (!bestEntry || bestDist > 42 * 42) ? null : { val: bestEntry[3], units: cmap.u, nodata: bestEntry[3] === null };
+      cmap._cache.set(rgbKey, res);
+      return res;
+    }
+
+    function getSensorTransitionNote(layerKey, year) {
+      if (layerKey === 'seaice' && year < 2003) {
+        return 'Sensor note: Pre-June 2002 uses MODIS Terra Sea Ice classification; June 2002–Oct 2026 uses GHRSST L4 MUR.';
+      }
+      if (layerKey === 'ocean') {
+        if (year < 2003) return 'Sensor note: SeaWiFS GAC Chlorophyll (2000–2002).';
+        if (year < 2018) return 'Sensor note: MODIS Aqua Chlorophyll (2002–2017).';
+        return 'Sensor note: VIIRS NOAA-20 Chlorophyll (2018–2026).';
+      }
+      if (layerKey === 'night' && year >= 2023) {
+        return 'Sensor note: VIIRS NOAA-20 Day/Night Band (Jul 2023–Oct 2026).';
+      }
+      return '';
+    }
+
+    const I18N = {
+      en: {
+        step1: '1. Choose a Track',
+        step2: '2. Listen to Live Pixels',
+        step3: '3. Compare Across Decades',
+        dockTitle: '🎵 EARTH JUKEBOX',
+        captionPrefix: 'What you are hearing: ',
+        langNotice: ''
+      },
+      bn: {
+        step1: '১. একটি ট্র্যাক বাছুন',
+        step2: '২. লাইভ স্যাটেলাইট ধ্বনি শুনুন',
+        step3: '৩. দশকজুড়ে তুলনা করুন',
+        dockTitle: '🎵 আর্থ জুকবক্স',
+        captionPrefix: 'আপনি যা শুনছেন: ',
+        langNotice: ' [বাংলা অনুবাদ পর্যালোচনাধীন / Bangla translation needs native-speaker review]'
+      }
+    };
 
     // Null-safe DOM helpers (prevents missing elements from crashing the script)
     const onClick = (target, fn) => {
@@ -2405,6 +3012,13 @@
       return el;
     };
 
+    function safeStorageGet(key, fallback = null) {
+      try { return window.localStorage.getItem(key) ?? fallback; } catch (e) { return fallback; }
+    }
+    function safeStorageSet(key, val) {
+      try { window.localStorage.setItem(key, val); } catch (e) {}
+    }
+
     // Toast helper
     function toast(msg) {
       const t = $('#toast');
@@ -2415,7 +3029,15 @@
       t._tm = setTimeout(() => t.classList.remove('show'), 3500);
     }
 
-    // Accessible screen-reader announcement + optional speech synthesis
+    function setHearingCaption(msg, show = true) {
+      const el = $('#live-hearing-caption');
+      if (!el) return;
+      const prefix = (I18N[S.lang] || I18N.en).captionPrefix;
+      el.textContent = msg.startsWith(prefix) || msg.startsWith('What you are hearing:') ? msg : `${prefix}${msg}`;
+      el.hidden = !show;
+    }
+
+    // Accessible screen-reader announcement + optional speech synthesis (EN + Bangla fallback)
     function announceLive(msg, speakIfEnabled = false) {
       const live = $('#aria-live-announcer');
       if (live) {
@@ -2428,6 +3050,14 @@
           try {
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(msg);
+            if (S.lang === 'bn') {
+              const voices = window.speechSynthesis.getVoices?.() || [];
+              const bnVoice = voices.find(v => /^bn[-_](BD|IN)/i.test(v.lang)) || voices.find(v => /^bn/i.test(v.lang));
+              if (bnVoice) u.voice = bnVoice;
+              u.lang = bnVoice?.lang || 'bn-BD';
+            } else {
+              u.lang = 'en-US';
+            }
             u.rate = 1.05;
             u.pitch = 1.0;
             window.speechSynthesis.speak(u);
@@ -2474,11 +3104,23 @@
       sel: null,
       unit: 'C',
       telemetryOpen: false,
+      contextOpen: false,
       activeEastTab: 0,
       viewMode: '3d',
       activeLayer: 'modis',
       audioMode: 'frame', // 'frame' (default) vs 'ambient'
       activePreset: null,
+      scaleId: 'c-minor-pent',
+      spatialPan: true,
+      abCompare: false,
+      abYearA: 2003,
+      abYearB: 2026,
+      anomalyMode: false,
+      lowBandwidth: false,
+      lang: 'en',
+      octaveShift: 0,
+      pulseMult: 1.0,
+      demoActive: false,
       speechEnabled: false,
       hapticsEnabled: false,
       highContrast: false,
@@ -2704,6 +3346,8 @@
       activeId: null, // AudioContext stays closed until explicit user gesture
       activeNodes: [],
       currentMasterGain: null,
+      limiter: null,
+      outputNode: null,
       analyser: null,
       dataArray: null,
       volume: 0.5,
@@ -2717,10 +3361,45 @@
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
         this.ctx = new AudioCtx();
+        // P3 Safety & Headroom: Peak limiter (-3 dBFS threshold, 12:1) feeding analyser -> destination
+        this.limiter = this.ctx.createDynamicsCompressor();
+        this.limiter.threshold.value = -3;
+        this.limiter.knee.value = 6;
+        this.limiter.ratio.value = 12;
+        this.limiter.attack.value = 0.003;
+        this.limiter.release.value = 0.15;
+
+        this.outputNode = this.ctx.createGain();
+        this.outputNode.gain.value = 1.0;
+
         this.analyser = this.ctx.createAnalyser();
         this.analyser.fftSize = 256;
         this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+
+        this.outputNode.connect(this.limiter);
+        this.limiter.connect(this.analyser);
         this.analyser.connect(this.ctx.destination);
+      },
+
+      testTone() {
+        this.init();
+        if (!this.ctx) return;
+        const ctx = this.ctx;
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = 440;
+        // -16 dBFS reference (~0.158 amplitude) with smooth 20ms fades
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(this.isMuted ? 0 : 0.158 * this.volume * 2, now + 0.02);
+        g.gain.setValueAtTime(this.isMuted ? 0 : 0.158 * this.volume * 2, now + 0.92);
+        g.gain.linearRampToValueAtTime(0.0001, now + 1.0);
+        osc.connect(g);
+        g.connect(this.outputNode || this.analyser);
+        osc.start(now);
+        osc.stop(now + 1.02);
+        toast('Playing 440 Hz reference test tone (-16 dBFS nominal).');
       },
 
       // Dispatcher for telemetry cards and external callers
@@ -2842,7 +3521,7 @@
 
         const masterGain = this.ctx.createGain();
         masterGain.gain.value = this.isMuted ? 0 : this.volume * 0.8;
-        masterGain.connect(this.analyser);
+        masterGain.connect(this.outputNode || this.analyser);
         this.currentMasterGain = masterGain;
 
         const noiseSource = this.ctx.createBufferSource();
@@ -2904,7 +3583,7 @@
         const speed = REAL_DATA.weather?.current?.wind_speed_10m ?? 14;
         const masterGain = this.ctx.createGain();
         masterGain.gain.value = this.isMuted ? 0 : this.volume * 0.85;
-        masterGain.connect(this.analyser);
+        masterGain.connect(this.outputNode || this.analyser);
         this.currentMasterGain = masterGain;
 
         const noiseSource = this.ctx.createBufferSource();
@@ -2953,7 +3632,7 @@
         const tempC = REAL_DATA.weather?.current?.temperature_2m ?? 26;
         const masterGain = this.ctx.createGain();
         masterGain.gain.value = this.isMuted ? 0 : this.volume * 0.8;
-        masterGain.connect(this.analyser);
+        masterGain.connect(this.outputNode || this.analyser);
         this.currentMasterGain = masterGain;
 
         const roarSource = this.ctx.createBufferSource();
@@ -3014,7 +3693,7 @@
 
         const masterGain = this.ctx.createGain();
         masterGain.gain.value = this.isMuted ? 0 : this.volume * 0.85;
-        masterGain.connect(this.analyser);
+        masterGain.connect(this.outputNode || this.analyser);
         this.currentMasterGain = masterGain;
 
         const noise = this.ctx.createBufferSource();
@@ -3059,7 +3738,7 @@
 
         const masterGain = this.ctx.createGain();
         masterGain.gain.value = this.isMuted ? 0 : this.volume * 0.9;
-        masterGain.connect(this.analyser);
+        masterGain.connect(this.outputNode || this.analyser);
         this.currentMasterGain = masterGain;
 
         const triggerThunderClap = () => {
@@ -3109,7 +3788,7 @@
 
         const masterGain = this.ctx.createGain();
         masterGain.gain.value = this.isMuted ? 0 : this.volume * 0.85;
-        masterGain.connect(this.analyser);
+        masterGain.connect(this.outputNode || this.analyser);
         this.currentMasterGain = masterGain;
 
         const subOsc1 = this.ctx.createOscillator();
@@ -3150,7 +3829,7 @@
 
         const masterGain = this.ctx.createGain();
         masterGain.gain.value = this.isMuted ? 0 : this.volume * 0.7;
-        masterGain.connect(this.analyser);
+        masterGain.connect(this.outputNode || this.analyser);
         this.currentMasterGain = masterGain;
 
         const triggerWhistler = () => {
@@ -3222,6 +3901,7 @@
       lastColIdx: -1,
       lastAudioUpdateMs: 0,
       lastHapticMs: 0,
+      maxCacheEntries: 50,
       frameCache: new Map(),     // Bounded LRU cache of loaded/analyzed frames
       baselineCache: new Map(),  // Year-2000 reference frames for comparison descriptions
       currentFrame: null,
@@ -3309,28 +3989,48 @@
         ctx.textAlign = 'start';
       },
 
-      // Extract deterministic visual features from ImageData (whole frame + 64 vertical columns)
-      extractFeatures(imgData, layerKey = 'modis') {
+      // Extract deterministic visual features from ImageData with cos(latitude) area weighting + GIBS colormap physical lookup
+      extractFeatures(imgData, layerKey = 'modis', bbox = null, layerId = null) {
         const w = imgData.width;
         const h = imgData.height;
         const d = imgData.data;
         const nCols = this.colSlices;
+        const resolvedId = layerId || resolveGIBSConfig(layerKey, TIME_EXPLORER?.currentYear || 2026, TIME_EXPLORER?.currentMonth || 8).layerId;
+        const hasCmap = Boolean(GIBS_COLORMAPS[resolvedId]);
 
         const colStats = Array.from({ length: nCols }, () => ({
-          n: 0, sinSum: 0, cosSum: 0, hueW: 0, lumSum: 0,
-          ocean: 0, iceCloud: 0, veg: 0, fireHeat: 0, gradSum: 0
+          wSum: 0, sinSum: 0, cosSum: 0, hueW: 0, lumSum: 0,
+          ocean: 0, iceCloud: 0, veg: 0, fireHeat: 0, gradSum: 0,
+          physSum: 0, physW: 0, iceExtW: 0, validW: 0, totalAreaW: 0
         }));
 
-        let totN = 0, totSin = 0, totCos = 0, totHueW = 0, totLum = 0;
+        let totW = 0, totSin = 0, totCos = 0, totHueW = 0, totLum = 0;
         let totOcean = 0, totIce = 0, totVeg = 0, totFire = 0, totGrad = 0;
+        let totPhysSum = 0, totPhysW = 0, totIceExtW = 0, totValidW = 0, totAreaW = 0;
+        let physUnit = hasCmap ? GIBS_COLORMAPS[resolvedId].u : '';
+
+        const latTop = Array.isArray(bbox) ? bbox[2] : 60;
+        const latBot = Array.isArray(bbox) ? bbox[0] : -60;
+        const colForX = new Int32Array(w);
+        for (let x = 0; x < w; x++) colForX[x] = Math.min(nCols - 1, Math.floor((x * nCols) / w));
 
         for (let y = 0; y < h; y++) {
           const rowOff = y * w;
+          // cos(lat) equal-area approximation for EPSG:4326 tiles (truncated at >= 0.05 near poles)
+          const rowLat = bbox ? (latTop - ((y + 0.5) / h) * (latTop - latBot)) : 0;
+          const areaW = bbox ? Math.max(0.05, Math.cos(rowLat * D)) : 1.0;
+
           for (let x = 0; x < w; x++) {
+            const cIdx = colForX[x];
+            const cs = colStats[cIdx];
+            cs.totalAreaW += areaW;
+            totAreaW += areaW;
+
             const idx = (rowOff + x) * 4;
             const r = d[idx], g = d[idx + 1], b = d[idx + 2], a = d[idx + 3];
             if (a < 20) continue;
 
+            const isSwathBlack = r < 5 && g < 5 && b < 5;
             const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
             const rn = r / 255, gn = g / 255, bn = b / 255;
             const mx = Math.max(rn, gn, bn), mn = Math.min(rn, gn, bn);
@@ -3345,29 +4045,54 @@
               if (hue < 0) hue += 360;
             }
             const hueRad = hue * D;
-            const hw = 0.15 + sat;
+            const hw = (0.15 + sat) * areaW;
+
+            let physHit = hasCmap ? lookupColormapPixel(resolvedId, r, g, b) : null;
+            let isValidData = !isSwathBlack;
 
             let isIce = false, isFire = false, isVeg = false, isOcean = false;
             if (layerKey === 'seaice') {
-              // Sea ice concentration overlay sits on #072448 (7, 36, 72) open ocean
               const bgDist = Math.abs(r - 7) + Math.abs(g - 36) + Math.abs(b - 72);
               if (bgDist <= 28) {
                 isOcean = true;
+                isValidData = true;
+                physHit = { val: 0, units: '%', nodata: false };
+              } else if (physHit && !physHit.nodata && physHit.val !== null) {
+                isIce = physHit.val >= 15 || mx >= 0.14;
+                isValidData = true;
               } else if (mx >= 0.14) {
-                // False-color sea ice concentration palette represents ice density, never thermal fire
                 isIce = true;
+                isValidData = true;
+              } else {
+                isValidData = !isSwathBlack;
               }
             } else if (layerKey === 'lst') {
-              // MODIS LST monthly palette sits on #061c36 (6, 28, 54); yellow/chartreuse/orange/red = warm/hot land surface
               const bgDist = Math.abs(r - 6) + Math.abs(g - 28) + Math.abs(b - 54);
-              if (bgDist <= 28) {
-                isOcean = true;
+              const isLstFill = Math.abs(r - 64) <= 6 && Math.abs(g - 64) <= 6 && Math.abs(b - 64) <= 6;
+              if (bgDist <= 28 || isLstFill || isSwathBlack) {
+                if (bgDist <= 28) isOcean = true;
+                isValidData = false;
+              } else if (physHit && !physHit.nodata && physHit.val !== null) {
+                isValidData = true;
+                if (physHit.val >= 32) isFire = true;
+                else if (physHit.val <= 0) isIce = true;
               } else if (r > 175 && b < 115 && (g >= 150 || r > g * 1.12)) {
                 isFire = true;
               } else if (b >= r && b > 80) {
                 isOcean = true;
               } else if (lum > 0.72 && sat < 0.28) {
                 isIce = true;
+              }
+            } else if (layerKey === 'ocean') {
+              const bgDist = Math.abs(r - 6) + Math.abs(g - 26) + Math.abs(b - 51);
+              if (bgDist <= 28 || isSwathBlack) {
+                isOcean = bgDist <= 28;
+                isValidData = false;
+              } else {
+                isValidData = !physHit || !physHit.nodata;
+                if (physHit && !physHit.nodata && physHit.val !== null && physHit.val >= 1.0) isVeg = true;
+                else isVeg = g > 48 && g > r * 1.05 && g > b * 1.05;
+                if (!isVeg && b > 40) isOcean = true;
               }
             } else {
               isIce = (lum > 0.68 && sat < 0.28) || (b > 185 && g > 175 && r > 155 && sat < 0.35);
@@ -3376,6 +4101,7 @@
                        (r > 175 && b > 140 && g < 90);
               isVeg = !isFire && g > 48 && g > r * 1.06 && g > b * 1.08;
               isOcean = !isIce && b > 45 && b > r * 1.15 && b >= g * 0.96 && lum < 0.78;
+              isValidData = !isSwathBlack;
             }
 
             // Spatial luminance gradient (deterministic edge density)
@@ -3391,102 +4117,125 @@
               grad += Math.abs(lum - lumD);
             }
 
-            const cIdx = Math.min(nCols - 1, Math.floor((x * nCols) / w));
-            const cs = colStats[cIdx];
-            cs.n++;
+            cs.wSum += areaW;
             cs.sinSum += Math.sin(hueRad) * hw;
             cs.cosSum += Math.cos(hueRad) * hw;
             cs.hueW += hw;
-            cs.lumSum += lum;
-            if (isOcean) cs.ocean++;
-            if (isIce) cs.iceCloud++;
-            if (isVeg) cs.veg++;
-            if (isFire) cs.fireHeat++;
-            cs.gradSum += grad;
+            cs.lumSum += lum * areaW;
+            if (isOcean) cs.ocean += areaW;
+            if (isIce) cs.iceCloud += areaW;
+            if (isVeg) cs.veg += areaW;
+            if (isFire) cs.fireHeat += areaW;
+            cs.gradSum += grad * areaW;
+            if (isValidData) cs.validW += areaW;
+            if (physHit && !physHit.nodata && typeof physHit.val === 'number') {
+              cs.physSum += physHit.val * areaW;
+              cs.physW += areaW;
+              if (layerKey === 'seaice' && physHit.val >= 15) cs.iceExtW += areaW;
+            }
 
-            totN++;
+            totW += areaW;
             totSin += Math.sin(hueRad) * hw;
             totCos += Math.cos(hueRad) * hw;
             totHueW += hw;
-            totLum += lum;
-            if (isOcean) totOcean++;
-            if (isIce) totIce++;
-            if (isVeg) totVeg++;
-            if (isFire) totFire++;
-            totGrad += grad;
+            totLum += lum * areaW;
+            if (isOcean) totOcean += areaW;
+            if (isIce) totIce += areaW;
+            if (isVeg) totVeg += areaW;
+            if (isFire) totFire += areaW;
+            totGrad += grad * areaW;
+            if (isValidData) totValidW += areaW;
+            if (physHit && !physHit.nodata && typeof physHit.val === 'number') {
+              totPhysSum += physHit.val * areaW;
+              totPhysW += areaW;
+              if (layerKey === 'seaice' && physHit.val >= 15) totIceExtW += areaW;
+            }
           }
         }
 
         const finalize = s => {
-          const count = s.n || 1;
+          const weight = s.wSum || 1;
+          const areaTotal = s.totalAreaW || weight;
           let avgHue = (Math.atan2(s.sinSum, s.cosSum) / D);
           if (avgHue < 0) avgHue += 360;
+          const physicalMean = s.physW > 0 ? Number((s.physSum / s.physW).toFixed(2)) : null;
           return {
             avgHue: Number.isFinite(avgHue) ? avgHue : 200,
-            brightness: clamp(s.lumSum / count, 0, 1),
-            oceanFrac: clamp(s.ocean / count, 0, 1),
-            iceCloudFrac: clamp(s.iceCloud / count, 0, 1),
-            vegFrac: clamp(s.veg / count, 0, 1),
-            fireHeatFrac: clamp(s.fireHeat / count, 0, 1),
-            edgeDensity: clamp((s.gradSum / count) / 0.16, 0, 1)
+            brightness: clamp(s.lumSum / weight, 0, 1),
+            oceanFrac: clamp(s.ocean / weight, 0, 1),
+            iceCloudFrac: clamp(s.iceCloud / weight, 0, 1),
+            vegFrac: clamp(s.veg / weight, 0, 1),
+            fireHeatFrac: clamp(s.fireHeat / weight, 0, 1),
+            edgeDensity: clamp((s.gradSum / weight) / 0.16, 0, 1),
+            validCoverageFrac: clamp(s.validW / areaTotal, 0, 1),
+            physicalMean,
+            physicalUnit: physicalMean !== null ? physUnit : '',
+            iceExtent15Frac: layerKey === 'seaice' ? clamp(s.iceExtW / weight, 0, 1) : null,
+            methodTag: (hasCmap && s.physW > 0) ? 'Measured GIBS Colormap' : 'Heuristic Palette Fallback'
           };
         };
 
         const summary = finalize({
-          n: totN, sinSum: totSin, cosSum: totCos, hueW: totHueW,
+          wSum: totW, totalAreaW: totAreaW, sinSum: totSin, cosSum: totCos, hueW: totHueW,
           lumSum: totLum, ocean: totOcean, iceCloud: totIce, veg: totVeg,
-          fireHeat: totFire, gradSum: totGrad
+          fireHeat: totFire, gradSum: totGrad,
+          physSum: totPhysSum, physW: totPhysW, iceExtW: totIceExtW, validW: totValidW
         });
 
-        const columns = colStats.map(cs => (cs.n > 0 ? finalize(cs) : { ...summary }));
+        const columns = colStats.map(cs => (cs.wSum > 0 ? finalize(cs) : { ...summary }));
         return { summary, columns };
       },
 
-      // Deterministic visual-to-audio synthesis parameter mapping (with subtle REAL_DATA nudge)
+      // Deterministic visual-to-audio synthesis parameter mapping (with secondary NASA POWER / Open-Meteo nudge & -16 LUFS staging)
       featuresToParams(feat) {
         const tempC = REAL_DATA.weather?.current?.temperature_2m ?? 18;
+        const powerT2M = REAL_DATA.power?.properties?.parameter?.T2M?.ANN ?? tempC;
+        const powerAnom = clamp(tempC - powerT2M, -6, 6);
         const precip = REAL_DATA.weather?.current?.precipitation ?? 0;
         const pm25 = REAL_DATA.air?.current?.pm2_5 ?? 12;
 
-        // Secondary REAL_DATA nudges (satellite frame stays primary)
+        // Secondary telemetry nudges (satellite frame remains primary driver)
         const tempNudge = clamp((tempC - 15) / 25, -0.15, 0.15);
         const precipNudge = clamp(precip / 8, 0, 0.2);
         const pmNudge = clamp((pm25 - 10) / 80, 0, 0.18);
 
-        // Hue -> quantized C minor pentatonic index
-        const hueNorm = ((feat.avgHue % 360) + 360) % 360 / 360;
-        let noteIdx = Math.round(hueNorm * 9);
+        // Hue -> quantized musical scale index ordered cold-to-warm (240° blue/ice low -> 120° green mid -> 0°/360° red heat high)
+        const scaleMidi = buildScaleMidi(S.scaleId, S.octaveShift);
+        const thermalDeg = (((240 - feat.avgHue) % 360) + 360) % 360;
+        const hueNorm = thermalDeg / 360;
+        let noteIdx = Math.round(hueNorm * (scaleMidi.length - 4));
 
-        // Ice/Ocean pulls register down; heat/fire lifts register up (aligned with Audio Legend)
+        // Ice/Ocean pulls register down; heat/fire lifts register up (matches Audio Legend)
         if (feat.iceCloudFrac + feat.oceanFrac * 0.4 > 0.45) noteIdx -= 2;
         if (feat.fireHeatFrac > 0.06) noteIdx += 3;
         else if (feat.fireHeatFrac > 0.015) noteIdx += 1;
-        noteIdx += Math.round(tempNudge * 4);
-        noteIdx = Math.max(0, Math.min(this.SCALE_MIDI.length - 1, noteIdx));
+        noteIdx += Math.round(tempNudge * 3);
+        noteIdx = Math.max(0, Math.min(scaleMidi.length - 1, noteIdx));
 
-        const midi = this.SCALE_MIDI[noteIdx];
+        const midi = scaleMidi[noteIdx];
         const melodyHz = 440 * Math.pow(2, (midi - 69) / 12);
 
-        // Brightness -> filter cutoff & level
+        // Brightness -> filter cutoff & headroom-safe level (attenuate cleanly when valid coverage < 40%)
         const cutoffHz = clamp(340 + feat.brightness * 3200 + tempNudge * 300 - pmNudge * 400, 260, 4400);
-        const level = clamp(0.38 + feat.brightness * 0.52, 0.25, 0.95);
+        const coverageScale = (feat.validCoverageFrac !== undefined && feat.validCoverageFrac < 0.40) ? 0.48 : 1.0;
+        const level = clamp((0.36 + feat.brightness * 0.48) * coverageScale, 0.18, 0.88);
 
         // Ice / Cloud fraction -> low steady drone vs high shimmering overtone
         const iceWeight = clamp(feat.iceCloudFrac * 0.85 + feat.oceanFrac * 0.35, 0, 1);
         const droneHz = clamp(melodyHz * 0.25, 55, 138);
-        const droneGain = 0.07 + iceWeight * 0.25;
+        const droneGain = 0.06 + iceWeight * 0.22;
         const shimmerHz = clamp(melodyHz * 2.0, 220, 2200);
-        const shimmerGain = 0.02 + clamp((1 - feat.iceCloudFrac) * 0.45 + feat.fireHeatFrac * 0.7 + feat.vegFrac * 0.25, 0, 1) * 0.16;
+        const shimmerGain = 0.018 + clamp((1 - feat.iceCloudFrac) * 0.45 + feat.fireHeatFrac * 0.7 + feat.vegFrac * 0.25, 0, 1) * 0.14;
 
         // Fire / Heat fraction -> detuned oscillator dissonance & rhythmic boost
         const detuneCents = clamp(feat.fireHeatFrac * 42 + pmNudge * 18, 0, 48);
-        const dissonantGain = clamp(feat.fireHeatFrac * 1.4, 0, 0.26);
+        const dissonantGain = clamp(feat.fireHeatFrac * 1.25, 0, 0.22);
 
-        // Edge density -> tempo / pulse rate (0.8 Hz .. 6.0 Hz)
-        const pulseHz = clamp(0.8 + clamp(feat.edgeDensity * 0.75 + feat.fireHeatFrac * 0.65, 0, 1) * 5.2, 0.8, 6.2);
+        // Edge density -> tempo / pulse rate (0.8 .. 6.2 Hz), scaled cleanly by experimental pulse multiplier
+        const pulseHz = clamp((0.8 + clamp(feat.edgeDensity * 0.75 + feat.fireHeatFrac * 0.65, 0, 1) * 5.2) * (S.pulseMult || 1.0), 0.5, 9.0);
 
-        // Soft pad layer warmth
-        const padCutoffHz = clamp(440 + precipNudge * 260 + feat.vegFrac * 340, 380, 960);
+        // Soft pad layer warmth guided gently by NASA POWER climatology anomaly
+        const padCutoffHz = clamp(440 + precipNudge * 240 + feat.vegFrac * 320 + powerAnom * 22, 340, 980);
 
         return {
           melodyHz,
@@ -3499,8 +4248,64 @@
           level,
           detuneCents,
           dissonantGain,
-          pulseHz
+          pulseHz,
+          coverageScale,
+          powerAnom
         };
+      },
+
+      // Fetch single GIBS WMS frame with exponential backoff retry (1 retry)
+      fetchFrameImage(url, attempt = 0) {
+        return new Promise(resolve => {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          let done = false;
+          const finish = async (ok) => {
+            if (done) return;
+            done = true;
+            if (!ok && attempt < 1) {
+              await new Promise(r => setTimeout(r, 1100));
+              const retryRes = await this.fetchFrameImage(url, attempt + 1);
+              resolve(retryRes);
+              return;
+            }
+            resolve({ ok, img: ok ? img : null });
+          };
+          const timer = setTimeout(() => finish(false), 7000);
+          img.onload = () => { clearTimeout(timer); finish(true); };
+          img.onerror = () => { clearTimeout(timer); finish(false); };
+          img.src = url;
+        });
+      },
+
+      // Subtle EONET spatial earcon when scan line crosses an active hazard within BBOX (R2)
+      triggerEonetPing(panVal, isFire = true) {
+        if (!REAL_SOUNDS.ctx || REAL_SOUNDS.isMuted || !S.spatialPan) return;
+        const ctx = REAL_SOUNDS.ctx;
+        const now = ctx.currentTime;
+        if (now - (this._lastEonetPing || 0) < 1.2) return;
+        this._lastEonetPing = now;
+        try {
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          const pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+          osc.type = isFire ? 'triangle' : 'sine';
+          osc.frequency.setValueAtTime(isFire ? 880 : 660, now);
+          osc.frequency.exponentialRampToValueAtTime(isFire ? 1320 : 520, now + 0.14);
+          g.gain.setValueAtTime(0.0001, now);
+          g.gain.linearRampToValueAtTime(0.06 * REAL_SOUNDS.volume, now + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+          osc.connect(g);
+          if (pan) {
+            pan.pan.value = clamp(panVal, -0.9, 0.9);
+            g.connect(pan);
+            pan.connect(REAL_SOUNDS.outputNode || REAL_SOUNDS.analyser);
+          } else {
+            g.connect(REAL_SOUNDS.outputNode || REAL_SOUNDS.analyser);
+          }
+          osc.start(now);
+          osc.stop(now + 0.2);
+        } catch (e) {}
       },
 
       // Load frame (from cache or GIBS WMS) and extract features
@@ -3510,59 +4315,50 @@
         const spec = resolveGIBSConfig(layerKey, year, month);
         const bbox = bboxOverride || this.getCurrentBBox();
         const bboxKey = bbox.map(v => v.toFixed(1)).join(',');
-        const cacheKey = `${spec.layerId}|${spec.time}|${bboxKey}`;
+        const cacheKey = `${spec.layerId}|${spec.time}|${bboxKey}|${S.lowBandwidth ? 'lb' : 'hd'}`;
 
         let entry = this.frameCache.get(cacheKey);
-        if (!entry) {
+        if (entry) {
+          this.frameCache.delete(cacheKey);
+          this.frameCache.set(cacheKey, entry);
+        } else {
           const url = this.buildWMSUrl(spec, bbox);
-          entry = await new Promise(resolve => {
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            let done = false;
-            const finish = (isLive) => {
-              if (done) return;
-              done = true;
-              const ctx = this.offCtx;
-              ctx.clearRect(0, 0, this.width, this.height);
-              ctx.fillStyle = spec.bg || '#050b16';
-              ctx.fillRect(0, 0, this.width, this.height);
-              if (isLive) {
-                try {
-                  ctx.drawImage(img, 0, 0, this.width, this.height);
-                } catch (e) {
-                  isLive = false;
-                }
-              }
-              if (!isLive) {
-                this.drawFallbackFrame(ctx, spec, bbox);
-              }
-              const imgData = ctx.getImageData(0, 0, this.width, this.height);
-              const extracted = this.extractFeatures(imgData, spec.key);
-              const copyCanvas = document.createElement('canvas');
-              copyCanvas.width = this.width;
-              copyCanvas.height = this.height;
-              copyCanvas.getContext('2d').drawImage(this.offCanvas, 0, 0);
-              resolve({
-                cacheKey,
-                spec,
-                bbox,
-                year,
-                month,
-                isLive,
-                canvas: copyCanvas,
-                summary: extracted.summary,
-                columns: extracted.columns
-              });
-            };
+          const { ok, img } = await this.fetchFrameImage(url, 0);
+          let isLive = ok;
+          const ctx = this.offCtx;
+          ctx.clearRect(0, 0, this.width, this.height);
+          ctx.fillStyle = spec.bg || '#050b16';
+          ctx.fillRect(0, 0, this.width, this.height);
+          if (isLive && img) {
+            try {
+              ctx.drawImage(img, 0, 0, this.width, this.height);
+            } catch (e) {
+              isLive = false;
+            }
+          }
+          if (!isLive) {
+            this.drawFallbackFrame(ctx, spec, bbox);
+          }
+          const imgData = ctx.getImageData(0, 0, this.width, this.height);
+          const extracted = this.extractFeatures(imgData, spec.key, bbox, spec.layerId);
+          const copyCanvas = document.createElement('canvas');
+          copyCanvas.width = this.width;
+          copyCanvas.height = this.height;
+          copyCanvas.getContext('2d').drawImage(this.offCanvas, 0, 0);
+          entry = {
+            cacheKey,
+            spec,
+            bbox,
+            year,
+            month,
+            isLive,
+            canvas: copyCanvas,
+            summary: extracted.summary,
+            columns: extracted.columns
+          };
 
-            const timer = setTimeout(() => finish(false), 7000);
-            img.onload = () => { clearTimeout(timer); finish(true); };
-            img.onerror = () => { clearTimeout(timer); finish(false); };
-            img.src = url;
-          });
-
-          // Bounded LRU cache (max 60 frames)
-          if (this.frameCache.size >= 60) {
+          // Bounded LRU cache (max 50 frames)
+          while (this.frameCache.size >= (this.maxCacheEntries || 50)) {
             const oldestKey = this.frameCache.keys().next().value;
             this.frameCache.delete(oldestKey);
           }
@@ -3571,7 +4367,12 @@
 
         if (allowLiveUpdate && reqId === this.liveReqSeq) {
           this.currentFrame = entry;
+          $('#jukebox-controls')?.classList.add('visible');
           this.scanStartTime = this.scanStartTime || performance.now();
+          if (S.abCompare) {
+            this.abFrameA = await this.loadFrame(layerKey, S.abYearA, month, bbox, false);
+            this.abFrameB = await this.loadFrame(layerKey, S.abYearB, month, bbox, false);
+          }
           this.renderFramePreview();
           const params = this.featuresToParams(entry.summary);
           this.currentParams = params;
@@ -3603,7 +4404,110 @@
         }
       },
 
-      // Build continuous Web Audio graph for Frame Sonification (User Gesture only)
+      createVoiceChain(ctx, initialPan = 0) {
+        const panNode = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+        if (panNode) panNode.pan.value = initialPan;
+
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        if (panNode) {
+          masterGain.connect(panNode);
+          panNode.connect(REAL_SOUNDS.outputNode || REAL_SOUNDS.analyser);
+        } else {
+          masterGain.connect(REAL_SOUNDS.outputNode || REAL_SOUNDS.analyser);
+        }
+
+        const mainFilter = ctx.createBiquadFilter();
+        mainFilter.type = 'lowpass';
+        mainFilter.frequency.value = 1400;
+        mainFilter.Q.value = 1.2;
+        mainFilter.connect(masterGain);
+
+        const padFilter = ctx.createBiquadFilter();
+        padFilter.type = 'lowpass';
+        padFilter.frequency.value = 560;
+        const padGain = ctx.createGain();
+        padGain.gain.value = 0.07;
+        padFilter.connect(padGain);
+        padGain.connect(masterGain);
+
+        const padOscs = [130.81, 155.56, 196.0].map(f => {
+          const o = ctx.createOscillator();
+          o.type = 'sine';
+          o.frequency.value = f;
+          o.connect(padFilter);
+          o.start();
+          return o;
+        });
+
+        const droneOsc = ctx.createOscillator();
+        droneOsc.type = 'triangle';
+        droneOsc.frequency.value = 65.4;
+        const droneGain = ctx.createGain();
+        droneGain.gain.value = 0.11;
+        droneOsc.connect(droneGain);
+        droneGain.connect(masterGain);
+        droneOsc.start();
+
+        const pulseVca = ctx.createGain();
+        pulseVca.gain.value = 0.45;
+        pulseVca.connect(mainFilter);
+
+        const pulseLfo = ctx.createOscillator();
+        pulseLfo.type = 'sine';
+        pulseLfo.frequency.value = 1.6;
+        const pulseDepth = ctx.createGain();
+        pulseDepth.gain.value = 0.28;
+        pulseLfo.connect(pulseDepth);
+        pulseDepth.connect(pulseVca.gain);
+        pulseLfo.start();
+
+        const melodyOsc = ctx.createOscillator();
+        melodyOsc.type = 'triangle';
+        melodyOsc.frequency.value = 261.63;
+        const melodyGain = ctx.createGain();
+        melodyGain.gain.value = 0.20;
+        melodyOsc.connect(melodyGain);
+        melodyGain.connect(pulseVca);
+        melodyOsc.start();
+
+        const detuneOsc = ctx.createOscillator();
+        detuneOsc.type = 'sine';
+        detuneOsc.frequency.value = 261.63;
+        detuneOsc.detune.value = 0;
+        const detuneGain = ctx.createGain();
+        detuneGain.gain.value = 0.10;
+        detuneOsc.connect(detuneGain);
+        detuneGain.connect(pulseVca);
+        detuneOsc.start();
+
+        const shimmerOsc = ctx.createOscillator();
+        shimmerOsc.type = 'sine';
+        shimmerOsc.frequency.value = 523.25;
+        const shimmerGain = ctx.createGain();
+        shimmerGain.gain.value = 0.06;
+        shimmerOsc.connect(shimmerGain);
+        shimmerGain.connect(pulseVca);
+        shimmerOsc.start();
+
+        const dissonantOsc = ctx.createOscillator();
+        dissonantOsc.type = 'sine';
+        dissonantOsc.frequency.value = 370;
+        const dissonantGain = ctx.createGain();
+        dissonantGain.gain.value = 0;
+        dissonantOsc.connect(dissonantGain);
+        dissonantGain.connect(pulseVca);
+        dissonantOsc.start();
+
+        return {
+          panNode, masterGain, mainFilter, padFilter, padGain, padOscs,
+          droneOsc, droneGain, pulseVca, pulseLfo, pulseDepth,
+          melodyOsc, melodyGain, detuneOsc, detuneGain,
+          shimmerOsc, shimmerGain, dissonantOsc, dissonantGain
+        };
+      },
+
+      // Build continuous Web Audio graph for Frame Sonification (User Gesture only, -16 LUFS staging + 20ms fades)
       start() {
         REAL_SOUNDS.init();
         if (!REAL_SOUNDS.ctx) return;
@@ -3612,105 +4516,12 @@
 
         if (!this.isPlaying) {
           const isLiveNow = Boolean(this.currentFrame?.isLive);
-          const masterGain = ctx.createGain();
-          masterGain.gain.value = (REAL_SOUNDS.isMuted || !isLiveNow) ? 0 : REAL_SOUNDS.volume * 0.72;
-          masterGain.connect(REAL_SOUNDS.analyser);
-
-          const mainFilter = ctx.createBiquadFilter();
-          mainFilter.type = 'lowpass';
-          mainFilter.frequency.value = 1400;
-          mainFilter.Q.value = 1.2;
-          mainFilter.connect(masterGain);
-
-          // Soft minor triad pad underneath melody (C3, Eb3, G3)
-          const padFilter = ctx.createBiquadFilter();
-          padFilter.type = 'lowpass';
-          padFilter.frequency.value = 560;
-          const padGain = ctx.createGain();
-          padGain.gain.value = 0.09;
-          padFilter.connect(padGain);
-          padGain.connect(masterGain);
-
-          const padOscs = [130.81, 155.56, 196.0].map(f => {
-            const o = ctx.createOscillator();
-            o.type = 'sine';
-            o.frequency.value = f;
-            o.connect(padFilter);
-            o.start();
-            return o;
-          });
-
-          // Low ice/ocean drone
-          const droneOsc = ctx.createOscillator();
-          droneOsc.type = 'triangle';
-          droneOsc.frequency.value = 65.4;
-          const droneGain = ctx.createGain();
-          droneGain.gain.value = 0.14;
-          droneOsc.connect(droneGain);
-          droneGain.connect(masterGain);
-          droneOsc.start();
-
-          // Rhythmic pulse VCA for melody & shimmer
-          const pulseVca = ctx.createGain();
-          pulseVca.gain.value = 0.52;
-          pulseVca.connect(mainFilter);
-
-          const pulseLfo = ctx.createOscillator();
-          pulseLfo.type = 'sine';
-          pulseLfo.frequency.value = 1.6;
-          const pulseDepth = ctx.createGain();
-          pulseDepth.gain.value = 0.34;
-          pulseLfo.connect(pulseDepth);
-          pulseDepth.connect(pulseVca.gain);
-          pulseLfo.start();
-
-          // Primary melody oscillator
-          const melodyOsc = ctx.createOscillator();
-          melodyOsc.type = 'triangle';
-          melodyOsc.frequency.value = 261.63;
-          const melodyGain = ctx.createGain();
-          melodyGain.gain.value = 0.24;
-          melodyOsc.connect(melodyGain);
-          melodyGain.connect(pulseVca);
-          melodyOsc.start();
-
-          // Detuned fire/heat dissonance oscillator
-          const detuneOsc = ctx.createOscillator();
-          detuneOsc.type = 'sine';
-          detuneOsc.frequency.value = 261.63;
-          detuneOsc.detune.value = 0;
-          const detuneGain = ctx.createGain();
-          detuneGain.gain.value = 0.12;
-          detuneOsc.connect(detuneGain);
-          detuneGain.connect(pulseVca);
-          detuneOsc.start();
-
-          // High shimmering overtone (inversely driven by ice/clouds, raised by heat)
-          const shimmerOsc = ctx.createOscillator();
-          shimmerOsc.type = 'sine';
-          shimmerOsc.frequency.value = 523.25;
-          const shimmerGain = ctx.createGain();
-          shimmerGain.gain.value = 0.08;
-          shimmerOsc.connect(shimmerGain);
-          shimmerGain.connect(pulseVca);
-          shimmerOsc.start();
-
-          // Dissonant interval voice for wildfire/heat peaks
-          const dissonantOsc = ctx.createOscillator();
-          dissonantOsc.type = 'sine';
-          dissonantOsc.frequency.value = 370;
-          const dissonantGain = ctx.createGain();
-          dissonantGain.gain.value = 0;
-          dissonantOsc.connect(dissonantGain);
-          dissonantGain.connect(pulseVca);
-          dissonantOsc.start();
-
-          this.nodes = {
-            masterGain, mainFilter, padFilter, padGain, padOscs,
-            droneOsc, droneGain, pulseVca, pulseLfo, pulseDepth,
-            melodyOsc, melodyGain, detuneOsc, detuneGain,
-            shimmerOsc, shimmerGain, dissonantOsc, dissonantGain
-          };
+          this.nodes = this.createVoiceChain(ctx, S.abCompare ? -0.85 : 0);
+          this.abNodes = this.createVoiceChain(ctx, 0.85);
+          const now = ctx.currentTime;
+          const targetVol = (REAL_SOUNDS.isMuted || !isLiveNow) ? 0.0001 : Math.max(0.0001, REAL_SOUNDS.volume * 0.48);
+          this.nodes.masterGain.gain.linearRampToValueAtTime(targetVol, now + 0.02);
+          this.abNodes.masterGain.gain.linearRampToValueAtTime(S.abCompare ? targetVol : 0.0001, now + 0.02);
         }
 
         this.isPlaying = true;
@@ -3727,19 +4538,38 @@
         }
       },
 
+      stopChain(n, delayMs = 25) {
+        if (!n) return;
+        try {
+          if (REAL_SOUNDS.ctx) {
+            const now = REAL_SOUNDS.ctx.currentTime;
+            n.masterGain.gain.cancelScheduledValues(now);
+            n.masterGain.gain.setTargetAtTime(0.0001, now, 0.008);
+          }
+          setTimeout(() => {
+            try {
+              n.padOscs.forEach(o => o.stop());
+              n.droneOsc.stop();
+              n.pulseLfo.stop();
+              n.melodyOsc.stop();
+              n.detuneOsc.stop();
+              n.shimmerOsc.stop();
+              n.dissonantOsc.stop();
+              n.masterGain.disconnect();
+              n.panNode?.disconnect();
+            } catch (e) {}
+          }, delayMs);
+        } catch (e) {}
+      },
+
       stop(fromRealSounds = false) {
         if (this.nodes) {
-          try {
-            this.nodes.padOscs.forEach(o => o.stop());
-            this.nodes.droneOsc.stop();
-            this.nodes.pulseLfo.stop();
-            this.nodes.melodyOsc.stop();
-            this.nodes.detuneOsc.stop();
-            this.nodes.shimmerOsc.stop();
-            this.nodes.dissonantOsc.stop();
-            this.nodes.masterGain.disconnect();
-          } catch (e) {}
+          this.stopChain(this.nodes);
           this.nodes = null;
+        }
+        if (this.abNodes) {
+          this.stopChain(this.abNodes);
+          this.abNodes = null;
         }
         this.isPlaying = false;
         this.updateSonifyButtonUI();
@@ -3762,48 +4592,74 @@
         if (!this.nodes || !REAL_SOUNDS.ctx) return;
         const lvl = this.currentParams?.level ?? 0.65;
         const isLive = Boolean(this.currentFrame?.isLive);
-        const target = (REAL_SOUNDS.isMuted || !isLive) ? 0 : REAL_SOUNDS.volume * 0.75 * lvl;
-        this.nodes.masterGain.gain.setTargetAtTime(target, REAL_SOUNDS.ctx.currentTime, 0.05);
+        const baseTarget = (REAL_SOUNDS.isMuted || !isLive) ? 0 : REAL_SOUNDS.volume * 0.48 * lvl;
+        const target = S.abCompare ? baseTarget * 0.72 : baseTarget;
+        this.nodes.masterGain.gain.setTargetAtTime(target, REAL_SOUNDS.ctx.currentTime, 0.04);
+        if (this.abNodes) {
+          const abLive = S.abCompare && Boolean(this.abFrameB?.isLive);
+          this.abNodes.masterGain.gain.setTargetAtTime(abLive ? target : 0, REAL_SOUNDS.ctx.currentTime, 0.04);
+        }
       },
 
-      // Smooth parameter gliding via setTargetAtTime (zero abrupt jumps); mutes cleanly when offline
-      applyParams(params) {
-        this.currentParams = params;
-        const isLive = Boolean(this.currentFrame?.isLive);
-        if (!isLive) {
-          setText('#jukebox-sound-metrics', 'Offline — NASA GIBS frame unavailable · Audio muted (no synthetic data sound)');
-        } else {
-          setText('#jukebox-sound-metrics',
-            `Pitch: ${params.melodyHz.toFixed(1)} Hz · Pulse: ${params.pulseHz.toFixed(1)} Hz · Ice/Cloud: ${Math.round((this.currentFrame?.summary.iceCloudFrac || 0) * 100)}% · Fire/Heat: ${Math.round((this.currentFrame?.summary.fireHeatFrac || 0) * 100)}%`
-          );
-        }
-        if (!this.nodes || !REAL_SOUNDS.ctx) return;
-        const now = REAL_SOUNDS.ctx.currentTime;
+      applyVoiceParams(n, params, now, isLive, gainScale = 1.0, panOverride = null) {
+        if (!n) return;
         const tc = 0.09;
-        const n = this.nodes;
-
-        const targetMaster = (REAL_SOUNDS.isMuted || !isLive) ? 0 : REAL_SOUNDS.volume * 0.75 * params.level;
+        const targetMaster = (REAL_SOUNDS.isMuted || !isLive) ? 0 : REAL_SOUNDS.volume * 0.48 * params.level * gainScale;
         n.masterGain.gain.setTargetAtTime(targetMaster, now, tc);
         n.mainFilter.frequency.setTargetAtTime(params.cutoffHz, now, tc);
         n.padFilter.frequency.setTargetAtTime(params.padCutoffHz, now, tc);
-
         n.melodyOsc.frequency.setTargetAtTime(params.melodyHz, now, tc);
         n.detuneOsc.frequency.setTargetAtTime(params.melodyHz, now, tc);
         n.detuneOsc.detune.setTargetAtTime(params.detuneCents, now, tc);
-
         n.droneOsc.frequency.setTargetAtTime(params.droneHz, now, tc);
         n.droneGain.gain.setTargetAtTime(params.droneGain, now, tc);
-
         n.shimmerOsc.frequency.setTargetAtTime(params.shimmerHz, now, tc);
         n.shimmerGain.gain.setTargetAtTime(params.shimmerGain, now, tc);
-
         n.dissonantOsc.frequency.setTargetAtTime(clamp(params.melodyHz * 1.414, 60, 4000), now, tc);
         n.dissonantGain.gain.setTargetAtTime(params.dissonantGain, now, tc);
-
         n.pulseLfo.frequency.setTargetAtTime(params.pulseHz, now, tc);
+        if (n.panNode && panOverride !== null) {
+          n.panNode.pan.setTargetAtTime(panOverride, now, tc);
+        }
       },
 
-      // Update scan line sweep (~8 seconds left-to-right) and drive audio from active column
+      // Smooth parameter gliding via setTargetAtTime (zero abrupt jumps); mutes cleanly when offline
+      applyParams(params, abParamsB = null) {
+        this.currentParams = params;
+        const isLive = Boolean(this.currentFrame?.isLive);
+        const s = this.currentFrame?.summary;
+        const langNotice = (I18N[S.lang] || I18N.en).langNotice || '';
+        if (!isLive) {
+          const msg = 'Offline — NASA GIBS frame unavailable · Audio muted (no synthetic data sound)';
+          setText('#jukebox-sound-metrics', msg);
+          setHearingCaption(msg + langNotice, this.isPlaying || S.demoActive);
+        } else {
+          const physStr = s?.physicalMean !== null && s?.physicalMean !== undefined ? ` · Physical Mean: ${s.physicalMean} ${s.physicalUnit}` : '';
+          const lowCovStr = (s?.validCoverageFrac !== undefined && s.validCoverageFrac < 0.40) ? ` · LOW COVERAGE (${Math.round(s.validCoverageFrac * 100)}%)` : '';
+          const abStr = S.abCompare ? ` · Stereo A/B (${S.abYearA} L / ${S.abYearB} R)` : '';
+          const metricStr = `Pitch: ${params.melodyHz.toFixed(1)} Hz · Pulse: ${params.pulseHz.toFixed(1)} Hz · Ice/Cloud: ${Math.round((s?.iceCloudFrac || 0) * 100)}% · Fire/Heat: ${Math.round((s?.fireHeatFrac || 0) * 100)}%${physStr}${lowCovStr}${abStr}`;
+          setText('#jukebox-sound-metrics', metricStr);
+          setHearingCaption(`${this.currentFrame.spec.shortName} (${MONTHS_SHORT[this.currentFrame.month - 1]} ${this.currentFrame.year}) — ${metricStr}${langNotice}`, this.isPlaying || S.demoActive);
+        }
+        if (!this.nodes || !REAL_SOUNDS.ctx) return;
+        const now = REAL_SOUNDS.ctx.currentTime;
+
+        if (S.abCompare) {
+          const frameA = this.abFrameA || this.currentFrame;
+          const frameB = this.abFrameB || this.currentFrame;
+          const colIdx = Math.max(0, Math.min(this.colSlices - 1, this.lastColIdx));
+          const paramsA = this.featuresToParams((frameA?.columns?.[colIdx]) || frameA?.summary || this.currentFrame.summary);
+          const paramsB = abParamsB || this.featuresToParams((frameB?.columns?.[colIdx]) || frameB?.summary || this.currentFrame.summary);
+          this.applyVoiceParams(this.nodes, paramsA, now, Boolean(frameA?.isLive), 0.72, -0.85);
+          this.applyVoiceParams(this.abNodes, paramsB, now, Boolean(frameB?.isLive), 0.72, 0.85);
+        } else {
+          const panVal = (S.spatialPan && this.scanEnabled) ? (clamp(this.scanProgress, 0, 1) * 1.8 - 0.9) : 0;
+          this.applyVoiceParams(this.nodes, params, now, isLive, 1.0, panVal);
+          if (this.abNodes) this.abNodes.masterGain.gain.setTargetAtTime(0, now, 0.05);
+        }
+      },
+
+      // Update scan line sweep (~8 seconds left-to-right) and drive audio + EONET spatial earcons
       tickScan(nowMs) {
         if (!this.currentFrame) return;
 
@@ -3817,8 +4673,28 @@
             this.lastAudioUpdateMs = nowMs;
             const colFeat = this.currentFrame.columns[colIdx] || this.currentFrame.summary;
             const params = this.featuresToParams(colFeat);
-            this.applyParams(params);
             this.lastColIdx = colIdx;
+            const abBFeat = (S.abCompare && this.abFrameB?.columns?.[colIdx]) ? this.abFrameB.columns[colIdx] : null;
+            const abBParams = abBFeat ? this.featuresToParams(abBFeat) : null;
+            this.applyParams(params, abBParams);
+
+            // R2: Check if scan line crosses an active NASA EONET hazard longitude within the visible bbox
+            if (this.currentFrame.isLive && Array.isArray(REAL_DATA.eonet) && REAL_DATA.eonet.length && Array.isArray(this.currentFrame.bbox)) {
+              const [minLat, minLon, maxLat, maxLon] = this.currentFrame.bbox;
+              const lonSpan = maxLon - minLon;
+              if (lonSpan > 1) {
+                const scanLon = minLon + this.scanProgress * lonSpan;
+                const tol = lonSpan / 32;
+                const hit = REAL_DATA.eonet.find(ev => {
+                  const c = ev.geometry?.[0]?.coordinates;
+                  return c && c[1] >= minLat && c[1] <= maxLat && Math.abs(c[0] - scanLon) <= tol;
+                });
+                if (hit) {
+                  const isFire = /fire/i.test(hit.categories?.[0]?.title || '');
+                  this.triggerEonetPing(this.scanProgress * 1.8 - 0.9, isFire);
+                }
+              }
+            }
 
             // Optional rhythmic haptic pulse synced to pulseHz (live GIBS frames only)
             if (this.currentFrame.isLive && S.hapticsEnabled && 'vibrate' in navigator) {
@@ -3834,14 +4710,31 @@
         }
       },
 
-      // Render satellite frame + visible vertical scan line overlay onto #jukebox-frame-canvas
+      // Render satellite frame (or A/B Stereo Split View) + vertical scan line overlay onto #jukebox-frame-canvas
       renderFramePreview() {
         const cv = $('#jukebox-frame-canvas');
         if (!cv || !this.currentFrame) return;
         const ctx = cv.getContext('2d');
         const w = cv.width, h = cv.height;
         ctx.clearRect(0, 0, w, h);
-        ctx.drawImage(this.currentFrame.canvas, 0, 0, w, h);
+
+        if (S.abCompare && this.abFrameA?.canvas && this.abFrameB?.canvas) {
+          const half = Math.floor(w / 2);
+          ctx.drawImage(this.abFrameA.canvas, 0, 0, half, h, 0, 0, half, h);
+          ctx.drawImage(this.abFrameB.canvas, half, 0, w - half, h, half, 0, w - half, h);
+          ctx.strokeStyle = '#ffc069';
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(half, 0); ctx.lineTo(half, h); ctx.stroke();
+          ctx.fillStyle = 'rgba(0,0,0,0.75)';
+          ctx.fillRect(4, 4, 42, 16);
+          ctx.fillRect(w - 46, 4, 42, 16);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText(String(S.abYearA), 8, 16);
+          ctx.fillText(String(S.abYearB), w - 42, 16);
+        } else {
+          ctx.drawImage(this.currentFrame.canvas, 0, 0, w, h);
+        }
 
         if (this.scanEnabled) {
           const x = clamp(this.scanProgress, 0, 1) * w;
@@ -3849,7 +4742,7 @@
           ctx.fillStyle = 'rgba(63, 208, 255, 0.18)';
           ctx.fillRect(Math.max(0, x - colW * 0.5), 0, colW, h);
 
-          ctx.strokeStyle = this.isPlaying ? '#5ce1a8' : '#3fd0ff';
+          ctx.strokeStyle = this.isPlaying ? '#66ebb5' : '#4dd8ff';
           ctx.lineWidth = 2.5;
           ctx.beginPath();
           ctx.moveTo(x, 0);
@@ -3858,12 +4751,13 @@
         }
 
         const isLive = Boolean(this.currentFrame.isLive);
+        const lowCov = isLive && this.currentFrame.summary?.validCoverageFrac < 0.40;
         const wrap = cv.closest('.jb-canvas-wrap');
         if (wrap) wrap.classList.toggle('jb-frame-offline', !isLive);
 
-        const badge = $('#jukebox-frame-badge');
+        const badge = $('#live-gibs-badge') || $('#jukebox-frame-badge');
         if (badge) {
-          badge.textContent = `${this.currentFrame.spec.shortName} · ${isLive ? 'LIVE GIBS' : 'OFFLINE — MUTED'}`;
+          badge.textContent = `${this.currentFrame.spec.shortName} · ${!isLive ? 'OFFLINE — MUTED' : lowCov ? `LOW COVERAGE (${Math.round(this.currentFrame.summary.validCoverageFrac * 100)}%)` : 'LIVE GIBS'}`;
         }
         if (!isLive) {
           setText('#jukebox-sound-metrics', 'Offline — NASA GIBS frame unavailable · Audio muted (no synthetic data sound)');
@@ -3898,6 +4792,10 @@
         evidenceMetric: 'iceCloudFrac',
         evidenceLabel: 'Sep GHRSST sea ice cover (68°–86°N)',
         lastMeasuredEvidence: null,
+        eic: EIC_LINKS['arctic-ice'],
+        why: 'Polar sea ice reflects incoming sunlight and stabilizes global ocean circulation.',
+        how: 'GHRSST MUR Sea Ice XML colormap lookup with cos(latitude) equal-area weighting.',
+        hear: 'Deep polar drone fades as ocean darkens; high shimmer & pelagic pitch lift during melt.',
         story: 'Compare September Arctic sea ice imagery from 2000 to 2026 as open ocean shifts deep polar drones into higher pelagic tones.'
       },
       'global-temp': {
@@ -3915,6 +4813,10 @@
         evidenceMetric: 'fireHeatFrac',
         evidenceLabel: 'Jul warm/hot thermal band fraction',
         lastMeasuredEvidence: null,
+        eic: EIC_LINKS['global-temp'],
+        why: 'Continental surface temperature shifts alter heatwave stress, crop zones, and permafrost.',
+        how: 'MODIS Land Surface Temperature XML Kelvin-to-Celsius conversion + POWER T2M warmup.',
+        hear: 'Lowland warmth lifts filter cutoff and pitch across major/minor scale intervals.',
         story: 'Hear Earth\'s land surface thermal contrast across decades (2000–2026) as cool polar tones rise into hotter continental harmonies.'
       },
       'wildfires': {
@@ -3932,6 +4834,10 @@
         evidenceMetric: 'fireHeatFrac',
         evidenceLabel: 'Sep active fire/heat pixel fraction',
         lastMeasuredEvidence: null,
+        eic: EIC_LINKS['wildfires'],
+        why: 'Intense wildfire seasons release plumes of smoke, carbon, and sudden ecosystem disruption.',
+        how: 'MODIS Thermal Anomalies overlay + luminance gradient edge detector + EONET longitude pings.',
+        hear: 'Thermal hotspots add beating detuned oscillators and brisk rhythmic pulses at fire fronts.',
         story: 'Active wildfire hotspots inject urgent rhythmic pulses and detuned overtones when the scan line crosses glowing red thermal anomalies.'
       },
       'ocean-color': {
@@ -3949,6 +4855,10 @@
         evidenceMetric: 'vegFrac',
         evidenceLabel: 'Jun emerald chlorophyll bloom fraction',
         lastMeasuredEvidence: null,
+        eic: EIC_LINKS['ocean-color'],
+        why: 'Marine phytoplankton blooms drive roughly half of Earth\'s photosynthetic carbon fixation.',
+        how: 'VIIRS / MODIS / SeaWiFS Chlorophyll-a XML mg/m³ lookup over North Atlantic waters.',
+        hear: 'Clear open water settles in cool low intervals while emerald blooms brighten the pad and melody.',
         story: 'Swirling North Atlantic phytoplankton blooms shift blue water toward vibrant emerald, lifting the melody through verdant minor harmonies.'
       }
     };
@@ -4140,19 +5050,28 @@
       }
     };
 
-    /* ---------- DYNAMIC TEXT DESCRIPTION GENERATOR (TASK 4) ---------- */
+    /* ---------- DYNAMIC TEXT DESCRIPTION GENERATOR (TASK 4 + V1/V5/P1/R1) ---------- */
     function updateFrameTextDescription(entry, params) {
       const el = $('#jukebox-text-desc');
       if (!el || !entry) return;
 
       const s = entry.summary;
       const monthName = MONTHS_FULL[entry.month - 1];
-      const regionLabel = S.activePreset && PRESET_TRACKS[S.activePreset]
-        ? PRESET_TRACKS[S.activePreset].regionName
-        : (S.sel ? S.sel.name : 'Visible Earth frame');
+      const activePreset = S.activePreset && PRESET_TRACKS[S.activePreset] ? PRESET_TRACKS[S.activePreset] : null;
+      const regionLabel = activePreset ? activePreset.regionName : (S.sel ? S.sel.name : 'Visible Earth frame');
+      const sensorNote = getSensorTransitionNote(entry.spec.key, entry.year);
+      const eic = activePreset?.eic || EIC_LINKS.default;
+
+      if (activePreset) {
+        setText('#triad-why', activePreset.why);
+        setText('#triad-how', `${activePreset.how} [${s.methodTag || 'Deterministic'}]`);
+        setText('#triad-hear', activePreset.hear);
+      }
 
       if (!entry.isLive) {
-        el.textContent = `${monthName} ${entry.year}, ${regionLabel} (${entry.spec.shortName}): Live NASA GIBS imagery unavailable or blocked offline. Audio sonification and WAV export are muted so synthetic pixels are never mistaken for Earth observations.`;
+        const offText = `${monthName} ${entry.year}, ${regionLabel} (${entry.spec.shortName}): Live NASA GIBS imagery unavailable or blocked offline. Audio sonification and WAV export are muted so synthetic pixels are never mistaken for Earth observations.`;
+        el.textContent = offText;
+        setHearingCaption('Offline — NASA GIBS frame unavailable · Audio muted.', S.demoActive || FRAME_SONIFIER.isPlaying);
         return;
       }
 
@@ -4160,6 +5079,7 @@
       const oceanPct = Math.round(s.oceanFrac * 100);
       const vegPct = Math.round(s.vegFrac * 100);
       const firePct = Math.round(s.fireHeatFrac * 100);
+      const covPct = Math.round((s.validCoverageFrac ?? 1) * 100);
 
       // Baseline comparison vs year 2000 same month when cached (live frames only)
       const bboxKey = entry.bbox.map(v => v.toFixed(1)).join(',');
@@ -4180,15 +5100,19 @@
         }
       }
 
+      const physClause = (s.physicalMean !== null && s.physicalMean !== undefined)
+        ? ` · Colormap mean: ${s.physicalMean} ${s.physicalUnit}`
+        : '';
+
       let featureDesc = '';
       if (entry.spec.key === 'seaice') {
-        featureDesc = `sea ice covers about ${icePct}% of the visible area${comparisonPhrase} (open ocean ${oceanPct}%)`;
+        featureDesc = `sea ice covers about ${icePct}% of the visible area${comparisonPhrase} (open ocean ${oceanPct}%${physClause})`;
       } else if (entry.spec.key === 'thermal') {
         featureDesc = `thermal heat/fire covers ${firePct}% of the frame${comparisonPhrase}, vegetation ${vegPct}%, cloud/ice ${icePct}%`;
       } else if (entry.spec.key === 'lst') {
-        featureDesc = `warm/hot thermal bands cover ${firePct}% of the frame${comparisonPhrase}, cool zones ${oceanPct}%`;
+        featureDesc = `warm/hot thermal bands cover ${firePct}% of the frame${comparisonPhrase}, cool zones ${oceanPct}%${physClause}`;
       } else if (entry.spec.key === 'ocean') {
-        featureDesc = `chlorophyll blooms cover ${vegPct}% of the frame, blue ocean ${oceanPct}%`;
+        featureDesc = `chlorophyll blooms cover ${vegPct}% of the frame, blue ocean ${oceanPct}%${physClause}`;
       } else {
         featureDesc = `ocean covers ${oceanPct}%, ice/cloud ${icePct}%, vegetation ${vegPct}%${firePct > 0 ? `, heat/fire ${firePct}%` : ''}`;
       }
@@ -4202,7 +5126,16 @@
       FRAME_SONIFIER.prevPitchHz = params.melodyHz;
 
       const rhythmDesc = params.pulseHz < 2.0 ? 'slow' : params.pulseHz < 3.8 ? 'moderate' : 'fast';
-      el.textContent = `${monthName} ${entry.year}, ${regionLabel} (${entry.spec.shortName}): ${featureDesc}. Sound: pitch is ${pitchTrend} (${params.melodyHz.toFixed(0)} Hz), rhythm is ${rhythmDesc} (${params.pulseHz.toFixed(1)} Hz).`;
+      const covWarn = covPct < 40 ? ` · Low valid-data coverage (${covPct}% < 40%, level attenuated).` : ` · Valid coverage: ${covPct}%.`;
+      const methodBadge = `[${s.methodTag || 'Deterministic'}]`;
+      const powerClause = (REAL_DATA.power && Number.isFinite(params.powerAnom))
+        ? ` · NASA POWER pad anom: ${params.powerAnom >= 0 ? '+' : ''}${params.powerAnom.toFixed(1)}°C.`
+        : '';
+
+      el.innerHTML = `${monthName} ${entry.year}, ${regionLabel} (${entry.spec.shortName} ${methodBadge}): ${featureDesc}. Sound: pitch is ${pitchTrend} (${params.melodyHz.toFixed(0)} Hz, ${(SCALES[S.scaleId] || SCALES['c-minor-pent']).name}), rhythm is ${rhythmDesc} (${params.pulseHz.toFixed(1)} Hz).${covWarn}${powerClause} ${sensorNote ? `<span style="color:var(--amber)">${sensorNote}</span> ` : ''}<a href="${eic.url}" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">${eic.label} ↗</a>`;
+
+      setHearingCaption(`${monthName} ${entry.year} ${regionLabel}: ${featureDesc} — Pitch ${params.melodyHz.toFixed(0)} Hz (${pitchTrend}), Pulse ${params.pulseHz.toFixed(1)} Hz.`, FRAME_SONIFIER.isPlaying || S.demoActive);
+      syncDeepLink();
     }
 
     /* ---------- MODE SWITCH & PRESET TRACK LOADER ---------- */
@@ -4272,14 +5205,42 @@
         year: item.year,
         pct: Math.round((item.entry.summary[p.evidenceMetric] || 0) * 100)
       }));
+      const mean = points.reduce((a, b) => a + b.pct, 0) / points.length;
+      const sd = Math.sqrt(points.reduce((a, b) => a + (b.pct - mean) ** 2, 0) / points.length) || 1;
+      const flagged = points.map(pt => ({ ...pt, z: (pt.pct - mean) / sd }));
+      const anomYears = flagged.filter(pt => Math.abs(pt.z) >= 1.4).map(pt => `${pt.year}(z=${pt.z >= 0 ? '+' : ''}${pt.z.toFixed(1)})`);
+
       const first = points[0];
       const last = points[points.length - 1];
       const delta = last.pct - first.pct;
       const sign = delta > 0 ? '+' : '';
       const series = points.map(pt => `${pt.year}: ${pt.pct}%`).join(' → ');
-      const line = `Computed from live GIBS (${p.evidenceLabel}): ${series} (${first.year}–${last.year} change: ${sign}${delta} pp)`;
+      const anomSuffix = anomYears.length ? ` · Outliers: ${anomYears.join(', ')}` : '';
+      const line = `Computed from live GIBS (${p.evidenceLabel}): ${series} (${first.year}–${last.year} change: ${sign}${delta} pp)${anomSuffix}`;
       p.lastMeasuredEvidence = line;
       setText('#jukebox-preset-evidence', line);
+
+      if (S.anomalyMode && REAL_SOUNDS.ctx && !REAL_SOUNDS.isMuted) {
+        flagged.forEach((pt, idx) => {
+          setTimeout(() => {
+            if (!S.anomalyMode || !REAL_SOUNDS.ctx || REAL_SOUNDS.isMuted) return;
+            const ctx = REAL_SOUNDS.ctx;
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            const isOutlier = Math.abs(pt.z) >= 1.4;
+            osc.type = isOutlier ? 'square' : 'sine';
+            osc.frequency.value = isOutlier ? (pt.z > 0 ? 880 : 220) : 440;
+            g.gain.setValueAtTime(0.0001, now);
+            g.gain.linearRampToValueAtTime(isOutlier ? 0.14 : 0.05, now + 0.02);
+            g.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+            osc.connect(g);
+            g.connect(REAL_SOUNDS.outputNode || REAL_SOUNDS.analyser);
+            osc.start(now);
+            osc.stop(now + 0.25);
+          }, idx * 280);
+        });
+      }
     }
 
     async function loadPresetTrack(presetId) {
@@ -4287,6 +5248,7 @@
       if (!p) return;
       cancelAudioLegend();
       S.activePreset = presetId;
+      openDualWingHUD();
       $('#hud-onboarding-cue')?.classList.add('hidden');
 
       $$('.jb-preset-btn').forEach(b => b.classList.toggle('active', b.dataset.preset === presetId));
@@ -4329,7 +5291,7 @@
         g.gain.setValueAtTime(0.001, now);
         g.gain.linearRampToValueAtTime(REAL_SOUNDS.isMuted ? 0 : REAL_SOUNDS.volume * 0.55, now + 0.08);
         g.gain.setTargetAtTime(0.0001, now + durSec - 0.18, 0.06);
-        g.connect(REAL_SOUNDS.analyser);
+        g.connect(REAL_SOUNDS.outputNode || REAL_SOUNDS.analyser);
 
         const osc = ctx.createOscillator();
         osc.type = pulseRate > 0 ? 'triangle' : 'sine';
@@ -4474,12 +5436,20 @@
       const sampleRate = 44100;
       const offCtx = new OfflineCtx(1, sampleRate * durationSec, sampleRate);
 
+      const offLimiter = offCtx.createDynamicsCompressor();
+      offLimiter.threshold.value = -3;
+      offLimiter.knee.value = 6;
+      offLimiter.ratio.value = 12;
+      offLimiter.attack.value = 0.003;
+      offLimiter.release.value = 0.15;
+      offLimiter.connect(offCtx.destination);
+
       const masterGain = offCtx.createGain();
       masterGain.gain.setValueAtTime(0.0001, 0);
-      masterGain.gain.linearRampToValueAtTime(0.72, 0.08);
-      masterGain.gain.setValueAtTime(0.72, durationSec - 0.8);
+      masterGain.gain.linearRampToValueAtTime(0.48, 0.04);
+      masterGain.gain.setValueAtTime(0.48, durationSec - 0.8);
       masterGain.gain.linearRampToValueAtTime(0.0001, durationSec);
-      masterGain.connect(offCtx.destination);
+      masterGain.connect(offLimiter);
 
       const mainFilter = offCtx.createBiquadFilter();
       mainFilter.type = 'lowpass';
@@ -4815,16 +5785,21 @@
     /* ---------- DUAL-WING HUD CONTROLS (SMOOTH FLYOUT FROM CENTER) ---------- */
     function openDualWingHUD() {
       S.telemetryOpen = true;
+      document.body.classList.add('telemetry-active');
       $('#hud-deck-west')?.classList.add('active');
       $('#hud-deck-east')?.classList.add('active');
+      $('#jukebox-controls')?.classList.add('visible');
       $('#hud-onboarding-cue')?.classList.add('hidden');
       $('#hud-return-btn')?.classList.add('visible');
+      updateGlobeMarkers();
     }
 
     function closeDualWingHUD() {
       S.telemetryOpen = false;
+      document.body.classList.remove('telemetry-active');
       $('#hud-deck-west')?.classList.remove('active');
       $('#hud-deck-east')?.classList.remove('active');
+      $('#jukebox-controls')?.classList.remove('visible');
       $('#hud-onboarding-cue')?.classList.remove('hidden');
       $('#hud-return-btn')?.classList.remove('visible');
 
@@ -4837,8 +5812,8 @@
       if (globeInstance) {
         globeInstance.pointOfView({ lat: 20, lng: 0, altitude: 2.5 }, S.reduceMotion ? 0 : 1200);
         globeInstance.controls().autoRotate = !S.reduceMotion;
-        updateGlobeMarkers();
       }
+      updateGlobeMarkers();
     }
 
     /* ---------- SELECT COORDINATES HANDLER ---------- */
@@ -5158,22 +6133,38 @@
       });
     }
 
-    /* ---------- TAB SWITCHING (EAST WING) ---------- */
-    $$('.east-tab').forEach(tab => {
-      onClick(tab, () => {
-        $$('.east-tab').forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        const idx = +tab.dataset.tab;
-        S.activeEastTab = idx;
-        for (let i = 0; i < 4; i++) {
-          const p = $(`#epanel-${i}`);
-          if (p) p.style.display = i === idx ? 'block' : 'none';
-        }
-        if (idx === 2) drawAudioViz();
+    /* ---------- TAB SWITCHING (EAST WING WITH WCAG ROVING TABINDEX) ---------- */
+    const eastTabs = $$('.east-tab');
+    function activateEastTab(tab) {
+      if (!tab) return;
+      eastTabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      const idx = +tab.dataset.tab;
+      S.activeEastTab = idx;
+      for (let i = 0; i < 4; i++) {
+        const p = $(`#epanel-${i}`);
+        if (p) p.style.display = i === idx ? 'block' : 'none';
+      }
+      if (idx === 2) drawAudioViz();
+    }
+    eastTabs.forEach((tab, i) => {
+      onClick(tab, () => activateEastTab(tab));
+      onEvent(tab, 'keydown', e => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+        e.preventDefault();
+        let nextIdx = i;
+        if (e.key === 'ArrowRight') nextIdx = (i + 1) % eastTabs.length;
+        else if (e.key === 'ArrowLeft') nextIdx = (i - 1 + eastTabs.length) % eastTabs.length;
+        else if (e.key === 'Home') nextIdx = 0;
+        else if (e.key === 'End') nextIdx = eastTabs.length - 1;
+        activateEastTab(eastTabs[nextIdx]);
+        eastTabs[nextIdx]?.focus();
       });
     });
 
@@ -5393,6 +6384,139 @@
       toast('Generated Wavefront OBJ 3D tactile Braille mesh.');
     });
 
+    /* ---------- C5: 64x36 CLOSED WATERTIGHT TACTILE SOUND RELIEF MAP (.STL / .OBJ) ---------- */
+    function computeReliefHeightGrid(cols = 64, rows = 36, imgDataOverride = null) {
+      let data = null, w = 256, h = 144;
+      if (imgDataOverride) {
+        data = imgDataOverride.data; w = imgDataOverride.width; h = imgDataOverride.height;
+      } else if (FRAME_SONIFIER.currentFrame?.canvas) {
+        const cv = FRAME_SONIFIER.currentFrame.canvas;
+        w = cv.width; h = cv.height;
+        data = cv.getContext('2d').getImageData(0, 0, w, h).data;
+      }
+      const grid = [];
+      for (let r = 0; r < rows; r++) {
+        const rowVals = [];
+        const py = Math.min(h - 1, Math.floor(((r + 0.5) / rows) * h));
+        for (let c = 0; c < cols; c++) {
+          const px = Math.min(w - 1, Math.floor(((c + 0.5) / cols) * w));
+          let z = 2.5;
+          if (data) {
+            const idx = (py * w + px) * 4;
+            const red = data[idx], green = data[idx + 1], blue = data[idx + 2];
+            const lum = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+            const heatBoost = red > green * 1.25 && red > 140 ? 0.35 : 0;
+            z = +(3.0 + clamp(lum * 4.8 + heatBoost * 2.2, 0.2, 6.5)).toFixed(3);
+          } else {
+            z = +(3.0 + 1.5 * Math.sin((c / cols) * Math.PI) * Math.cos((r / rows) * Math.PI)).toFixed(3);
+          }
+          rowVals.push(z);
+        }
+        grid.push(rowVals);
+      }
+      return { cols, rows, dx: 2.0, dy: 2.0, grid };
+    }
+
+    function buildReliefSTL(cols = 64, rows = 36, imgDataOverride = null) {
+      const { dx, dy, grid } = computeReliefHeightGrid(cols, rows, imgDataOverride);
+      const out = ['solid EarthJukeboxReliefMap'];
+      const addTri = (a, b, c) => {
+        const ux = b[0] - a[0], uy = b[1] - a[1], uz = b[2] - a[2];
+        const vx = c[0] - a[0], vy = c[1] - a[1], vz = c[2] - a[2];
+        let nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+        const len = Math.hypot(nx, ny, nz) || 1;
+        nx /= len; ny /= len; nz /= len;
+        out.push(`  facet normal ${nx.toFixed(4)} ${ny.toFixed(4)} ${nz.toFixed(4)}`);
+        out.push('    outer loop');
+        out.push(`      vertex ${a[0].toFixed(3)} ${a[1].toFixed(3)} ${a[2].toFixed(3)}`);
+        out.push(`      vertex ${b[0].toFixed(3)} ${b[1].toFixed(3)} ${b[2].toFixed(3)}`);
+        out.push(`      vertex ${c[0].toFixed(3)} ${c[1].toFixed(3)} ${c[2].toFixed(3)}`);
+        out.push('    endloop');
+        out.push('  endfacet');
+      };
+      const top = (r, c) => [+(c * dx).toFixed(3), +((rows - 1 - r) * dy).toFixed(3), grid[r][c]];
+      const bot = (r, c) => [+(c * dx).toFixed(3), +((rows - 1 - r) * dy).toFixed(3), 0];
+
+      // Top heightfield + bottom base (matching winding order per cell so every edge is shared by 2 oriented triangles)
+      for (let r = 0; r < rows - 1; r++) {
+        for (let c = 0; c < cols - 1; c++) {
+          const t00 = top(r, c), t10 = top(r, c + 1), t01 = top(r + 1, c), t11 = top(r + 1, c + 1);
+          addTri(t00, t01, t11); addTri(t00, t11, t10);
+          const b00 = bot(r, c), b10 = bot(r, c + 1), b01 = bot(r + 1, c), b11 = bot(r + 1, c + 1);
+          addTri(b00, b11, b01); addTri(b00, b10, b11);
+        }
+      }
+      // Four perimeter walls stitching top and bottom seamlessly
+      for (let c = 0; c < cols - 1; c++) {
+        addTri(top(0, c), top(0, c + 1), bot(0, c + 1));
+        addTri(top(0, c), bot(0, c + 1), bot(0, c));
+        const rL = rows - 1;
+        addTri(bot(rL, c), bot(rL, c + 1), top(rL, c + 1));
+        addTri(bot(rL, c), top(rL, c + 1), top(rL, c));
+      }
+      for (let r = 0; r < rows - 1; r++) {
+        addTri(bot(r, 0), bot(r + 1, 0), top(r + 1, 0));
+        addTri(bot(r, 0), top(r + 1, 0), top(r, 0));
+        const cR = cols - 1;
+        addTri(top(r, cR), top(r + 1, cR), bot(r + 1, cR));
+        addTri(top(r, cR), bot(r + 1, cR), bot(r, cR));
+      }
+      out.push('endsolid EarthJukeboxReliefMap');
+      return out.join('\n');
+    }
+
+    function buildReliefOBJ(cols = 64, rows = 36, imgDataOverride = null) {
+      const { dx, dy, grid } = computeReliefHeightGrid(cols, rows, imgDataOverride);
+      const lines = [`# Earth Jukebox 64x36 Sound Relief Map OBJ (mm, watertight)`];
+      const topIds = [], botIds = [];
+      let idx = 1;
+      for (let r = 0; r < rows; r++) {
+        topIds[r] = []; botIds[r] = [];
+        const y = +((rows - 1 - r) * dy).toFixed(3);
+        for (let c = 0; c < cols; c++) {
+          const x = +(c * dx).toFixed(3);
+          lines.push(`v ${x} ${y} ${grid[r][c]}`);
+          topIds[r][c] = idx++;
+        }
+      }
+      for (let r = 0; r < rows; r++) {
+        const y = +((rows - 1 - r) * dy).toFixed(3);
+        for (let c = 0; c < cols; c++) {
+          const x = +(c * dx).toFixed(3);
+          lines.push(`v ${x} ${y} 0`);
+          botIds[r][c] = idx++;
+        }
+      }
+      for (let r = 0; r < rows - 1; r++) {
+        for (let c = 0; c < cols - 1; c++) {
+          lines.push(`f ${topIds[r][c]} ${topIds[r + 1][c]} ${topIds[r + 1][c + 1]} ${topIds[r][c + 1]}`);
+          lines.push(`f ${botIds[r][c]} ${botIds[r][c + 1]} ${botIds[r + 1][c + 1]} ${botIds[r + 1][c]}`);
+        }
+      }
+      for (let c = 0; c < cols - 1; c++) {
+        lines.push(`f ${topIds[0][c]} ${topIds[0][c + 1]} ${botIds[0][c + 1]} ${botIds[0][c]}`);
+        const rL = rows - 1;
+        lines.push(`f ${botIds[rL][c]} ${botIds[rL][c + 1]} ${topIds[rL][c + 1]} ${topIds[rL][c]}`);
+      }
+      for (let r = 0; r < rows - 1; r++) {
+        lines.push(`f ${botIds[r][0]} ${botIds[r + 1][0]} ${topIds[r + 1][0]} ${topIds[r][0]}`);
+        const cR = cols - 1;
+        lines.push(`f ${topIds[r][cR]} ${topIds[r + 1][cR]} ${botIds[r + 1][cR]} ${botIds[r][cR]}`);
+      }
+      return lines.join('\n');
+    }
+
+    onClick('#dl-relief-stl', () => {
+      const stl = buildReliefSTL(64, 36);
+      downloadFile('Earth_Jukebox_Relief_64x36.stl', stl, 'model/stl');
+      toast('Generated watertight 64x36 Sound Relief Map STL.');
+    });
+    onClick('#dl-relief-obj', () => {
+      const obj = buildReliefOBJ(64, 36);
+      downloadFile('Earth_Jukebox_Relief_64x36.obj', obj, 'text/plain');
+      toast('Generated 64x36 Sound Relief Map OBJ mesh.');
+    });
+
     /* ---------- WEB SPEECH API (READ ALOUD) ---------- */
     onClick('#btn-spotlight-speak', () => {
       if (!('speechSynthesis' in window)) {
@@ -5488,20 +6612,18 @@
         }
       }
 
-      // Update 3D Globe.gl tile engine overlay
-      if (globeInstance && typeof globeInstance.globeTileEngineUrl === 'function') {
+      // Update 3D Globe.gl: keep pristine Blue Marble / night texture to avoid polar swath gaps
+      if (globeInstance) {
         try {
-          if (typeof globeInstance.globeTileEngineMaxZoom === 'function') {
-            globeInstance.globeTileEngineMaxZoom(spec.maxZoom);
+          if (typeof globeInstance.globeTileEngineUrl === 'function') {
+            globeInstance.globeTileEngineUrl(null);
           }
-          globeInstance.globeTileEngineUrl((x, y, l) => getGIBSGlobeTileUrl(spec, x, y, l));
-          if (typeof globeInstance.globeTileEngineClearCache === 'function') {
-            globeInstance.globeTileEngineClearCache();
+          if (S.activeLayer === 'night') {
+            globeInstance.globeImageUrl('https://unpkg.com/three-globe@2.45.6/example/img/earth-night.jpg');
+          } else {
+            globeInstance.globeImageUrl('https://unpkg.com/three-globe@2.45.6/example/img/earth-blue-marble.jpg');
           }
-        } catch (e) {
-          console.warn('Globe GIBS tile engine fallback:', e);
-          try { globeInstance.globeTileEngineUrl(null); } catch (_) {}
-        }
+        } catch (_) {}
       }
 
       if (refreshFrame) {
@@ -5576,27 +6698,29 @@
       const rings = [];
       const points = [];
 
-      if (S.sel) {
-        rings.push({ lat: S.sel.lat, lng: S.sel.lon, maxR: 7, color: '#3fd0ff' });
-        points.push({ lat: S.sel.lat, lng: S.sel.lon, radius: 0.8, color: '#ffffff', label: S.sel.name });
-      }
+      if (S.telemetryOpen) {
+        if (S.sel) {
+          rings.push({ lat: S.sel.lat, lng: S.sel.lon, maxR: 7, color: '#3fd0ff' });
+          points.push({ lat: S.sel.lat, lng: S.sel.lon, radius: 0.8, color: '#ffffff', label: S.sel.name });
+        }
 
-      REAL_DATA.eonet.slice(0, 25).forEach(e => {
-        const coords = e.geometry[0].coordinates;
-        const isFire = (e.categories?.[0]?.title || '').toLowerCase().includes('fire');
-        const color = isFire ? '#ff5252' : '#ffb454';
-        rings.push({ lat: coords[1], lng: coords[0], maxR: 4, color });
-        points.push({ lat: coords[1], lng: coords[0], radius: 0.5, color, label: `⚠️ ${e.title}` });
-      });
-
-      if (REAL_DATA.iss) {
-        points.push({
-          lat: REAL_DATA.iss.latitude,
-          lng: REAL_DATA.iss.longitude,
-          radius: 0.7,
-          color: '#5ce1a8',
-          label: `🛰️ ISS (${Math.round(REAL_DATA.iss.altitude)}km)`
+        REAL_DATA.eonet.slice(0, 25).forEach(e => {
+          const coords = e.geometry[0].coordinates;
+          const isFire = (e.categories?.[0]?.title || '').toLowerCase().includes('fire');
+          const color = isFire ? '#ff5252' : '#ffb454';
+          rings.push({ lat: coords[1], lng: coords[0], maxR: 4, color });
+          points.push({ lat: coords[1], lng: coords[0], radius: 0.5, color, label: `⚠️ ${e.title}` });
         });
+
+        if (REAL_DATA.iss) {
+          points.push({
+            lat: REAL_DATA.iss.latitude,
+            lng: REAL_DATA.iss.longitude,
+            radius: 0.7,
+            color: '#5ce1a8',
+            label: `🛰️ ISS (${Math.round(REAL_DATA.iss.altitude)}km)`
+          });
+        }
       }
 
       globeInstance.ringsData(rings);
@@ -5896,6 +7020,7 @@
     });
 
     onClick('#saMethods', () => {
+      updateModalUsabilityReadout();
       $('#saMethodsModal')?.classList.add('active');
       $('#saMethodsClose')?.focus();
     });
@@ -5904,19 +7029,466 @@
       $('#saMethods')?.focus();
     });
 
-    // Global accessible keyboard controls (Space play/pause, Left/Right ±1, Shift+Left/Right ±12, Up/Down speed)
+    /* ---------- COLLAPSIBLE CONTEXT DRAWER & STEP HINT (P0-1 / P0-6) ---------- */
+    onClick('#btn-toggle-context', () => {
+      S.contextOpen = !S.contextOpen;
+      const drawer = $('#telemetry-context-drawer');
+      if (drawer) drawer.hidden = !S.contextOpen;
+      const btn = $('#btn-toggle-context');
+      if (btn) btn.setAttribute('aria-expanded', String(S.contextOpen));
+    });
+    onClick('#btn-open-wings', () => {
+      openDualWingHUD();
+      S.contextOpen = false;
+      const drawer = $('#telemetry-context-drawer');
+      if (drawer) drawer.hidden = true;
+      $('#btn-toggle-context')?.setAttribute('aria-expanded', 'false');
+    });
+    onClick('#btn-dismiss-hint', () => {
+      const h = $('#jb-step-hint');
+      if (h) h.hidden = true;
+      safeStorageSet('ej_hint_dismissed_v1', '1');
+    });
+
+    /* ---------- V6 SCIENTIFIC JSON + CSV EXPORT ---------- */
+    async function exportScientificData() {
+      const f = FRAME_SONIFIER.currentFrame;
+      if (!f) { toast('Load a NASA GIBS frame first.'); return; }
+      const params = FRAME_SONIFIER.currentParams || FRAME_SONIFIER.featuresToParams(f.summary);
+      const stamp = `${f.spec.key}_${f.year}-${String(f.month).padStart(2, '0')}`;
+      const jsonPayload = {
+        software: 'Earth Jukebox (NASA Space Apps 2026)',
+        repository: REPO_URL,
+        exportedAtIso: new Date().toISOString(),
+        isLiveData: f.isLive,
+        gibsLayerId: f.spec.layerId,
+        gibsTime: f.spec.time,
+        wmsUrl: FRAME_SONIFIER.buildWMSUrl(f.spec, f.bbox),
+        bbox: f.bbox,
+        scaleId: S.scaleId,
+        summary: f.summary,
+        audioParams: params,
+        columns64: f.columns
+      };
+      downloadFile(`Earth_Jukebox_${stamp}_data.json`, JSON.stringify(jsonPayload, null, 2), 'application/json;charset=utf-8');
+      const header = 'col_idx,avgHue_deg,brightness,oceanFrac,iceCloudFrac,vegFrac,fireHeatFrac,edgeDensity,validCoverageFrac,physicalMean,physicalUnit,methodTag';
+      const rows = f.columns.map((c, idx) =>
+        [idx, c.avgHue.toFixed(2), c.brightness.toFixed(4), c.oceanFrac.toFixed(4), c.iceCloudFrac.toFixed(4), c.vegFrac.toFixed(4), c.fireHeatFrac.toFixed(4), c.edgeDensity.toFixed(4), (c.validCoverageFrac ?? 1).toFixed(4), c.physicalMean ?? '', c.physicalUnit || '', `"${c.methodTag || ''}"`].join(',')
+      );
+      await new Promise(r => setTimeout(r, 80));
+      downloadFile(`Earth_Jukebox_${stamp}_columns.csv`, [header, ...rows].join('\n'), 'text/csv;charset=utf-8');
+      toast('Exported full JSON & 64-column CSV data bundle.');
+    }
+    onClick('#btn-export-data', exportScientificData);
+
+    /* ---------- C1 A/B STEREO, C2 SPATIAL, C3 SCALE, P3 TEST TONE, I2-I5 CONTROLS ---------- */
+    onClick('#btn-test-tone', () => REAL_SOUNDS.testTone());
+    onClick('#btn-spatial-pan', () => {
+      S.spatialPan = !S.spatialPan;
+      const btn = $('#btn-spatial-pan');
+      if (btn) {
+        btn.setAttribute('aria-pressed', String(S.spatialPan));
+        btn.textContent = S.spatialPan ? '🎧 SPATIAL PAN: ON' : '🎧 SPATIAL PAN: OFF';
+      }
+      toast(`Stereo spatial scan panning ${S.spatialPan ? 'enabled' : 'centered'}.`);
+    });
+    onEvent('#scale-select', 'change', e => {
+      S.scaleId = e.target.value;
+      if (FRAME_SONIFIER.currentFrame) {
+        const p = FRAME_SONIFIER.featuresToParams(FRAME_SONIFIER.currentFrame.summary);
+        FRAME_SONIFIER.currentParams = p;
+        if (FRAME_SONIFIER.isPlaying) FRAME_SONIFIER.applyParams(p);
+        updateFrameTextDescription(FRAME_SONIFIER.currentFrame, p);
+      }
+      syncDeepLink();
+      toast(`Scale switched to ${(SCALES[S.scaleId] || SCALES['c-minor-pent']).name}`);
+    });
+
+    (function initABYearSelectors() {
+      const selA = $('#ab-year-a');
+      const selB = $('#ab-year-b');
+      if (!selA || !selB) return;
+      const opts = [];
+      for (let y = 2000; y <= MAX_EXPLORER_YEAR; y++) opts.push(`<option value="${y}">${y}</option>`);
+      selA.innerHTML = opts.join('');
+      selB.innerHTML = opts.join('');
+      selA.value = String(S.abYearA);
+      selB.value = String(S.abYearB);
+      onEvent(selA, 'change', () => { S.abYearA = +selA.value; TIME_EXPLORER.loadStep(TIME_EXPLORER.stepIdx, { speak: false }); });
+      onEvent(selB, 'change', () => { S.abYearB = +selB.value; TIME_EXPLORER.loadStep(TIME_EXPLORER.stepIdx, { speak: false }); });
+    })();
+
+    onClick('#btn-ab-compare', async () => {
+      S.abCompare = !S.abCompare;
+      const btn = $('#btn-ab-compare');
+      if (btn) {
+        btn.setAttribute('aria-pressed', String(S.abCompare));
+        btn.textContent = S.abCompare ? '⇄ A/B STEREO: ON' : '⇄ A/B STEREO: OFF';
+      }
+      if (S.abCompare && FRAME_SONIFIER.currentFrame) {
+        const f = FRAME_SONIFIER.currentFrame;
+        FRAME_SONIFIER.abFrameA = await FRAME_SONIFIER.loadFrame(f.spec.key, S.abYearA, f.month, f.bbox, false);
+        FRAME_SONIFIER.abFrameB = await FRAME_SONIFIER.loadFrame(f.spec.key, S.abYearB, f.month, f.bbox, false);
+      }
+      FRAME_SONIFIER.renderFramePreview();
+      FRAME_SONIFIER.syncVolume();
+      syncDeepLink();
+      toast(S.abCompare ? `Stereo A/B active: ${S.abYearA} (Left Ear) vs ${S.abYearB} (Right Ear).` : 'Stereo A/B disabled.');
+    });
+
+    onClick('#btn-anomaly-pulse', () => {
+      S.anomalyMode = !S.anomalyMode;
+      const btn = $('#btn-anomaly-pulse');
+      if (btn) {
+        btn.setAttribute('aria-pressed', String(S.anomalyMode));
+        btn.textContent = S.anomalyMode ? '📈 ANOMALY PULSE: ON' : '📈 ANOMALY PULSE: OFF';
+      }
+      if (S.anomalyMode && S.activePreset) computePresetEvidence(S.activePreset, presetEvidenceSeq);
+      toast(`Researcher z-score anomaly earcons ${S.anomalyMode ? 'enabled' : 'disabled'}.`);
+    });
+
+    onClick('#btn-low-bw', () => {
+      S.lowBandwidth = !S.lowBandwidth;
+      document.body.classList.toggle('low-bw', S.lowBandwidth);
+      const btn = $('#btn-low-bw');
+      if (btn) {
+        btn.setAttribute('aria-pressed', String(S.lowBandwidth));
+        btn.textContent = S.lowBandwidth ? '📶 LOW-DATA: ON' : '📶 LOW-DATA: OFF';
+      }
+      toast(S.lowBandwidth ? 'Low-Data mode: skips background tiles when offline/limited.' : 'Standard bandwidth mode restored.');
+    });
+
+    onEvent('#custom-octave-shift', 'change', e => {
+      S.octaveShift = Number(e.target.value || 0);
+      if (FRAME_SONIFIER.currentFrame && FRAME_SONIFIER.isPlaying) {
+        FRAME_SONIFIER.applyParams(FRAME_SONIFIER.featuresToParams(FRAME_SONIFIER.currentFrame.summary));
+      }
+      toast('Experimental octave override active (unvalidated).');
+    });
+    onEvent('#custom-pulse-mult', 'change', e => {
+      S.pulseMult = Number(e.target.value || 1.0);
+      if (FRAME_SONIFIER.currentFrame && FRAME_SONIFIER.isPlaying) {
+        FRAME_SONIFIER.applyParams(FRAME_SONIFIER.featuresToParams(FRAME_SONIFIER.currentFrame.summary));
+      }
+      toast('Experimental pulse multiplier active (unvalidated).');
+    });
+    onClick('#btn-reset-mapping', () => {
+      S.octaveShift = 0; S.pulseMult = 1.0; S.scaleId = 'c-minor-pent';
+      if ($('#custom-octave-shift')) $('#custom-octave-shift').value = '0';
+      if ($('#custom-pulse-mult')) $('#custom-pulse-mult').value = '1';
+      if ($('#scale-select')) $('#scale-select').value = 'c-minor-pent';
+      if (FRAME_SONIFIER.currentFrame && FRAME_SONIFIER.isPlaying) {
+        FRAME_SONIFIER.applyParams(FRAME_SONIFIER.featuresToParams(FRAME_SONIFIER.currentFrame.summary));
+      }
+      toast('Reset audio mapping to validated defaults.');
+    });
+
+    /* ---------- I4 BILINGUAL EN / BANGLA SWITCHER ---------- */
+    function setLanguage(lang) {
+      S.lang = lang === 'bn' ? 'bn' : 'en';
+      document.documentElement.lang = S.lang;
+      const dict = I18N[S.lang];
+      $$('[data-i18n]').forEach(el => {
+        const k = el.dataset.i18n;
+        if (dict[k]) el.textContent = dict[k];
+      });
+      if (FRAME_SONIFIER.currentFrame) {
+        updateFrameTextDescription(FRAME_SONIFIER.currentFrame, FRAME_SONIFIER.currentParams || FRAME_SONIFIER.featuresToParams(FRAME_SONIFIER.currentFrame.summary));
+      }
+      syncDeepLink();
+    }
+    onClick('#btn-lang-toggle', () => {
+      setLanguage(S.lang === 'en' ? 'bn' : 'en');
+      toast(S.lang === 'bn' ? 'বাংলা মোড চালু হয়েছে (পর্যালোচনাধীন)।' : 'Language switched to English.');
+    });
+
+    /* ---------- I5 DEEP LINKS (#track=...&y=...&m=...&mode=...&scale=...) ---------- */
+    function syncDeepLink() {
+      try {
+        if (S.demoActive || window.location.hash.includes('demo') || window.location.hash.includes('clean') || window.location.hash.includes('lesson')) return;
+        const params = new URLSearchParams();
+        if (S.activePreset) params.set('track', S.activePreset);
+        params.set('y', String(TIME_EXPLORER.currentYear));
+        params.set('m', String(TIME_EXPLORER.currentMonth));
+        params.set('mode', S.audioMode);
+        params.set('scale', S.scaleId);
+        if (S.abCompare) params.set('ab', '1');
+        if (S.lang !== 'en') params.set('lang', S.lang);
+        const targetHash = '#' + params.toString();
+        if (window.location.hash !== targetHash) {
+          history.replaceState(null, '', targetHash);
+        }
+      } catch (e) {}
+    }
+
+    /* ---------- V4 LISTENING TEST (SELF-CHECK TOOL) & C4 GUESS THE EARTH QUIZ ---------- */
+    const STUDY_STORAGE_KEY = 'ej_listening_study_v1';
+    const QUIZ_STORAGE_KEY = 'ej_quiz_best_v1';
+
+    function updateModalUsabilityReadout() {
+      const el = $('#modal-usability-readout');
+      if (!el) return;
+      try {
+        const raw = safeStorageGet(STUDY_STORAGE_KEY);
+        if (!raw) {
+          el.textContent = 'Study not yet run (awaiting external blind/low-vision sessions; self-check Listening Test saves locally).';
+          return;
+        }
+        const rows = JSON.parse(raw);
+        if (!Array.isArray(rows) || !rows.length) {
+          el.textContent = 'Study not yet run.';
+          return;
+        }
+        const correctCount = rows.filter(r => r.correct).length;
+        const pct = Math.round((correctCount / rows.length) * 100);
+        el.textContent = `Local Self-Check Log (${rows.length} trials stored in this browser): ${pct}% accuracy (${correctCount}/${rows.length}). External blind/low-vision field study still pending.`;
+      } catch (e) {}
+    }
+
+    const LISTENING_STUDY = {
+      active: false,
+      trialIdx: 0,
+      trialStartMs: 0,
+      trials: [
+        { type: 'sea_ice', q: 'Which stimulus represents HIGHER Sea Ice Cover (lower polar pitch/drone)?', a: { ice: 0.78, heat: 0.0, hue: 205, edge: 0.25 }, b: { ice: 0.18, heat: 0.02, hue: 220, edge: 0.55 }, truth: 'A' },
+        { type: 'sea_ice', q: 'Which stimulus represents LESS Sea Ice / More Open Ocean?', a: { ice: 0.72, heat: 0.0, hue: 200, edge: 0.2 }, b: { ice: 0.15, heat: 0.04, hue: 230, edge: 0.6 }, truth: 'B' },
+        { type: 'heat', q: 'Which stimulus signals HIGHER Thermal / Wildfire Heat (faster pulse + detune)?', a: { ice: 0.1, heat: 0.01, hue: 140, edge: 0.2 }, b: { ice: 0.04, heat: 0.35, hue: 18, edge: 0.85 }, truth: 'B' },
+        { type: 'heat', q: 'Which stimulus signals HIGHER Thermal / Wildfire Heat?', a: { ice: 0.02, heat: 0.42, hue: 12, edge: 0.88 }, b: { ice: 0.22, heat: 0.01, hue: 165, edge: 0.22 }, truth: 'A' },
+        { type: 'edge', q: 'Which stimulus has SHARPER coastline/fire edge fragmentation (faster pulse)?', a: { ice: 0.3, heat: 0.05, hue: 190, edge: 0.9 }, b: { ice: 0.3, heat: 0.05, hue: 190, edge: 0.12 }, truth: 'A' },
+        { type: 'sea_ice', q: 'Which stimulus has MORE Antarctic/Arctic pack ice?', a: { ice: 0.12, heat: 0.05, hue: 225, edge: 0.5 }, b: { ice: 0.84, heat: 0.0, hue: 195, edge: 0.18 }, truth: 'B' },
+        { type: 'heat', q: 'Which stimulus signals ACTIVE wildfire anomaly?', a: { ice: 0.01, heat: 0.38, hue: 14, edge: 0.82 }, b: { ice: 0.18, heat: 0.0, hue: 145, edge: 0.18 }, truth: 'A' },
+        { type: 'sea_ice', q: 'Which stimulus corresponds to Sept 2003 higher ice cover vs melt?', a: { ice: 0.68, heat: 0.0, hue: 202, edge: 0.24 }, b: { ice: 0.24, heat: 0.02, hue: 218, edge: 0.52 }, truth: 'A' },
+        { type: 'heat', q: 'Which stimulus represents COOLER vegetated land?', a: { ice: 0.05, heat: 0.32, hue: 20, edge: 0.78 }, b: { ice: 0.12, heat: 0.0, hue: 132, edge: 0.2 }, truth: 'B' },
+        { type: 'sea_ice', q: 'Final trial: Which stimulus indicates HIGHER polar ice mass?', a: { ice: 0.22, heat: 0.03, hue: 224, edge: 0.56 }, b: { ice: 0.79, heat: 0.0, hue: 198, edge: 0.22 }, truth: 'B' }
+      ],
+      playStub(stim) {
+        REAL_SOUNDS.init();
+        if (!REAL_SOUNDS.ctx) return;
+        const ctx = REAL_SOUNDS.ctx;
+        const p = FRAME_SONIFIER.featuresToParams({
+          avgHue: stim.hue, brightness: 0.55 + stim.ice * 0.25,
+          oceanFrac: 1 - stim.ice, iceCloudFrac: stim.ice, vegFrac: stim.heat > 0.1 ? 0.1 : 0.2,
+          fireHeatFrac: stim.heat, edgeDensity: stim.edge, validCoverageFrac: 1
+        });
+        const now = ctx.currentTime;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.linearRampToValueAtTime(0.32, now + 0.03);
+        g.gain.setTargetAtTime(0.0001, now + 1.35, 0.06);
+        g.connect(REAL_SOUNDS.outputNode || REAL_SOUNDS.analyser);
+
+        const osc = ctx.createOscillator();
+        osc.type = 'triangle';
+        osc.frequency.value = p.melodyHz;
+        const lfo = ctx.createOscillator();
+        const lg = ctx.createGain();
+        lfo.frequency.value = p.pulseHz;
+        lg.gain.value = 0.28;
+        lfo.connect(lg);
+        lg.connect(g.gain);
+        osc.connect(g);
+        lfo.start(now); lfo.stop(now + 1.5);
+        osc.start(now); osc.stop(now + 1.5);
+        this.trialStartMs = performance.now();
+      },
+      start() {
+        this.active = true;
+        this.trialIdx = 0;
+        ['#v4-play-a', '#v4-play-b', '#v4-choose-a', '#v4-choose-b'].forEach(sel => {
+          const el = $(sel); if (el) el.disabled = false;
+        });
+        this.renderTrial();
+      },
+      renderTrial() {
+        const t = this.trials[this.trialIdx];
+        if (!t) {
+          this.active = false;
+          ['#v4-play-a', '#v4-play-b', '#v4-choose-a', '#v4-choose-b'].forEach(sel => {
+            const el = $(sel); if (el) el.disabled = true;
+          });
+          setText('#v4-progress', 'COMPLETE (10 / 10)');
+          setText('#v4-prompt', 'All 10 trials recorded locally! Click Export Results CSV to save your local session file.');
+          updateModalUsabilityReadout();
+          return;
+        }
+        setText('#v4-progress', `TRIAL ${this.trialIdx + 1} / ${this.trials.length}`);
+        setText('#v4-prompt', t.q);
+      },
+      answer(choice) {
+        if (!this.active) return;
+        const t = this.trials[this.trialIdx];
+        if (!t) return;
+        const correct = choice === t.truth;
+        const rtMs = Math.max(0, Math.round(performance.now() - (this.trialStartMs || performance.now())));
+        const row = {
+          participant_id: 'local_browser_session',
+          trial_num: this.trialIdx + 1,
+          stimulus_type: t.type,
+          true_answer: t.truth,
+          user_answer: choice,
+          correct,
+          reaction_ms: rtMs,
+          timestamp_iso: new Date().toISOString()
+        };
+        try {
+          const existing = JSON.parse(safeStorageGet(STUDY_STORAGE_KEY, '[]'));
+          existing.push(row);
+          safeStorageSet(STUDY_STORAGE_KEY, JSON.stringify(existing));
+        } catch (e) {}
+        setText('#v4-status', `Trial ${this.trialIdx + 1}: Recorded ${choice} (${correct ? 'Correct' : 'Incorrect'} — ${rtMs} ms)`);
+        this.trialIdx++;
+        this.renderTrial();
+      },
+      exportCsv() {
+        const rows = JSON.parse(safeStorageGet(STUDY_STORAGE_KEY, '[]'));
+        const header = 'participant_id,trial_num,stimulus_type,true_answer,user_answer,correct,reaction_ms,timestamp_iso';
+        const csv = [header, ...rows.map(r => `${r.participant_id},${r.trial_num},${r.stimulus_type},${r.true_answer},${r.user_answer},${r.correct},${r.reaction_ms},${r.timestamp_iso}`)].join('\n');
+        downloadFile('earth_jukebox_listening_study_results.csv', csv, 'text/csv;charset=utf-8');
+        toast(`Exported ${rows.length} listening test rows to CSV.`);
+      }
+    };
+    onClick('#v4-start-btn', () => LISTENING_STUDY.start());
+    onClick('#v4-play-a', () => { const t = LISTENING_STUDY.trials[LISTENING_STUDY.trialIdx]; if (t) LISTENING_STUDY.playStub(t.a); });
+    onClick('#v4-play-b', () => { const t = LISTENING_STUDY.trials[LISTENING_STUDY.trialIdx]; if (t) LISTENING_STUDY.playStub(t.b); });
+    onClick('#v4-choose-a', () => LISTENING_STUDY.answer('A'));
+    onClick('#v4-choose-b', () => LISTENING_STUDY.answer('B'));
+    onClick('#v4-export-csv', () => LISTENING_STUDY.exportCsv());
+
+    const EARTH_QUIZ = {
+      currentAnswer: null,
+      streak: 0,
+      best: Number(safeStorageGet(QUIZ_STORAGE_KEY, '0')) || 0,
+      profiles: [
+        { id: 'arctic-ice', label: 'Arctic Sea Ice', feat: { avgHue: 202, brightness: 0.78, oceanFrac: 0.3, iceCloudFrac: 0.7, vegFrac: 0, fireHeatFrac: 0, edgeDensity: 0.25, validCoverageFrac: 1 } },
+        { id: 'wildfires', label: 'Active Wildfires', feat: { avgHue: 18, brightness: 0.62, oceanFrac: 0.05, iceCloudFrac: 0.05, vegFrac: 0.3, fireHeatFrac: 0.28, edgeDensity: 0.85, validCoverageFrac: 1 } },
+        { id: 'ocean-color', label: 'Ocean Phytoplankton', feat: { avgHue: 168, brightness: 0.54, oceanFrac: 0.65, iceCloudFrac: 0.04, vegFrac: 0.31, fireHeatFrac: 0, edgeDensity: 0.38, validCoverageFrac: 1 } },
+        { id: 'global-temp', label: 'Land Thermal Anomaly', feat: { avgHue: 36, brightness: 0.72, oceanFrac: 0.15, iceCloudFrac: 0.05, vegFrac: 0.22, fireHeatFrac: 0.14, edgeDensity: 0.48, validCoverageFrac: 1 } }
+      ],
+      counter: 0,
+      playClip() {
+        const pick = this.profiles[(this.counter++) % this.profiles.length];
+        this.currentAnswer = pick.id;
+        LISTENING_STUDY.playStub({
+          hue: pick.feat.avgHue, ice: pick.feat.iceCloudFrac, heat: pick.feat.fireHeatFrac, edge: pick.feat.edgeDensity
+        });
+        setText('#c4-feedback', 'Listening blind to 6s thematic Earth signature — select the matching phenomenon below!');
+        setText('#c4-streak', `STREAK: ${this.streak} · BEST: ${this.best}`);
+      },
+      guess(ans) {
+        if (!this.currentAnswer) { setText('#c4-feedback', 'Press Play 6s Mystery Clip first.'); return; }
+        if (ans === this.currentAnswer) {
+          this.streak++;
+          if (this.streak > this.best) {
+            this.best = this.streak;
+            safeStorageSet(QUIZ_STORAGE_KEY, String(this.best));
+          }
+          setText('#c4-feedback', `Correct! Identified "${ans}" by ear.`);
+        } else {
+          this.streak = 0;
+          setText('#c4-feedback', `Not quite — that signature was "${this.currentAnswer}".`);
+        }
+        this.currentAnswer = null;
+        setText('#c4-streak', `STREAK: ${this.streak} · BEST: ${this.best}`);
+      }
+    };
+    onClick('#c4-play-btn', () => EARTH_QUIZ.playClip());
+    $$('.c4-ans-btn').forEach(b => onClick(b, () => EARTH_QUIZ.guess(b.dataset.ans)));
+
+    onClick('#btn-activities', () => { $('#saActivitiesModal')?.classList.add('active'); $('#saActClose')?.focus(); });
+    onClick('#btn-modal-activities', () => { $('#saMethodsModal')?.classList.remove('active'); $('#saActivitiesModal')?.classList.add('active'); $('#saActClose')?.focus(); });
+    onClick('#saActClose', () => { $('#saActivitiesModal')?.classList.remove('active'); $('#btn-activities')?.focus(); });
+
+    /* ---------- P0-5: 90-SECOND DEMO TOUR (#demo), #clean, #lesson ---------- */
+    const DEMO_TOUR = {
+      timers: [],
+      cancel(quiet = false) {
+        this.timers.forEach(id => clearTimeout(id));
+        this.timers = [];
+        S.demoActive = false;
+        document.body.classList.remove('demo-mode');
+        if (!quiet) toast('Demo tour ended (Escape).');
+      },
+      start() {
+        this.cancel(true);
+        S.demoActive = true;
+        document.body.classList.add('demo-mode');
+        setContrastMode(true);
+        $('#saMethodsModal')?.classList.remove('active');
+        setHearingCaption('Demo Tour (0–20s): Arctic Sea Ice — Hear September polar ice cover drive low drones and shimmering melt tones.', true);
+        loadPresetTrack('arctic-ice');
+        this.timers.push(setTimeout(() => {
+          if (!S.demoActive) return;
+          setHearingCaption('Demo Tour (20–45s): Global Land Surface Temperature — MODIS Kelvin imagery mapped across quantized harmonies.', true);
+          loadPresetTrack('global-temp');
+        }, 20000));
+        this.timers.push(setTimeout(() => {
+          if (!S.demoActive) return;
+          setHearingCaption('Demo Tour (45–70s): Western North America Wildfires — Active heat & sharp smoke edges speed up pulse rate & dissonance.', true);
+          loadPresetTrack('wildfires');
+        }, 45000));
+        this.timers.push(setTimeout(() => {
+          if (!S.demoActive) return;
+          setHearingCaption('Demo Tour (70–90s): Accessibility & Audio Legend — WCAG 2.2 AA controls, Braille & 64x36 tactile relief STL export.', true);
+          playAudioLegend();
+        }, 70000));
+        this.timers.push(setTimeout(() => this.cancel(true), 90000));
+      }
+    };
+    onClick('#btn-start-demo', () => DEMO_TOUR.start());
+    onClick('#btn-modal-demo', () => DEMO_TOUR.start());
+
+    function setLessonMode(enabled) {
+      document.body.classList.toggle('lesson-mode', !!enabled);
+    }
+    onClick('#btn-open-lesson', () => setLessonMode(true));
+    onClick('#btn-close-lesson', () => setLessonMode(false));
+    onClick('#btn-print-lesson', () => { try { window.print(); } catch (e) {} });
+    onClick('#btn-toggle-key', () => {
+      const btn = $('#btn-toggle-key');
+      const show = btn?.getAttribute('aria-pressed') !== 'true';
+      if (btn) {
+        btn.setAttribute('aria-pressed', String(show));
+        btn.textContent = show ? '🔑 Hide Answer Key' : '🔑 Show Answer Key';
+      }
+      $$('.lesson-key').forEach(k => { k.hidden = !show; });
+    });
+
+    /* ---------- V7: AUDIO LIFECYCLE ON TAB VISIBILITY + GLOBAL ESC / STUDY SHORTCUTS ---------- */
+    document.addEventListener('visibilitychange', () => {
+      if (!REAL_SOUNDS.ctx) return;
+      if (document.hidden && REAL_SOUNDS.ctx.state === 'running') {
+        REAL_SOUNDS.ctx.suspend().catch(() => {});
+      } else if (!document.hidden && (FRAME_SONIFIER.isPlaying || REAL_SOUNDS.activeId) && REAL_SOUNDS.ctx.state === 'suspended') {
+        REAL_SOUNDS.ctx.resume().catch(() => {});
+      }
+    });
+
+    // Global accessible keyboard controls (Space play/pause, Left/Right ±1, Shift+Left/Right ±12, Up/Down speed, A/B in study)
     window.addEventListener('keydown', e => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
       if (e.key === 'Escape') {
+        if (S.demoActive) { DEMO_TOUR.cancel(); return; }
+        const actModal = $('#saActivitiesModal');
+        if (actModal && actModal.classList.contains('active')) {
+          actModal.classList.remove('active');
+          $('#btn-activities')?.focus();
+          return;
+        }
         const modal = $('#saMethodsModal');
         if (modal && modal.classList.contains('active')) {
           modal.classList.remove('active');
           $('#saMethods')?.focus();
           return;
         }
+        if (document.body.classList.contains('lesson-mode')) { setLessonMode(false); return; }
         closeDualWingHUD();
         return;
+      }
+
+      if (LISTENING_STUDY.active && ($('#saActivitiesModal')?.classList.contains('active'))) {
+        if (e.key === 'a' || e.key === 'A') { e.preventDefault(); LISTENING_STUDY.answer('A'); return; }
+        if (e.key === 'b' || e.key === 'B') { e.preventDefault(); LISTENING_STUDY.answer('B'); return; }
       }
 
       const tag = e.target?.tagName;
@@ -5944,6 +7516,18 @@
         TIME_EXPLORER.cycleSpeed(-1);
       }
     });
+
+    window.EARTH_JUKEBOX_CORE = {
+      clamp, D, REPO_URL, SCALES, GIBS_COLORMAPS, EIC_LINKS,
+      buildScaleMidi, lookupColormapPixel, resolveGIBSConfig,
+      extractFeatures: (imgData, layerKey, bbox, layerId) => FRAME_SONIFIER.extractFeatures(imgData, layerKey, bbox, layerId),
+      featuresToParams: (feat) => FRAME_SONIFIER.featuresToParams(feat),
+      computeBrailleDotLayout, buildBrailleSTL, buildBrailleOBJ, buildReliefSTL, buildReliefOBJ,
+      audioBufferToWav,
+      stepToDate: (idx) => TIME_EXPLORER.stepToDate(idx),
+      dateToStep: (y, m) => TIME_EXPLORER.dateToStep(y, m),
+      getState: () => S
+    };
 
     setHtml('#dl', CITIES.map(c => `<option value="${c.name}, ${c.country}">`).join(''));
 
@@ -5978,8 +7562,82 @@
     contrastMQ?.addEventListener?.('change', e => setContrastMode(e.matches));
     motionMQ?.addEventListener?.('change', e => setReduceMotionMode(e.matches));
 
+    if (safeStorageGet('ej_hint_dismissed_v1') === '1' && $('#jb-step-hint')) {
+      $('#jb-step-hint').hidden = true;
+    }
+    updateModalUsabilityReadout();
+
+    function applyUrlState() {
+      const hashRaw = (window.location.hash || '').replace(/^#/, '');
+      const searchParams = new URLSearchParams(window.location.search || '');
+      const hashParams = new URLSearchParams(hashRaw.includes('=') ? hashRaw : '');
+      const hasFlag = name => hashRaw === name || hashRaw.split(/[&,]/).includes(name) || searchParams.get(name) === '1' || hashParams.get(name) === '1';
+      const getParam = name => hashParams.get(name) || searchParams.get(name);
+
+      const lang = getParam('lang');
+      if (lang === 'en' || lang === 'bn') setLanguage(lang);
+
+      const scale = getParam('scale');
+      if (scale && SCALES[scale]) {
+        S.scaleId = scale;
+        if ($('#scale-select')) $('#scale-select').value = scale;
+      }
+
+      const mode = getParam('mode');
+      if (mode === 'scan' || mode === 'frame' || mode === 'ambient') {
+        S.audioMode = mode;
+        const modeBtn = $(`button[data-audio-mode="${mode}"]`);
+        if (modeBtn) {
+          $$('.mode-pill-btn').forEach(b => b.classList.remove('active'));
+          modeBtn.classList.add('active');
+        }
+      }
+
+      if (hasFlag('ab')) {
+        S.abCompare = true;
+        const abBtn = $('#btn-ab-compare');
+        if (abBtn) {
+          abBtn.setAttribute('aria-pressed', 'true');
+          abBtn.textContent = '⇄ A/B STEREO: ON';
+        }
+      }
+
+      document.body.classList.toggle('clean-mode', hasFlag('clean'));
+      setLessonMode(hasFlag('lesson'));
+
+      const y = Number(getParam('y'));
+      const m = Number(getParam('m'));
+      if (Number.isFinite(y) && Number.isFinite(m) && y >= 2000 && y <= 2026 && m >= 1 && m <= 12) {
+        TIME_EXPLORER.stepIdx = TIME_EXPLORER.dateToStep(y, m);
+        TIME_EXPLORER.syncDateReadout();
+      }
+
+      const track = getParam('track');
+      if (track && PRESET_TRACKS[track]) {
+        S.activePreset = track;
+        const p = PRESET_TRACKS[track];
+        S.activeLayer = p.layer;
+        if (!(Number.isFinite(y) && Number.isFinite(m))) {
+          TIME_EXPLORER.stepIdx = TIME_EXPLORER.dateToStep(p.year, p.month);
+          TIME_EXPLORER.syncDateReadout();
+        }
+      }
+
+      if (hasFlag('demo')) {
+        S.demoActive = true;
+        document.body.classList.add('demo-mode');
+        setContrastMode(true);
+        setHearingCaption('Demo Tour Ready (90s Auto Tour · Press Esc to exit). Click Play to begin audio if muted by browser.', true);
+        if (!S.activePreset) S.activePreset = 'arctic-ice';
+      } else if (S.demoActive) {
+        DEMO_TOUR.cancel(true);
+      }
+    }
+
     TIME_EXPLORER.initControls();
     initGlobe();
+    applyUrlState();
+    window.addEventListener('hashchange', applyUrlState);
     setGIBSLayer(S.activeLayer, TIME_EXPLORER.currentYear, TIME_EXPLORER.currentMonth, false);
     TIME_EXPLORER.loadStep(TIME_EXPLORER.stepIdx, { speak: false });
     renderWestDeck();
@@ -5989,6 +7647,10 @@
     trackISS();
     setInterval(trackISS, 5000);
     setInterval(loadEONET, 180000);
+
+    if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:') && !location.search.includes('nosw=1')) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
 
     setTimeout(() => {
       $('#load')?.classList.add('fade-out');
